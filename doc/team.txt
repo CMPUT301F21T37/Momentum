@@ -1,4 +1,4 @@
-CCID	GitHub Username
+CCID GitHub Username
 misay	kaynzhel
 hyan3 Hyan320
 rittwage Samtarkras
