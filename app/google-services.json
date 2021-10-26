@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "451625564738",
+    "project_id": "momentum-3a14b",
+    "storage_bucket": "momentum-3a14b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451625564738:android:86492e61df57502a5b8bdb",
+        "android_client_info": {
+          "package_name": "com.example.momentum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "451625564738-cqdrujd6u6rk3u8h27dlh17aj7g2h7fs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgQw8Z4ET6BobhIe75rFfSvD-TpIlWrcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "451625564738-cqdrujd6u6rk3u8h27dlh17aj7g2h7fs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
