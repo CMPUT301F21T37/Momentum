@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Momentum" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Momentum"
+        parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/background_color_grey</item>
         <item name="colorPrimaryVariant">@color/red_main</item>
@@ -10,9 +11,7 @@
         <item name="colorSecondaryVariant">@color/red_main</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- removes the default action bar -->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
 </resources>

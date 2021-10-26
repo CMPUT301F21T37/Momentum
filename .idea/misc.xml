@@ -9,7 +9,15 @@
         <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.259375" />
         <entry key="app/src/main/res/drawable/ic_baseline_wysiwyg_24.xml" value="0.1390625" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.259375" />
+        <entry key="app/src/main/res/layout/activity_day_habits.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20652173913043478" />
+        <entry key="app/src/main/res/layout/fragment_add_habit.xml" value="0.20652173913043478" />
+        <entry key="app/src/main/res/layout/fragment_day_habits.xml" value="0.10099637681159421" />
+        <entry key="app/src/main/res/layout/fragment_following.xml" value="0.20652173913043478" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.20652173913043478" />
+        <entry key="app/src/main/res/layout/fragment_sharing.xml" value="0.20652173913043478" />
+        <entry key="app/src/main/res/menu/bottom_nav_color.xml" value="0.18125" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.24322916666666666" />
         <entry key="app/src/main/res/menu/dashboard_selector.xml" value="0.12291666666666666" />
         <entry key="app/src/main/res/menu/nav_color.xml" value="0.24322916666666666" />
