@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Momentum</string>
+    <string name="dashboard_home">Home</string>
+    <string name="dashboard_following">Following</string>
+    <string name="dashboard_add">Add</string>
+    <string name="dashboard_sharing">Sharing</string>
+    <string name="dashboard_settings">Settings</string>
+    <string name="view_all_habits">Habits</string>
+    <string name="view_all_habit_events">Habit Events</string>
+    <string name="chosen_day_habit_title">Chosen Day Habit</string>
 </resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/dashboard_home" />
+
+    <item
+        android:id="@+id/navigation_following"
+        android:icon="@drawable/ic_baseline_group_add_24"
+        android:title="@string/dashboard_following" />
+
+    <item
+        android:id="@+id/navigation_add_habit"
+        android:icon="@drawable/ic_baseline_add_circle_24"
+        android:title="@string/dashboard_add" />
+
+    <item
+        android:id="@+id/navigation_sharing"
+        android:icon="@drawable/ic_baseline_wysiwyg_24"
+        android:title="@string/dashboard_sharing" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/dashboard_settings" />
+</menu>

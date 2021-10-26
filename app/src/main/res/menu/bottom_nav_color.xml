@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:color="@color/red_main"
+        android:state_checked="true"
+        android:title="checked color"/>
+    <item
+        android:color="@color/super_dark_grey"
+        android:title="default color" />
+</selector>
