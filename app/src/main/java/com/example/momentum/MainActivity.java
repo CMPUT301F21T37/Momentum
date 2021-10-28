@@ -6,7 +6,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.momentum.databinding.ActivityMainBinding;
@@ -14,6 +17,7 @@ import com.example.momentum.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private Button habit_events_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,5 +35,20 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        //switch to the habit events list page
+        habit_events_btn = (Button) findViewById(R.id.view_all_habit_events_button);
+        habit_events_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openHabit_Events();
+            }
+        });
+    }
+
+    //method to open the list of habit events page
+    public void openHabit_Events(){
+        Intent intent = new Intent(this, Habit_Events.class);
+        startActivity(intent);
     }
 }
