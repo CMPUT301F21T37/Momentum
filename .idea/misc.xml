@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.4041666666666667" />
-        <entry key="app/src/main/res/layout/login_screen.xml" value="0.3880208333333333" />
+        <entry key="app/src/main/res/layout/login_screen.xml" value="0.3449074074074074" />
+        <entry key="app/src/main/res/layout/signup_screen.xml" value="0.3449074074074074" />
       </map>
     </option>
   </component>

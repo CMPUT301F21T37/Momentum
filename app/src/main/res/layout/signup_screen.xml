@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/signUpTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="170sp"
+        android:textColor="#000000"
+        android:textSize="45sp"
+        android:textStyle="bold"
+        android:text="Sign up" />
+
+    <TextView
+        android:id="@+id/signUpCaptionTextView"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="2sp"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:text="Sign up and start tracking your habits!" />
+
+    <EditText
+        android:id="@+id/usernameSignUpScreen"
+        android:layout_marginTop="20sp"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="username" />
+
+    <EditText
+        android:id="@+id/emailSignUpScreen"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/passwordSignUpScreen"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/confirmPasswordSignUpScreen"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="confirm password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/signUpButton"
+        android:layout_marginTop="30sp"
+        android:layout_marginBottom="230sp"
+        android:layout_width="150dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="SIGN UP" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/accountQuestionSignUpScreen"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="110sp"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:text="Have an account?" />
+
+        <TextView
+            android:id="@+id/signInRedirect"
+            android:layout_marginLeft="10sp"
+            android:textColor="@color/red_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign in." />
+    </LinearLayout>
+</LinearLayout>

@@ -9,13 +9,13 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/momentumImage"
         android:layout_width="match_parent"
         android:layout_height="349dp"
         app:srcCompat="@drawable/login_main_pic" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/signInTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/signInCaptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -41,13 +41,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/emailAddressEditText"
         android:layout_width="294dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="username or email address"
+        android:hint="email address"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/passwordEditText"
         android:layout_width="295dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -74,7 +74,7 @@
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/rememberMeCheckBox"
             android:layout_width="138dp"
             android:layout_height="30dp"
             android:layout_marginStart="49dp"
@@ -84,7 +84,7 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/forgotPasswordText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -99,14 +99,13 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/loginButton"
         android:layout_width="149dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="100sp"
+        android:layout_marginBottom="185sp"
         android:text="Login"
-        android:textColor="#000000"
         />
 
     <LinearLayout
@@ -115,11 +114,11 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/accountQuestionSignInScreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="110sp"
+            android:layout_marginLeft="100sp"
             android:text="Don't have an account?"
             android:textColor="@color/black"
             android:textSize="14sp"
@@ -129,6 +128,7 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
         <TextView
+            android:id="@+id/signUpRedirect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
