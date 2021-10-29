@@ -11,6 +11,13 @@
         android:theme="@style/Theme.Momentum">
         <activity
             android:name=".login.LoginActivity"
+            android:name=".Indiv_habitEvent_view"
+            android:exported="true" />
+        <activity
+            android:name=".Habit_Events"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
