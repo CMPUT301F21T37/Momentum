@@ -8,4 +8,6 @@
     <string name="view_all_habits">Habits</string>
     <string name="view_all_habit_events">Habit Events</string>
     <string name="chosen_day_habit_title">Chosen Day Habit</string>
+    <string name="home_image_description">design image for home view</string>
+    <string name="home_instructions">Get a clear view of your day.\n Click a date to see your habits for that day.\n Tap + to add a habit.</string>
 </resources>
