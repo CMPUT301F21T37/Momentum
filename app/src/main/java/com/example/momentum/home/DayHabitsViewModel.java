@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DayHabitsViewModel extends ViewModel {
 
@@ -29,7 +28,7 @@ public class DayHabitsViewModel extends ViewModel {
         return habitsList;
     }
 
-    public void addHabit(DayHabits habits) {
+    public void addHabit(DayHabits habit) {
         ArrayList<DayHabits> listHelper;
         if (habitsList.getValue() != null) {
             listHelper = new ArrayList<>(habitsList.getValue());
@@ -37,7 +36,7 @@ public class DayHabitsViewModel extends ViewModel {
         else {
             listHelper = new ArrayList<>();
         }
-        listHelper.add(habits);
+        listHelper.add(habit);
         habitsList.setValue(listHelper);
     }
 

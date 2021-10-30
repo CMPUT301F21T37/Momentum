@@ -1,7 +1,6 @@
 package com.example.momentum.home;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.momentum.databinding.FragmentDayHabitsBinding;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,14 +24,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DayHabitsFragment extends Fragment {
     private DayHabitsViewModel DayHabitsViewModel;
     private FragmentDayHabitsBinding binding;
     private FirebaseFirestore db;
     private String dayofWeek;
-    private ListView habitsList;
+    private ListView dayHabitsListView;
     private TextView titleText;
     private ArrayAdapter<DayHabits> habitsAdapter;
 
@@ -53,8 +49,12 @@ public class DayHabitsFragment extends Fragment {
                                 @Nullable FirebaseFirestoreException error) {
                 DayHabitsViewModel.clearHabitsList();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                    String habit_title = doc.getId();
-                    DayHabitsViewModel.addHabit(new DayHabits(habit_title));
+                    ArrayList<?> frequency = (ArrayList<?>) doc.getData().get("frequency");
+                    if (frequency != null && frequency.contains(dayofWeek)) {
+                        String habit_title = doc.getId();
+                        String reason = (String) doc.getData().get("reason");
+                        DayHabitsViewModel.addHabit(new DayHabits(habit_title, reason));
+                    }
                 }
                 habitsAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched from the cloud
             }
@@ -73,8 +73,9 @@ public class DayHabitsFragment extends Fragment {
             date_title_mutable.setValue(date_title);
             DayHabitsViewModel.setTitle(date_title_mutable);
             changeDayTitle();
-            showDayHabits(habitsReference);
+            showDayHabits();
         }
+
         return root;
     }
 
@@ -91,14 +92,17 @@ public class DayHabitsFragment extends Fragment {
         });
     }
 
-    public void showDayHabits(CollectionReference habitsReference) {
-        habitsList = binding.dayHabitsList;
+    /**
+     * It takes a list of DayHabits from the document to added to the habits list adapter
+     */
+    public void showDayHabits() {
+        dayHabitsListView = binding.dayHabitsList;
 
         DayHabitsViewModel.getHabitsList().observe(getViewLifecycleOwner(), new Observer<ArrayList<DayHabits>>() {
             @Override
             public void onChanged(ArrayList<DayHabits> dayHabitsList) {
                 habitsAdapter = new DayHabitsList(getContext(),dayHabitsList);
-                habitsList.setAdapter(habitsAdapter);
+                dayHabitsListView.setAdapter(habitsAdapter);
             }
         });
     }
