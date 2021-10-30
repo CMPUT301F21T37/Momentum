@@ -1,92 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.HomeFragment">
+    android:fillViewport="true">
 
-    <Button
-        android:id="@+id/view_all_habits_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:text="@string/view_all_habits"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/calendarView"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <Button
-        android:id="@+id/view_all_habit_events_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:text="@string/view_all_habit_events"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/calendarView"
-        app:layout_constraintLeft_toRightOf="@+id/guideline"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <CalendarView
-        android:id="@+id/calendarView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/home_img"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.231" />
+        android:paddingBottom="100dp"
+        tools:context=".home.HomeFragment">
 
-    <ImageView
-        android:id="@+id/home_img"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="130dp"
-        android:layout_marginEnd="131dp"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/home_image_description"
-        android:cropToPadding="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/home_pointer_img"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+        <Button
+            android:id="@+id/view_all_habits_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/view_all_habits"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/calendarView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/home_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:gravity="center"
-        android:text="@string/home_instructions"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_img"
-        app:layout_constraintVertical_bias="0.0" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
+        <Button
+            android:id="@+id/view_all_habit_events_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/view_all_habit_events"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/calendarView"
+            app:layout_constraintLeft_toRightOf="@+id/guideline"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/home_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.231" />
+
+        <ImageView
+            android:id="@+id/home_img"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="130dp"
+            android:layout_marginEnd="131dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/home_image_description"
+            android:cropToPadding="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/home_pointer_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+
+        <TextView
+            android:id="@+id/home_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:gravity="center"
+            android:text="@string/home_instructions"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_img"
+            app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
