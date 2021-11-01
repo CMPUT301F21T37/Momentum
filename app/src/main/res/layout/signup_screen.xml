@@ -67,7 +67,7 @@
     <Button
         android:id="@+id/signUpButton"
         android:layout_marginTop="30sp"
-        android:layout_marginBottom="230sp"
+        android:layout_marginBottom="70sp"
         android:layout_width="150dp"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
         <TextView
             android:id="@+id/accountQuestionSignUpScreen"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="110sp"
+            android:layout_marginLeft="120sp"
             android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:text="Have an account?" />
@@ -90,6 +90,7 @@
             android:id="@+id/signInRedirect"
             android:layout_marginLeft="10sp"
             android:textColor="@color/red_main"
+            android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sign in." />
