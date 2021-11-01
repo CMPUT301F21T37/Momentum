@@ -17,7 +17,6 @@ import com.example.momentum.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private Button habit_events_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

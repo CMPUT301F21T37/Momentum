@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/customToast"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/darker_grey">
+
+    <TextView
+        android:id="@+id/customToastText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/example_toast"
+        android:textAlignment="center"
+        android:textSize="20sp"/>
+
+</LinearLayout>
