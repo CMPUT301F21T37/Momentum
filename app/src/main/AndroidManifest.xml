@@ -22,6 +22,9 @@
             android:name=".login.LoginActivity"
             android:exported="true" />
         <activity
+            android:name=".home.DayHabitsActivity"
+            android:exported="true" />
+        <activity
             android:name=".Indiv_habitEvent_view"
             android:exported="true" />
         <activity
