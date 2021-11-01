@@ -30,7 +30,9 @@
         <activity
             android:name=".Habit_Events"
             android:exported="true" />
-        <activity android:name=".login.SignUpActivity"/>
+        <activity
+            android:name=".login.SignUpActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
