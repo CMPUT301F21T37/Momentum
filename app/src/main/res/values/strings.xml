@@ -14,4 +14,10 @@
     <string name="done">DONE</string>
     <string name="example_motivation_day_habits">Motivation \n Example motivation</string>
     <string name="example_toast">Example toast</string>
+    <string name="add_habit_event_title">Add Event Title</string>
+    <string name="day_habits_info_text">Make sure to click DONE to show your progress!</string>
+    <string name="add_habit_event_info">Add a habit event to celebrate your progress!</string>
+    <string name="add_habit_event_comment">Comment</string>
+    <string name="comment_hint">Add an optional comment (up to 20 characters)</string>
+    <string name="great_job">Great Job!</string>
 </resources>

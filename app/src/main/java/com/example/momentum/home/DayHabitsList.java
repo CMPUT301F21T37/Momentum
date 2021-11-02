@@ -49,7 +49,9 @@ public class DayHabitsList extends ArrayAdapter<DayHabits> {
         }
 
         DayHabits habit = habits.get(position);
-        changeCardViewColorGivenHabitCompletion(habit.getDayHabitTitle(), view);
+
+        // change the color of the card view and the habit title if the habit is completed for that day
+        changeViewGivenHabitCompletion(habit.getDayHabitTitle(), view);
 
         // sets the habit list names
         TextView habitTitle = view.findViewById(R.id.card_view_text);
@@ -58,11 +60,12 @@ public class DayHabitsList extends ArrayAdapter<DayHabits> {
         return view;
     }
 
-    private void changeCardViewColorGivenHabitCompletion(String habit_title, View view) {
+    private void changeViewGivenHabitCompletion(String habit_title, View view) {
         db = FirebaseFirestore.getInstance();
         String habits_collection_name = "Habits";
         String done_dates_collection_name = "Done dates";
         CardView cardView = view.findViewById(R.id.card_view);
+        TextView habitTitle = view.findViewById(R.id.card_view_text);
 
         /*
         How to check if a document exists in a collection
@@ -79,7 +82,9 @@ public class DayHabitsList extends ArrayAdapter<DayHabits> {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         int redBackgroundColor = ContextCompat.getColor(context, R.color.red_main);
+                        int white = ContextCompat.getColor(context, R.color.white);
                         cardView.setCardBackgroundColor(redBackgroundColor);
+                        habitTitle.setTextColor(white);
                         Log.d(TAG, "Document exists!");
                     } else {
                         // do the default color in the xml file

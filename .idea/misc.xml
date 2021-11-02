@@ -21,6 +21,7 @@
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/he_btns.xml" value="0.290625" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.290625" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.290625" />
+        <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.290625" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/ic_baseline_group_add_24.xml" value="0.290625" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.290625" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.290625" />
@@ -28,11 +29,14 @@
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/ic_launcher_background.xml" value="0.290625" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/rounded_corner.xml" value="0.290625" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/rounded_corner_translucent.xml" value="0.15989583333333332" />
+        <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/activity_add_habit_event.xml" value="0.20199275362318841" />
+        <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/activity_add_habit_events.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/activity_day_habits.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/activity_day_habits_toast.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/activity_habit_events.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/activity_main.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/content_card_view.xml" value="0.20199275362318841" />
+        <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/custom_toast.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/floating_he.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/fragment_add_habit.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/fragment_day_habits.xml" value="0.20199275362318841" />
