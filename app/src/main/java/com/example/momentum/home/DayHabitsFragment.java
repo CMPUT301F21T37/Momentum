@@ -1,5 +1,6 @@
 package com.example.momentum.home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,18 +11,29 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentDayHabitsBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,10 +52,14 @@ public class DayHabitsFragment extends Fragment {
     public static final String MOTIVATION = "MOTIVATION";
     public static final String DATE_COMPARE_DAY_HABIT = "IS_DATE_CLICKED_CURRENT";
     public static final String CLICKED_DATE_STR = "DATE_CLICKED_STR";
+    public static final String TITLE_HABIT_EVENT = "HABIT_EVENT_TITLE";
+    public static final String CHECK_IF_HABIT_EVENT_EXISTS = "CHECK_HABIT_EVENT_EXISTENCE";
 
     private DayHabitsViewModel DayHabitsViewModel;
     private FragmentDayHabitsBinding binding;
     private FirebaseFirestore db;
+    private FirebaseUser user;
+    private String uid;
     private String dayofWeek;
     private String dayTitle;
     private Boolean isDateClickedEqualCurrent;
@@ -51,7 +67,20 @@ public class DayHabitsFragment extends Fragment {
     private TextView titleText;
     private Date clickedDate;
     private String clickedDateStr;
+    private String habitEventTitle;
     private ArrayAdapter<DayHabits> habitsAdapter;
+
+    // global result launcher for when DayHabitsActivity is called
+    ActivityResultLauncher<Intent> DayHabitsActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        habitsAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,8 +88,12 @@ public class DayHabitsFragment extends Fragment {
         binding = FragmentDayHabitsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // initializing the database
         db = FirebaseFirestore.getInstance();
-        final CollectionReference habitsReference = db.collection("Habits");
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+        final CollectionReference habitsReference = db.collection("Users").
+                document(uid).collection("Habits");
 
         // listener for the Firestore database to accept realtime updates
         habitsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -72,13 +105,14 @@ public class DayHabitsFragment extends Fragment {
                     ArrayList<?> frequency = (ArrayList<?>) doc.getData().get("frequency");
                     Timestamp start_timestamp = (Timestamp) doc.getData().get("date");
                     Date start_date = start_timestamp.toDate();
+                    Log.d("time", start_date.toString());
                     /*
                     - Current clicked date must be on or after the start date of a given habit
                     - There must be a frequency set (should be on add habits)
                     - Current day of the week should be in the frequency array
                      */
-                    if ((clickedDate.compareTo(start_date) > 0 || clickedDate.compareTo(start_date) == 0)
-                    && frequency != null && frequency.contains(dayofWeek)) {
+                    if ((clickedDate.compareTo(start_date) >= 0) && (frequency != null)
+                            && frequency.contains(dayofWeek)) {
                         String habit_title = doc.getId();
                         String reason = (String) doc.getData().get("reason");
                         DayHabitsViewModel.addHabit(new DayHabits(habit_title, reason));
@@ -90,7 +124,7 @@ public class DayHabitsFragment extends Fragment {
         });
 
         /*
-        receiving the data from HomeFragment
+        receiving data
         https://www.youtube.com/watch?v=iVxKMZ8sGXY
         Author: Oum Saokosal
          */
@@ -113,12 +147,48 @@ public class DayHabitsFragment extends Fragment {
 
     private boolean onDayHabitsClick(AdapterView<?> adapterView, View view, int position, long id) {
         DayHabits habit = (DayHabits) adapterView.getAdapter().getItem(position);
-        Intent intent = new Intent(getContext(), DayHabitsActivity.class);
-        intent.putExtra(TITLE_DAY_HABIT, habit.getDayHabitTitle());
-        intent.putExtra(MOTIVATION, habit.getDayHabitReason());
-        intent.putExtra(DATE_COMPARE_DAY_HABIT, isDateClickedEqualCurrent);
-        intent.putExtra(CLICKED_DATE_STR, clickedDateStr);
-        startActivity(intent);
+        CardView cardView = (CardView) view.findViewById(R.id.card_view);
+        habitEventTitle = habit.getDayHabitTitle() + ": " + clickedDateStr;
+
+        // if the habit is completed for the current day, the user can add a habit event
+        if ((cardView.getCardBackgroundColor().getDefaultColor() ==
+                ContextCompat.getColor(getContext(), R.color.red_main))) {
+            // need to check if a habit event already exists for the current habit for that day
+            DocumentReference documentReference = db.collection("Users").document(uid).
+                    collection("Habits").document(habit.getDayHabitTitle()).
+                    collection("Events").document(habitEventTitle);
+
+            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(CHECK_IF_HABIT_EVENT_EXISTS, "Document exists");
+                            Toast.makeText(getContext(), "You have already added a habit event for today.",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.d(CHECK_IF_HABIT_EVENT_EXISTS, "No such document");
+                            Intent intent = new Intent(getContext(), AddHabitEventActivity.class);
+                            intent.putExtra(TITLE_DAY_HABIT, habit.getDayHabitTitle());
+                            intent.putExtra(TITLE_HABIT_EVENT, habitEventTitle);
+                            startActivity(intent);
+                        }
+                    } else {
+                        Log.d(CHECK_IF_HABIT_EVENT_EXISTS, "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
+        // else, the user can assign completion to the habit given clicked day == current day
+        else {
+            Intent intent = new Intent(getContext(), DayHabitsActivity.class);
+            intent.putExtra(TITLE_DAY_HABIT, habit.getDayHabitTitle());
+            intent.putExtra(MOTIVATION, habit.getDayHabitReason());
+            intent.putExtra(DATE_COMPARE_DAY_HABIT, isDateClickedEqualCurrent);
+            intent.putExtra(CLICKED_DATE_STR, clickedDateStr);
+            DayHabitsActivityResultLauncher.launch(intent);
+        }
         return true;
     }
 

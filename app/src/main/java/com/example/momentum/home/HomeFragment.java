@@ -27,6 +27,7 @@ public class HomeFragment extends Fragment {
     public static final String DATE_COMPARE_DAY_HABIT = "IS_DATE_CLICKED_CURRENT";
     public static final String DATE_CLICKED_DAY_HABIT = "DATE_CLICKED";
     public static final String DATE_CLICKED_DAY_HABIT_STR = "DATE_CLICKED_STR";
+    public static final String START_DAY_HABIT_FRAGMENT = "DAY_HABIT_FRAGMENT";
 
     private HomeViewModel HomeViewModel;
     private FragmentHomeBinding binding;
@@ -81,6 +82,11 @@ public class HomeFragment extends Fragment {
         bundle.putSerializable(DATE_CLICKED_DAY_HABIT, calendar_click.getTime());
         bundle.putString(DATE_CLICKED_DAY_HABIT_STR, date);
 
+        startDayHabitsFragment(bundle);
+        return true;
+    }
+
+    private void startDayHabitsFragment(Bundle bundle) {
         /*
         Android Developer Documentation
         using fragment transactions: https://developer.android.com/guide/fragments/transactions
@@ -89,11 +95,9 @@ public class HomeFragment extends Fragment {
         Fragment fragment = new DayHabitsFragment();
         fragment.setArguments(bundle);
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.nav_host_fragment_activity_main, fragment);
+        transaction.replace(R.id.nav_host_fragment_activity_main, fragment, START_DAY_HABIT_FRAGMENT);
         transaction.addToBackStack(null);
         transaction.commit();
-
-        return true;
     }
 
     /**

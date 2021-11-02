@@ -22,7 +22,10 @@ import com.example.momentum.databinding.ActivityDayHabitsBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -39,12 +42,19 @@ public class DayHabitsActivity extends AppCompatActivity {
     private String clickedDateStr;
     private Boolean isDateClickedEqualCurrent;
     private FirebaseFirestore db;
+    private FirebaseUser user;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDayHabitsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // initializing the database
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
 
         // Get the Intent that started this activity and extract the strings
         Intent intent = getIntent();
@@ -88,6 +98,7 @@ public class DayHabitsActivity extends AppCompatActivity {
             addDoneDateToDatabase();
             String addHabitEventInfo = "Click the habit again to add a habit event.";
             showCustomToast(addHabitEventInfo);
+            setResult(RESULT_OK);
             finish();
         }
         return true;
@@ -116,13 +127,14 @@ public class DayHabitsActivity extends AppCompatActivity {
      * Adds the date that is clicked to the database given the clicked habit
      */
     private void addDoneDateToDatabase() {
-        db = FirebaseFirestore.getInstance();
+        String users_collection_name = "Users";
         String habits_collection_name = "Habits";
         String done_dates_collection_name = "Done dates";
         HashMap<String, Boolean> data = new HashMap<>();
 
-        final CollectionReference collectionReference = db.collection(habits_collection_name)
-                .document(title).collection(done_dates_collection_name);
+        final CollectionReference collectionReference = db.collection(users_collection_name).document(uid)
+                .collection(habits_collection_name).document(title).collection(done_dates_collection_name);
+
         data.put("done",true);
         collectionReference
                 .document(clickedDateStr)

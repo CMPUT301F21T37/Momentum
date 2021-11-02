@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/dayHabitsBack"
+        android:id="@+id/addHabitEventBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -23,10 +24,10 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/DayHabitsTitleDone"
+        android:id="@+id/AddHabitEventTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/day_habits_title_activity"
+        android:text="@string/add_habit_event_title"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30sp"
@@ -35,75 +36,97 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dayHabitsBack"
+        app:layout_constraintTop_toBottomOf="@id/addHabitEventBack"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/dayHabitsActivityInstruction"
+        android:id="@+id/AddHabitEventInstruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:text="@string/day_habits_info_text"
+        android:text="@string/add_habit_event_info"
         android:textSize="20sp"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/DayHabitsTitleDone"
+        app:layout_constraintTop_toBottomOf="@id/AddHabitEventTitle"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
-        android:id="@+id/redCircleDayHabits"
+    <TextView
+        android:id="@+id/AddHabitEventCommentText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:cropToPadding="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/red_circle"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/add_habit_event_comment"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dayHabitsActivityInstruction"
+        app:layout_constraintTop_toBottomOf="@id/AddHabitEventInstruction"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/dayHabitsMotivation"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/AddHabitEventCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:background="@drawable/rounded_corner_translucent"
-        android:elevation="5dp"
-        android:text="@string/example_motivation_day_habits"
-        android:textAlignment="center"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@id/redCircleDayHabits"
-        app:layout_constraintEnd_toEndOf="@id/redCircleDayHabits"
-        app:layout_constraintStart_toStartOf="@id/redCircleDayHabits"
-        app:layout_constraintTop_toTopOf="@+id/redCircleDayHabits"
-        app:layout_constraintVertical_bias="0.479" />
+        app:cardCornerRadius="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/AddHabitEventCommentText"
+        app:layout_constraintVertical_bias="0.0">
 
-    <Button
-        android:id="@+id/doneDayHabitButton"
-        android:layout_width="150dp"
+        <EditText
+            android:id="@+id/AddHabitEventComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/comment_hint"
+            android:maxLength="20"
+            android:textSize="15sp"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/AddHabitEventGreatJob"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/great_job"
+        android:textAlignment="center"
+        android:textColor="@color/red_main"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/AddHabitEventCardView"
+        app:layout_constraintVertical_bias="0.605" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addHabitEventDone"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/rounded_corner"
         android:clickable="true"
-        android:gravity="center"
-        android:text="@string/done"
-        android:textColor="@color/black"
-        android:textSize="25sp"
+        android:focusable="true"
+        android:src="@drawable/ic_baseline_check_24"
+        app:backgroundTint="@color/darker_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/redCircleDayHabits"
+        app:layout_constraintTop_toBottomOf="@id/AddHabitEventGreatJob"
         app:layout_constraintVertical_bias="0.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

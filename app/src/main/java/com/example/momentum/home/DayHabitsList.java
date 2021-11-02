@@ -16,6 +16,8 @@ import androidx.core.content.ContextCompat;
 import com.example.momentum.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,6 +31,8 @@ public class DayHabitsList extends ArrayAdapter<DayHabits> {
     private ArrayList<DayHabits> habits;
     private Context context;
     private FirebaseFirestore db;
+    private FirebaseUser user;
+    private String uid;
     private boolean isHabitCompleted;
     private String clickedDateStr;
 
@@ -49,7 +53,9 @@ public class DayHabitsList extends ArrayAdapter<DayHabits> {
         }
 
         DayHabits habit = habits.get(position);
-        changeCardViewColorGivenHabitCompletion(habit.getDayHabitTitle(), view);
+
+        // change the color of the card view and the habit title if the habit is completed for that day
+        changeViewGivenHabitCompletion(habit.getDayHabitTitle(), view);
 
         // sets the habit list names
         TextView habitTitle = view.findViewById(R.id.card_view_text);
@@ -58,20 +64,25 @@ public class DayHabitsList extends ArrayAdapter<DayHabits> {
         return view;
     }
 
-    private void changeCardViewColorGivenHabitCompletion(String habit_title, View view) {
-        db = FirebaseFirestore.getInstance();
+    private void changeViewGivenHabitCompletion(String habit_title, View view) {
+        String users_collection_name = "Users";
         String habits_collection_name = "Habits";
         String done_dates_collection_name = "Done dates";
         CardView cardView = view.findViewById(R.id.card_view);
+        TextView habitTitle = view.findViewById(R.id.card_view_text);
+
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+        DocumentReference documentReference = db.collection(users_collection_name).document(uid).
+                collection(habits_collection_name).document(habit_title).
+                collection(done_dates_collection_name).document(clickedDateStr);
 
         /*
         How to check if a document exists in a collection
         https://stackoverflow.com/questions/53332471/checking-if-a-document-exists-in-a-firestore-collection/53335711
         Author: Alex Mamo
         */
-        DocumentReference documentReference = db.collection(habits_collection_name).
-                document(habit_title).collection(done_dates_collection_name).document(clickedDateStr);
-
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -79,7 +90,9 @@ public class DayHabitsList extends ArrayAdapter<DayHabits> {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         int redBackgroundColor = ContextCompat.getColor(context, R.color.red_main);
+                        int white = ContextCompat.getColor(context, R.color.white);
                         cardView.setCardBackgroundColor(redBackgroundColor);
+                        habitTitle.setTextColor(white);
                         Log.d(TAG, "Document exists!");
                     } else {
                         // do the default color in the xml file
