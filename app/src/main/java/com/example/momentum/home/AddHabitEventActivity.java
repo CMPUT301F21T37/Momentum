@@ -14,7 +14,10 @@ import com.example.momentum.databinding.ActivityAddHabitEventBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -26,8 +29,10 @@ public class AddHabitEventActivity extends AppCompatActivity {
     private FloatingActionButton backButton;
     private FloatingActionButton checkButton;
     private FirebaseFirestore db;
+    private FirebaseUser user;
+    private String uid;
     private String title;
-    private String clickedDateStr;
+    private String documentTitle;
     private TextView activityTitle;
     private EditText commentField;
 
@@ -36,12 +41,16 @@ public class AddHabitEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAddHabitEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // initializing the database
         db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
 
         // Get the Intent that started this activity and extract the strings
         Intent intent = getIntent();
         title = intent.getStringExtra(DayHabitsFragment.TITLE_DAY_HABIT);
-        clickedDateStr = intent.getStringExtra(DayHabitsFragment.CLICKED_DATE_STR);
+        documentTitle = intent.getStringExtra(DayHabitsFragment.TITLE_HABIT_EVENT);
 
         // back button to go back to previous dayHabitsFragment
         backButton = binding.addHabitEventBack;
@@ -84,15 +93,15 @@ public class AddHabitEventActivity extends AppCompatActivity {
      * @param comment_data
      */
     private void addHabitEventToDatabase(HashMap<String,String> comment_data) {
+        String users_collection_name = "Users";
         String habits_collection_name = "Habits";
         String habit_events_collection_name = "Events";
-        String document_title = title + ": " + clickedDateStr;
 
-        final CollectionReference collectionReference = db.collection(habits_collection_name)
-                .document(title).collection(habit_events_collection_name);
+        final CollectionReference collectionReference = db.collection(users_collection_name).document(uid).
+                collection(habits_collection_name).document(title).collection(habit_events_collection_name);
 
         collectionReference
-                .document(document_title)
+                .document(documentTitle)
                 .set(comment_data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
