@@ -1,5 +1,6 @@
 package com.example.momentum.home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,13 +12,21 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentDayHabitsBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -52,6 +61,18 @@ public class DayHabitsFragment extends Fragment {
     private Date clickedDate;
     private String clickedDateStr;
     private ArrayAdapter<DayHabits> habitsAdapter;
+
+    // global result launcher for when DayHabitsActivity is called
+    ActivityResultLauncher<Intent> DayHabitsActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        habitsAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -90,7 +111,7 @@ public class DayHabitsFragment extends Fragment {
         });
 
         /*
-        receiving the data from HomeFragment
+        receiving data
         https://www.youtube.com/watch?v=iVxKMZ8sGXY
         Author: Oum Saokosal
          */
@@ -113,12 +134,25 @@ public class DayHabitsFragment extends Fragment {
 
     private boolean onDayHabitsClick(AdapterView<?> adapterView, View view, int position, long id) {
         DayHabits habit = (DayHabits) adapterView.getAdapter().getItem(position);
-        Intent intent = new Intent(getContext(), DayHabitsActivity.class);
-        intent.putExtra(TITLE_DAY_HABIT, habit.getDayHabitTitle());
-        intent.putExtra(MOTIVATION, habit.getDayHabitReason());
-        intent.putExtra(DATE_COMPARE_DAY_HABIT, isDateClickedEqualCurrent);
-        intent.putExtra(CLICKED_DATE_STR, clickedDateStr);
-        startActivity(intent);
+        CardView cardView = (CardView) view.findViewById(R.id.card_view);
+
+        // if the habit is completed for the current day, the user can add a habit event
+        if ((cardView.getCardBackgroundColor().getDefaultColor() ==
+                ContextCompat.getColor(getContext(), R.color.red_main))) {
+            Intent intent = new Intent(getContext(), AddHabitEventActivity.class);
+            intent.putExtra(TITLE_DAY_HABIT, habit.getDayHabitTitle());
+            intent.putExtra(CLICKED_DATE_STR, clickedDateStr);
+            startActivity(intent);
+        }
+        // else, the user can assign completion to the habit given clicked day == current day
+        else {
+            Intent intent = new Intent(getContext(), DayHabitsActivity.class);
+            intent.putExtra(TITLE_DAY_HABIT, habit.getDayHabitTitle());
+            intent.putExtra(MOTIVATION, habit.getDayHabitReason());
+            intent.putExtra(DATE_COMPARE_DAY_HABIT, isDateClickedEqualCurrent);
+            intent.putExtra(CLICKED_DATE_STR, clickedDateStr);
+            DayHabitsActivityResultLauncher.launch(intent);
+        }
         return true;
     }
 

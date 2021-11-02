@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.momentum.R;
 import com.example.momentum.databinding.ActivityDayHabitsBinding;
@@ -88,6 +90,7 @@ public class DayHabitsActivity extends AppCompatActivity {
             addDoneDateToDatabase();
             String addHabitEventInfo = "Click the habit again to add a habit event.";
             showCustomToast(addHabitEventInfo);
+            setResult(RESULT_OK);
             finish();
         }
         return true;
