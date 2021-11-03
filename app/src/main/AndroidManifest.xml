@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Momentum">
         <activity
-            android:name=".MainActivity"
+            android:name=".login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,6 +18,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".home.DayHabitsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".home.AddHabitEventActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Indiv_habitEvent_view"
+            android:exported="true" />
+        <activity
+            android:name=".Habit_Events"
+            android:exported="true" />
+        <activity
+            android:name=".login.SignUpActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

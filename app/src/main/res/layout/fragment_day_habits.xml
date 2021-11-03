@@ -12,11 +12,25 @@
         android:id="@+id/day_habit_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/chosen_day_habit_title"
         android:textAlignment="center"
-        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/day_habits_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/day_habit_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:divider="@android:color/transparent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
