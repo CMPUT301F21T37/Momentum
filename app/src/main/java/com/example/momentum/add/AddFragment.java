@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +20,7 @@ import com.example.momentum.databinding.FragmentAddHabitBinding;
 public class AddFragment extends Fragment {
     private AddViewModel AddViewModel;
     private FragmentAddHabitBinding binding;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -33,8 +37,10 @@ public class AddFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
         return root;
     }
+
 
     @Override
     public void onDestroyView() {
