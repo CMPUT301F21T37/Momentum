@@ -21,12 +21,26 @@
         android:layout_gravity="center"
         android:text="TItle" />
 
+    <EditText
+        android:id="@+id/edit_title"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:hint="up to 20 chars" />
+
     <TextView
         android:id="@+id/add_reason"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Reason" />
+
+    <EditText
+        android:id="@+id/edit_reason"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:hint="up to 30 chars" />
 
     <TextView
         android:id="@+id/add_weekly_freq"
@@ -49,7 +63,9 @@
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:background="@drawable/btn_toggle"
-            android:text="ToggleButton" />
+            android:text="ToggleButton"
+            android:textOff="Mon"
+            android:textOn="Mon" />
 
         <ToggleButton
             android:id="@+id/tueButton"
@@ -58,7 +74,9 @@
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:background="@drawable/btn_toggle"
-            android:text="ToggleButton" />
+            android:text="ToggleButton"
+            android:textOff="Tue"
+            android:textOn="Tue" />
 
         <ToggleButton
             android:id="@+id/wedButton"
@@ -67,7 +85,9 @@
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:background="@drawable/btn_toggle"
-            android:text="ToggleButton" />
+            android:text="ToggleButton"
+            android:textOff="Wed"
+            android:textOn="Wed" />
 
         <ToggleButton
             android:id="@+id/thuButton"
@@ -76,7 +96,9 @@
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:background="@drawable/btn_toggle"
-            android:text="ToggleButton" />
+            android:text="ToggleButton"
+            android:textOff="Thu"
+            android:textOn="Thu" />
 
         <ToggleButton
             android:id="@+id/friButton"
@@ -85,7 +107,9 @@
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:background="@drawable/btn_toggle"
-            android:text="ToggleButton" />
+            android:text="ToggleButton"
+            android:textOff="Fri"
+            android:textOn="Fri" />
 
         <ToggleButton
             android:id="@+id/satButton"
@@ -94,7 +118,9 @@
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:background="@drawable/btn_toggle"
-            android:text="ToggleButton" />
+            android:text="ToggleButton"
+            android:textOff="Sat"
+            android:textOn="Sat" />
 
         <ToggleButton
             android:id="@+id/sunButton"
@@ -103,7 +129,9 @@
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:background="@drawable/btn_toggle"
-            android:text="ToggleButton" />
+            android:text="ToggleButton"
+            android:textOff="Sun"
+            android:textOn="Sun" />
 
     </LinearLayout>
 
