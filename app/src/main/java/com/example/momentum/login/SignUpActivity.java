@@ -16,12 +16,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.momentum.MainActivity;
 import com.example.momentum.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -34,6 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
     Button signUpButton;
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -42,6 +47,9 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+
+        // Initialize Database
+        db = FirebaseFirestore.getInstance();
 
         // Initialize class variables
         usernameText = findViewById(R.id.usernameSignUpScreen);
@@ -111,14 +119,16 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
+                                        // Sign up success, update UI with the user's information
                                         Log.d(TAG, "createUserWithEmail:success");
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         Toast.makeText(SignUpActivity.this, "Sign Up Successful!",
                                                 Toast.LENGTH_SHORT).show();
+                                        setUsername(user);
+                                        addUserToDatabase(user);
                                         updateUI(user);
                                     } else {
-                                        // If sign in fails, display a message to the user.
+                                        // If sign up fails, display a message to the user.
                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                         Toast.makeText(SignUpActivity.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
@@ -126,25 +136,47 @@ public class SignUpActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                    // setting the user's username
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                            .setDisplayName(usernameText.getText().toString())
-                            .build();
-
-                    user.updateProfile(profileUpdates)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d(TAG, "User profile updated.");
-                                    }
-                                }
-                            });
                 }
             }
         });
+    }
+
+    /**
+     * This method adds the user to the FireStore database
+     *
+     * @param user The user that just logged in
+     */
+    private void addUserToDatabase(FirebaseUser user) {
+        String users_collection_name = "Users";
+        String users_id = user.getUid();
+        HashMap<String, String> emptyMap = new HashMap<>();
+
+        db.collection(users_collection_name).document(users_id).set(emptyMap);
+    }
+
+    /**
+     * This method sets the username of the user
+     *
+     * @param user The user that logged in.
+     */
+    private void setUsername(FirebaseUser user) {
+
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(usernameText.getText().toString())
+                .build();
+
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "User profile updated.");
+                        }
+                    }
+                });
+
+
     }
 
     /**
