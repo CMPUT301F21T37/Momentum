@@ -8,83 +8,118 @@
     tools:context=".add.AddFragment">
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
+        android:id="@+id/textAddHabit"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_gravity="center"
+        android:text="Add Habit" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="match_parent"
+        android:id="@+id/add_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_gravity="center"
+        android:text="TItle" />
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
+        android:id="@+id/add_reason"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_gravity="center"
+        android:text="Reason" />
+
+    <TextView
+        android:id="@+id/add_weekly_freq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Weekly Frequency" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
 
         <ToggleButton
-            android:id="@+id/toggleButton"
+            android:id="@+id/monButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:layout_margin="4dp"
             android:layout_weight="1"
+            android:background="@drawable/btn_toggle"
             android:text="ToggleButton" />
 
         <ToggleButton
-            android:id="@+id/toggleButton2"
+            android:id="@+id/tueButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_weight="1"
+            android:background="@drawable/btn_toggle"
             android:text="ToggleButton" />
 
         <ToggleButton
-            android:id="@+id/toggleButton3"
+            android:id="@+id/wedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_weight="1"
+            android:background="@drawable/btn_toggle"
             android:text="ToggleButton" />
 
         <ToggleButton
-            android:id="@+id/toggleButton4"
+            android:id="@+id/thuButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_weight="1"
+            android:background="@drawable/btn_toggle"
             android:text="ToggleButton" />
 
         <ToggleButton
-            android:id="@+id/toggleButton5"
+            android:id="@+id/friButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_weight="1"
+            android:background="@drawable/btn_toggle"
             android:text="ToggleButton" />
 
         <ToggleButton
-            android:id="@+id/toggleButton6"
+            android:id="@+id/satButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_weight="1"
+            android:background="@drawable/btn_toggle"
             android:text="ToggleButton" />
 
         <ToggleButton
-            android:id="@+id/toggleButton7"
+            android:id="@+id/sunButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_weight="1"
+            android:background="@drawable/btn_toggle"
             android:text="ToggleButton" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
+    <Switch
+        android:id="@+id/habit_privacy"
+        android:layout_width="100sp"
+        android:layout_height="50sp"
+        android:layout_gravity="center"
+        android:checked="false"
+        android:text="Private" />
+
+    <Button
+        android:id="@+id/create_habit_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_gravity="center"
+        android:text="Create Habit" />
 
 </LinearLayout>
