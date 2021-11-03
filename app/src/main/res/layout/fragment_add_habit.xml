@@ -8,150 +8,83 @@
     tools:context=".add.AddFragment">
 
     <TextView
-        android:id="@+id/Title"
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="Title"
-        android:textSize="24sp" />
-
-    <EditText
-        android:id="@+id/add_habit_title"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="8dp"
-        android:text="Add a Title (up to 20 chars)" />
+        android:text="TextView" />
 
     <TextView
-        android:id="@+id/Motivation"
+        android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="Motivation"
-        android:textSize="24sp" />
-
-    <EditText
-        android:id="@+id/add_motivation"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="8dp"
-        android:text="Add a motivation (up to 30 chars)" />
+        android:text="TextView" />
 
     <TextView
-        android:id="@+id/Frequency"
-        android:layout_margin="8dp"
-        android:textSize="24sp"
+        android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Frequency" />
+        android:text="TextView" />
 
     <LinearLayout
-        android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <ToggleButton
-            android:id="@+id/Monday"
+            android:id="@+id/toggleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="ToggleButton"
-            android:textOff="Mon"
-            android:textOn="Mon" />
+            android:text="ToggleButton" />
 
         <ToggleButton
-            android:id="@+id/Tuesday"
+            android:id="@+id/toggleButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textOff="Tue"
-            android:textOn="Tue" />
+            android:text="ToggleButton" />
 
         <ToggleButton
-            android:id="@+id/Wednesday"
-
+            android:id="@+id/toggleButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="ToggleButton"
-            android:textOff="Wed"
-            android:textOn="Wed" />
+            android:text="ToggleButton" />
 
         <ToggleButton
-            android:id="@+id/Thursday"
+            android:id="@+id/toggleButton4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="ToggleButton"
-            android:textOff="Thu"
-            android:textOn="Thu" />
+            android:text="ToggleButton" />
 
         <ToggleButton
-            android:id="@+id/Friday"
+            android:id="@+id/toggleButton5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="ToggleButton"
-            android:textOff="Fri"
-            android:textOn="Fri" />
+            android:text="ToggleButton" />
 
         <ToggleButton
-            android:id="@+id/Saturday"
+            android:id="@+id/toggleButton6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="ToggleButton"
-            android:textOff="Sat"
-            android:textOn="Sat" />
+            android:text="ToggleButton" />
 
         <ToggleButton
-            android:id="@+id/Sunday"
+            android:id="@+id/toggleButton7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="ToggleButton"
-            android:textOff="Sun"
-            android:textOn="Sun" />
+            android:text="ToggleButton" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/Date"
-        android:layout_margin="8dp"
-        android:textSize="24sp"
+        android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Date" />
-
-    <EditText
-        android:id="@+id/add_date"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="8dp"
-        android:text="MM-DD-YYYY" />
-
-    <TextView
-        android:id="@+id/Privacy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:text="Privacy"
-        android:textSize="24sp" />
-
-    <com.google.android.material.chip.Chip
-        android:id="@+id/chip4"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_marginTop="16dp"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:text="Add Habit" />
+        android:text="TextView" />
 
 </LinearLayout>

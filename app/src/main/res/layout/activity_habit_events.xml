@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:backgroundTint="@color/background_color_grey"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/he_pageTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Habit Events"
+        android:textSize="40dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/habit_event_btn"
+        android:layout_width="353dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/rounded_corner"
+        android:backgroundTint="@color/darker_grey"
+        android:text="Habit Event: Date"
+        android:textColor="@color/black" />
+
+
+</RelativeLayout>
