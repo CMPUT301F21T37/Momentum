@@ -1,6 +1,7 @@
 package com.example.momentum.login;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.regex.Pattern;
 
@@ -41,6 +43,7 @@ public class SignUpActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        // Initialize class variables
         usernameText = findViewById(R.id.usernameSignUpScreen);
         emailText = findViewById(R.id.emailSignUpScreen);
         passwordText = findViewById(R.id.passwordSignUpScreen);
@@ -48,6 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
         signInRedirect = findViewById(R.id.signInRedirect);
         signUpButton = findViewById(R.id.signUpButton);
 
+        // user clicks on Sign In text
         signInRedirect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,48 +60,50 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        // user clicks on the signUp button
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(usernameText == null || usernameText.getText().toString().equals("")){
+                if (usernameText == null || usernameText.getText().toString().equals("")) {
                     Log.w(TAG, "LoginFailure");
                     Toast.makeText(SignUpActivity.this, "Please enter a username!",
                             Toast.LENGTH_SHORT).show();
 
-                }else if (emailText == null || emailText.getText().toString().equals("")){
+                } else if (emailText == null || emailText.getText().toString().equals("")) {
                     Log.w(TAG, "LoginFailure");
                     Toast.makeText(SignUpActivity.this, "Please enter your email!",
                             Toast.LENGTH_SHORT).show();
 
-                }else if (passwordText == null || passwordText.getText().toString().equals("")){
+                } else if (passwordText == null || passwordText.getText().toString().equals("")) {
                     Log.w(TAG, "LoginFailure");
                     Toast.makeText(SignUpActivity.this, "Please enter your password!",
                             Toast.LENGTH_SHORT).show();
 
-                }else if (confirmPasswordText == null || confirmPasswordText.getText().toString().equals("")){
+                } else if (confirmPasswordText == null || confirmPasswordText.getText().toString().equals("")) {
                     Log.w(TAG, "LoginFailure");
                     Toast.makeText(SignUpActivity.this, "Please confirm your password!",
                             Toast.LENGTH_SHORT).show();
 
-                }else if (!checkEmail(emailText.getText().toString())){
+                } else if (!checkEmail(emailText.getText().toString())) {
                     Log.w(TAG, "LoginFailure");
                     Toast.makeText(SignUpActivity.this, "Please enter a correct email address!",
                             Toast.LENGTH_SHORT).show();
 
-                }else if (!passwordText.getText().toString().equals(confirmPasswordText.getText().toString())){
+                } else if (!passwordText.getText().toString().equals(confirmPasswordText.getText().toString())) {
                     Log.w(TAG, "LoginFailure");
                     Toast.makeText(SignUpActivity.this, "The passwords don't match!",
                             Toast.LENGTH_SHORT).show();
 
-                }else if (passwordText.getText().toString().length() < 8){
+                } else if (passwordText.getText().toString().length() < 8) {
                     Log.w(TAG, "LoginFailure");
                     Toast.makeText(SignUpActivity.this, "The password must be at least 8 characters",
                             Toast.LENGTH_SHORT).show();
 
-                }else{
-                    //TODO: SIGN THE USER UP
-                    // TODO: make a user object in firebase
+                } else {
+                    // Sign up the user
+                    Toast.makeText(SignUpActivity.this, "Signing Up!",
+                            Toast.LENGTH_SHORT).show();
                     String email = emailText.getText().toString();
                     String password = passwordText.getText().toString();
                     mAuth.createUserWithEmailAndPassword(email, password)
@@ -108,6 +114,8 @@ public class SignUpActivity extends AppCompatActivity {
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d(TAG, "createUserWithEmail:success");
                                         FirebaseUser user = mAuth.getCurrentUser();
+                                        Toast.makeText(SignUpActivity.this, "Sign Up Successful!",
+                                                Toast.LENGTH_SHORT).show();
                                         updateUI(user);
                                     } else {
                                         // If sign in fails, display a message to the user.
@@ -118,13 +126,35 @@ public class SignUpActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+                    // setting the user's username
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(usernameText.getText().toString())
+                            .build();
+
+                    user.updateProfile(profileUpdates)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d(TAG, "User profile updated.");
+                                    }
+                                }
+                            });
                 }
             }
         });
     }
 
+    /**
+     * This method check if the email entered is correct
+     *
+     * @param email The email entered
+     * @return A boolean indicating whether the email is valid or not
+     */
     private boolean checkEmail(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                 "A-Z]{2,7}$";
@@ -137,6 +167,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     /**
      * This method sends the user to the MainActivity
+     *
      * @param user The user that just logged in
      */
     public void updateUI(FirebaseUser user) {

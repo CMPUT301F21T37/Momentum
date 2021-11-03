@@ -19,24 +19,37 @@ public class SignUpActivityTest {
     public ActivityTestRule<SignUpActivity> rule =
             new ActivityTestRule<>(SignUpActivity.class, true, true);
 
+    /**
+     * This method runs before all tests and create a solo instance.
+     */
     @Before
-    public void setUp() throws Exception{
+    public void setUp() {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
     }
+
+    /**
+     * This method/test gets the activity
+     */
     @Test
-    public void start() throws Exception{
+    public void start() {
         Activity activity = rule.getActivity();
     }
 
+    /**
+     * This tests sign up button when user enters nothing
+     */
     @Test
-    public void TestSignUpNoEntry(){
+    public void TestSignUpNoEntry() {
         solo.assertCurrentActivity("Wrong Activity", SignUpActivity.class);
         solo.clickOnButton("SIGN UP");
         solo.assertCurrentActivity("Wrong Activity", SignUpActivity.class);
     }
 
+    /**
+     * This tests sign up button when correct entry
+     */
     @Test
-    public void TestSignUpCorrectEntry(){
+    public void TestSignUpCorrectEntry() {
         solo.assertCurrentActivity("Wrong Activity", SignUpActivity.class);
         solo.enterText((EditText) solo.getView(R.id.usernameSignUpScreen), "user1");
         solo.enterText((EditText) solo.getView(R.id.emailSignUpScreen), "temp2@ca.co");
@@ -46,10 +59,13 @@ public class SignUpActivityTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
+    /**
+     * This tests sign up button when an invalid email is entered
+     */
     @Test
-    public void TestSignUpInvalidEmail(){
+    public void TestSignUpInvalidEmail() {
         solo.assertCurrentActivity("Wrong Activity", SignUpActivity.class);
-        solo.enterText((EditText) solo.getView(R.id.usernameSignUpScreen), "user1");
+        solo.enterText((EditText) solo.getView(R.id.usernameSignUpScreen), "someEmail");
         solo.enterText((EditText) solo.getView(R.id.emailSignUpScreen), "qwerty");
         solo.enterText((EditText) solo.getView(R.id.passwordSignUpScreen), "password1234");
         solo.enterText((EditText) solo.getView(R.id.confirmPasswordSignUpScreen), "password1234");
@@ -57,8 +73,11 @@ public class SignUpActivityTest {
         solo.assertCurrentActivity("Wrong Activity", SignUpActivity.class);
     }
 
+    /**
+     * This tests sign up button when an invalid password is entered
+     */
     @Test
-    public void TestSignUpInvalidPassword(){
+    public void TestSignUpInvalidPassword() {
         solo.assertCurrentActivity("Wrong Activity", SignUpActivity.class);
         solo.enterText((EditText) solo.getView(R.id.usernameSignUpScreen), "user1");
         solo.enterText((EditText) solo.getView(R.id.emailSignUpScreen), "temp2@ca.co");
@@ -68,8 +87,11 @@ public class SignUpActivityTest {
         solo.assertCurrentActivity("Wrong Activity", SignUpActivity.class);
     }
 
+    /**
+     * This tests sign up button when an passwords are not matching
+     */
     @Test
-    public void TestSignUpMatchingPassword(){
+    public void TestSignUpUnMatchingPassword() {
         solo.assertCurrentActivity("Wrong Activity", SignUpActivity.class);
         solo.enterText((EditText) solo.getView(R.id.usernameSignUpScreen), "user1");
         solo.enterText((EditText) solo.getView(R.id.emailSignUpScreen), "temp2@ca.co");
@@ -79,8 +101,11 @@ public class SignUpActivityTest {
         solo.assertCurrentActivity("Wrong Activity", SignUpActivity.class);
     }
 
+    /**
+     * Closes all activities after tests are done
+     */
     @After
-    public void tearDown() throws Exception{
+    public void tearDown() {
         solo.finishOpenedActivities();
     }
 }
