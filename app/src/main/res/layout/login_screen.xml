@@ -52,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textAddHabit" />
 
     <EditText
         android:id="@+id/passwordEditText"
@@ -104,13 +104,14 @@
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="185sp"
+        android:layout_marginBottom="20sp"
         android:text="Login"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="10"
         android:orientation="horizontal">
 
         <TextView
@@ -126,11 +127,11 @@
             app:layout_constraintHorizontal_bias="0.28"
             app:layout_constraintStart_toEndOf="@+id/checkBox"
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
-
         <TextView
             android:id="@+id/signUpRedirect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:layout_gravity="center"
             android:layout_marginLeft="10sp"
             android:text="Sign Up."

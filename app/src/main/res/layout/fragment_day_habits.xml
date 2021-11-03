@@ -15,6 +15,8 @@
         android:layout_marginTop="15dp"
         android:text="@string/chosen_day_habit_title"
         android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

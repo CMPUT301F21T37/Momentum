@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,9 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText emailText;
     EditText passwordText;
+    TextView signUpRedirect;
     Button loginButton;
+
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
 
@@ -38,19 +41,27 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize class variables
         emailText = findViewById(R.id.emailAddressEditText);
         passwordText = findViewById(R.id.passwordEditText);
+        signUpRedirect = findViewById(R.id.signUpRedirect);
         loginButton = findViewById(R.id.loginButton);
 
+        // signUpRedirect listener
+        signUpRedirect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent); //switch activity
+            }
+        });
         // click on login button
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //TODO: FIX THE ISSUE OF emailText and passwordText == NULL
-                if (emailText == null) {
+                if (emailText == null || emailText.getText().toString().equals("")) {
                     Log.w(TAG, "LoginFailure");
                     Toast.makeText(LoginActivity.this, "Please enter your email!",
                             Toast.LENGTH_SHORT).show();
-                } else if (passwordText == null) {
+                } else if (passwordText == null || passwordText.getText().toString().equals("")) {
                     Log.w(TAG, "LoginFailure");
                     Toast.makeText(LoginActivity.this, "Please enter your password!",
                             Toast.LENGTH_SHORT).show();
@@ -59,6 +70,8 @@ public class LoginActivity extends AppCompatActivity {
                     String email = emailText.getText().toString();
                     String password = passwordText.getText().toString();
 
+                    Toast.makeText(LoginActivity.this, "Checking user...",
+                            Toast.LENGTH_SHORT).show();
                     mAuth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -82,7 +95,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * This method sends the user to the MainActivity
+     * This method sends the user that logged in to the MainActivity
+     *
      * @param user The user that just logged in
      */
     public void updateUI(FirebaseUser user) {
