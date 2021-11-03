@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,15 @@ public class SettingsFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        final Button profileButton = binding.showProfileButton;
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: show other screen
+            }
+        });
+
         return root;
     }
 
