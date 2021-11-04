@@ -20,6 +20,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * This is the activity used for login
+ * @author: alzafara
+ */
 public class LoginActivity extends AppCompatActivity {
 
     EditText emailText;

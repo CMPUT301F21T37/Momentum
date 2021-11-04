@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,17 +17,29 @@
         android:textSize="40dp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/habit_event_btn"
-        android:layout_width="353dp"
+
+    <ListView
+        android:id="@+id/habit_event_listView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="80dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:divider="@android:color/white"
+        android:dividerHeight="6dp"
         android:background="@drawable/rounded_corner"
-        android:backgroundTint="@color/darker_grey"
-        android:text="Habit Event: Date"
-        android:textColor="@color/black" />
+        android:backgroundTint="@color/darker_grey">
+
+    </ListView>
+
+    <Button
+        android:id="@+id/delete_he_btn"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/lighter_red"
+        android:textStyle="bold"
+        android:text="Delete"
+        android:layout_gravity="center_horizontal|right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
-</RelativeLayout>
+</LinearLayout>

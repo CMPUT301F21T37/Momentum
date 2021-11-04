@@ -116,12 +116,11 @@ public class AddHabitEventActivity extends AppCompatActivity {
      */
     private void addHabitEventToDatabase(HashMap<String,String> comment_data) {
         String users_collection_name = "Users";
-        String habits_collection_name = "Habits";
         String habit_events_collection_name = "Events";
 
         // adds to a sub-collection of Habits of the current user
         final CollectionReference collectionReference = db.collection(users_collection_name).document(uid).
-                collection(habits_collection_name).document(title).collection(habit_events_collection_name);
+                collection(habit_events_collection_name);
 
         collectionReference
                 .document(documentTitle)

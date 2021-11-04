@@ -19,6 +19,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+/**
+ * This is a testing class for the login activity
+ * @author: alzafara
+ */
 public class LoginActivityTest {
     private Solo solo;
 
@@ -59,8 +63,8 @@ public class LoginActivityTest {
     public void checkLoginCorrectEntry() {
         solo.assertCurrentActivity("Wrong Activity!", LoginActivity.class);
 
-        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "temp@ca.co");
-        solo.enterText((EditText) solo.getView(R.id.passwordEditText), "temp12");
+        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "test@gmail.com");
+        solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test12345");
         solo.clickOnButton("Login");
         assertTrue(solo.waitForActivity(MainActivity.class));
     }
@@ -72,8 +76,8 @@ public class LoginActivityTest {
     public void checkLoginIncorrectPassword() {
         solo.assertCurrentActivity("Wrong Activity!", LoginActivity.class);
 
-        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "temp@ca.co");
-        solo.enterText((EditText) solo.getView(R.id.passwordEditText), "temp123");
+        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "test@gmail.com");
+        solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test123");
         solo.clickOnButton("Login");
         assertTrue(solo.waitForActivity(LoginActivity.class));
     }
@@ -85,8 +89,8 @@ public class LoginActivityTest {
     public void checkLoginIncorrectEmail() {
         solo.assertCurrentActivity("Wrong Activity!", LoginActivity.class);
 
-        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "temp@ca.po");
-        solo.enterText((EditText) solo.getView(R.id.passwordEditText), "temp12");
+        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "test@gml.pom");
+        solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test12345");
         solo.clickOnButton("Login");
         assertTrue(solo.waitForActivity(LoginActivity.class));
     }
