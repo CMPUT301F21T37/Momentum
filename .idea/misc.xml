@@ -5,7 +5,10 @@
       <map>
         <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/drawable/btn_toggle.xml" value="0.3125" />
         <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_main.xml" value="0.29635416666666664" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/date_dialog.xml" value="0.20416666666666666" />
         <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/fragment_add_habit.xml" value="0.29936594202898553" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/fragment_settings.xml" value="0.2884963768115942" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/signup_screen.xml" value="0.2884963768115942" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/drawable/he_btns.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/drawable/rounded_corner.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/activity_habit_events.xml" value="0.264" />
