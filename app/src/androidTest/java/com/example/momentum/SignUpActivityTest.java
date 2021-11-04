@@ -12,6 +12,10 @@ import com.robotium.solo.Solo;
 
 import org.junit.*;
 
+/**
+ * This is a testing class for the login activity
+ * @author: alzafara
+ */
 public class SignUpActivityTest {
     private Solo solo;
 
@@ -65,7 +69,7 @@ public class SignUpActivityTest {
     @Test
     public void TestSignUpInvalidEmail() {
         solo.assertCurrentActivity("Wrong Activity", SignUpActivity.class);
-        solo.enterText((EditText) solo.getView(R.id.usernameSignUpScreen), "someEmail");
+        solo.enterText((EditText) solo.getView(R.id.usernameSignUpScreen), "someUsername");
         solo.enterText((EditText) solo.getView(R.id.emailSignUpScreen), "qwerty");
         solo.enterText((EditText) solo.getView(R.id.passwordSignUpScreen), "password1234");
         solo.enterText((EditText) solo.getView(R.id.confirmPasswordSignUpScreen), "password1234");
