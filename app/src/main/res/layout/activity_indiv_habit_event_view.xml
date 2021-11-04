@@ -36,13 +36,13 @@
             android:layout_marginLeft="20dp"
             android:text="Comment" />
 
-        <TextView
+        <EditText
             android:id="@+id/comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:background="@drawable/rounded_corner"
-            android:text="I feel much stronger"
+            android:text="edit comments"
             android:textSize="15dp" />
 
         <TextView

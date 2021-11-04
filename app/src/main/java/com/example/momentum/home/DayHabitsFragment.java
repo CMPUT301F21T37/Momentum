@@ -175,7 +175,6 @@ public class DayHabitsFragment extends Fragment {
 
             // need to check if a habit event already exists for the current habit for that day
             DocumentReference documentReference = db.collection("Users").document(uid).
-                    collection("Habits").document(habit.getDayHabitTitle()).
                     collection("Events").document(habitEventTitle);
 
             documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -239,7 +238,7 @@ public class DayHabitsFragment extends Fragment {
         DayHabitsViewModel.getHabitsList().observe(getViewLifecycleOwner(), new Observer<ArrayList<DayHabits>>() {
             @Override
             public void onChanged(ArrayList<DayHabits> dayHabitsList) {
-                habitsAdapter = new DayHabitsList(getContext(),dayHabitsList, clickedDateStr);
+                habitsAdapter = new DayHabitsAdapter(getContext(),dayHabitsList, clickedDateStr);
                 dayHabitsListView.setAdapter(habitsAdapter);
             }
         });
