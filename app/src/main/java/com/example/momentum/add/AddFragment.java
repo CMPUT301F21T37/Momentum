@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentAddHabitBinding;
 
 public class AddFragment extends Fragment {
@@ -37,6 +39,17 @@ public class AddFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+
+        final Button create_button = binding.createHabitButton;
+        create_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
 
         return root;
     }
