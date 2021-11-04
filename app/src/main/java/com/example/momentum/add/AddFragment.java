@@ -1,7 +1,6 @@
 package com.example.momentum.add;
 
 import static android.content.ContentValues.TAG;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,34 +9,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.momentum.Habit;
-import com.example.momentum.MainActivity;
-import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentAddHabitBinding;
-import com.example.momentum.login.SignUpActivity;
-
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class AddFragment extends Fragment{
     private AddViewModel AddViewModel;
     private FragmentAddHabitBinding binding;
+
+    private FirebaseFirestore db;
+    private FirebaseUser user;
+    private String uid;
 
     EditText title;
     EditText reason;
@@ -52,10 +50,12 @@ public class AddFragment extends Fragment{
     Switch privacy;
 
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        AddViewModel =
-                new ViewModelProvider(this).get(AddViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        AddViewModel = new ViewModelProvider(this).get(AddViewModel.class);
+
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
 
         binding = FragmentAddHabitBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -71,6 +71,7 @@ public class AddFragment extends Fragment{
         sun = binding.sunButton;
         privacy = binding.habitPrivacy;
         Activity activity = getActivity();
+        final CollectionReference collectionreference = db.collection("Users").document(uid).collection("Habits");
         final Button create_button = binding.createHabitButton;
         create_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,13 +95,55 @@ public class AddFragment extends Fragment{
                     try {
                         String t = title.getText().toString();
                         String r = reason.getText().toString();
-                        Date d = null;
-                        d = new SimpleDateFormat("dd/MM/yyyy").parse(date.getText().toString());
-                        Boolean[] f = {mon.isChecked(), tue.isChecked(), wed.isChecked(), thu.isChecked(), fri.isChecked(), sat.isChecked(), sun.isChecked()};
+                        Date d = new SimpleDateFormat("dd/MM/yyyy").parse(date.getText().toString());
+                        ArrayList<String> f = new ArrayList<String>();
+                        if (mon.isChecked()){
+                            f.add("Monday");
+                        }
+                        if (mon.isChecked()){
+                            f.add("Tuesday");
+                        }
+                        if (wed.isChecked()){
+                            f.add("Wednesday");
+                        }
+                        if (thu.isChecked()){
+                            f.add("Thursday");
+                        }
+                        if (fri.isChecked()){
+                            f.add("Friday");
+                        }
+                        if (sat.isChecked()){
+                            f.add("Saturday");
+                        }
+                        if (sun.isChecked()){
+                            f.add("Sunday");
+                        }
                         Boolean p = privacy.isChecked();
-                        Habit habit = new Habit(t, r, d, p, f);
+                        Habit habit = new Habit(r, d, p, f);
+                        HashMap<String, Habit> data = new HashMap<>();
+                        data.put(t, habit);
+                        collectionreference
+                                .document(t)
+                                .set(data)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        // These are a method which gets executed when the task is succeeded
+                                        Log.d(TAG, "Data has been added successfully!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // These are a method which gets executed if there’s any problem
+                                        Log.d(TAG, "Data could not be added!" + e.toString());
+                                    }
+                                });
+                        Toast.makeText(activity, "Habit Created",
+                                Toast.LENGTH_LONG).show();
                         Log.w(TAG, "Habit_created");
                         Log.w(TAG, habit.toString());
+                        clear();
                     }
                     catch (ParseException e){
                         Log.w(TAG, "Date Parse Error");
@@ -110,6 +153,21 @@ public class AddFragment extends Fragment{
             }
         });
         return root;
+    }
+
+    private void clear(){
+        title.setText("");
+        reason.setText("");
+        date.setText("");
+        mon.setChecked(false);
+        tue.setChecked(false);
+        wed.setChecked(false);
+        thu.setChecked(false);
+        fri.setChecked(false);
+        sat.setChecked(false);
+        sun.setChecked(false);
+        privacy.setChecked(false);
+
     }
 
     @Override

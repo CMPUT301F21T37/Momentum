@@ -1,5 +1,6 @@
 package com.example.momentum;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -8,59 +9,46 @@ import java.util.Date;
  */
 public class Habit {
    /**
-    * this var contains the habit Title
-    * this var is of type {@link String}
-    */
-   private String title;
-   /**
-    * this var contains the habit Reason
-    * this var is of type {@link String}
-    */
-   private String reason;
-   /**
     * this var contains the habit Date
     * this var is of type {@link Date}
     */
    private Date date;
+   /**
+    * this var contains the weekly frequency of the habit
+    * this var is of type {@link Boolean[]}
+    */
+   private ArrayList<String> weekly_frequency;
    /**
     * this var contains the habits privacy
     * this var is of type {@link Boolean}
     */
    private Boolean habit_private;
    /**
-    * this var contains the weekly frequency of the habit
-    * this var is of type {@link Boolean[]}
+    * this var contains the habit Title
+    * this var is of type {@link String}
     */
-   private Boolean[] weekly_frequency;
+   private String reason;
 
-
-   public Habit(String t, String r, Date d, Boolean hp, Boolean[] wf){
-      this.title = t;
+   public Habit(String r, Date d, Boolean hp, ArrayList<String> wf){
       this.reason = r;
       this.date = d;
       this.habit_private = hp;
       this.weekly_frequency = wf;
    }
 
-   public String getTitle() {
-      return title;
-   }
    public String getReason() {
       return reason;
    }
    public Date getDate() {
       return date;
    }
-   public Boolean[] getWeekly_frequency() {
+   public ArrayList<String> getWeekly_frequency() {
       return weekly_frequency;
    }
    public Boolean isPrivate_account() {
       return habit_private;
    }
 
-   public void setTitle(String title) {
-      this.title = title;
-   }
    public void setReason(String reason) {
       this.reason = reason;
    }
@@ -70,43 +58,14 @@ public class Habit {
    public void setPrivacy(Boolean habit_private) {
       this.habit_private = habit_private;
    }
-   public void setWeekly_frequency(Boolean[] weekly_frequency) {
+   public void setWeekly_frequency(ArrayList<String> weekly_frequency) {
       this.weekly_frequency = weekly_frequency;
    }
    public String toString(){
       String hp_string = "public";
-      String m = "";
-      String t = "";
-      String w = "";
-      String th = "";
-      String f = "";
-      String s = "";
-      String su = "";
       if (habit_private){
          hp_string = "private";
       }
-      if(weekly_frequency[0]){
-         m = " Mon ";
-      }
-      if(weekly_frequency[1]){
-         t = " Tue ";
-      }
-      if(weekly_frequency[2]){
-         w = " Wed ";
-      }
-      if(weekly_frequency[3]){
-         th = " Thu ";
-      }
-      if(weekly_frequency[4]){
-         f = " Fri ";
-      }
-      if(weekly_frequency[5]){
-         s = " Sat ";
-      }
-      if(weekly_frequency[6]){
-         su = " Sun ";
-      }
-
-      return title + " -- reason: " + reason + " -- date: " + date + " -- privacy: " + hp_string + "-- day frequency: " + m +t + w +th +f +s +su;
+      return " -- reason: " + reason + " -- date: " + date + " -- privacy: " + hp_string + "-- day frequency: " + weekly_frequency;
    }
 }
