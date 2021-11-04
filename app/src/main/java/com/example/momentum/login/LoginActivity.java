@@ -95,7 +95,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * This method sends the user to the MainActivity
+     * This method sends the user that logged in to the MainActivity
+     *
      * @param user The user that just logged in
      */
     public void updateUI(FirebaseUser user) {
