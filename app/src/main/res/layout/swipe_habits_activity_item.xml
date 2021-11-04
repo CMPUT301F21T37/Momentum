@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">    <!--引用步骤2中添加的SwipeLayout.java布局类，包名为你项目中SwaipeLayout.java存放的路径-->
+    android:layout_height="match_parent">    <!---->
     <com.example.momentum.habits.SwipeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
@@ -15,7 +15,7 @@
             <!--            android:layout_width="50dp"-->
             <!--            android:layout_height="50dp"-->
             <!--            android:padding="5dp"-->
-            <!--            android:src="@drawable/p10"/>     &lt;!&ndash;p10为存放在drawable目录下的头像图片名称&ndash;&gt;-->
+            <!--            android:src="@drawable/p10"/>     &lt;!&ndash;p10&ndash;&gt;-->
             <TextView
                 android:id="@+id/Habits_name"
                 android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                     android:layout_centerInParent="true"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:background="@drawable/delete"/>  <!--trash为删除图标-->
+                    android:background="@drawable/delete"/>  <!--delete-->
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
@@ -55,7 +55,7 @@
                     android:layout_centerInParent="true"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:background="@drawable/edit"/>  <!--trash为删除图标-->
+                    android:background="@drawable/edit"/>  <!--edit-->
             </RelativeLayout>
         </LinearLayout>
     </com.example.momentum.habits.SwipeLayout>
