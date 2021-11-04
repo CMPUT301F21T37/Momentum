@@ -26,7 +26,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+/**
+ * an activity shows list of habit events
+ * click items on list to view the individual habit event details
+ * click delete button and click the habit event that user wants to remove
+ * @author Han Yan
+ */
 public class Habit_Events extends AppCompatActivity {
     ListView listView;
     Button delete_habitEvent_btn;
@@ -45,7 +50,7 @@ public class Habit_Events extends AppCompatActivity {
 
         //create reference of database and retrieve habit events collection from db
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("Users").child("Habits").child("Events");
+                .child("Users").child("Habits").child("Events");//not sure the correct path
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -87,6 +92,8 @@ public class Habit_Events extends AppCompatActivity {
                 });
             }
         });
+
+
 
     }
 

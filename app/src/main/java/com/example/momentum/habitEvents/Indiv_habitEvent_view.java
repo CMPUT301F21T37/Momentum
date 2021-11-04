@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.momentum.R;
@@ -13,9 +16,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * an activity show individual view of a habit event
+ * comment can be edited
+ * image and location uploading will be done by next project part
+ * @author Han Yan
+ */
 public class Indiv_habitEvent_view extends AppCompatActivity {
-    TextView title, he_date, comment;
-    DatabaseReference reff;
+    TextView title, he_date;
+    EditText comment;
+    DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +34,10 @@ public class Indiv_habitEvent_view extends AppCompatActivity {
 
         title = (TextView) findViewById(R.id.habit_event);
         he_date = (TextView) findViewById(R.id.event_recordDate);
-        comment = (TextView) findViewById(R.id.comment);
+        comment = (EditText) findViewById(R.id.comment);
 
-        reff = FirebaseDatabase.getInstance().getReference()
-                .child("Users").child("Habits").child("Events");
-        reff.addValueEventListener(new ValueEventListener() {
+        myRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Habits").child("Events"); //not sure the correct path
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.child("title").getValue().toString();
@@ -42,6 +51,24 @@ public class Indiv_habitEvent_view extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        //check if the comment has been changed
+        comment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                myRef.setValue(comment.getText().toString());
             }
         });
     }
