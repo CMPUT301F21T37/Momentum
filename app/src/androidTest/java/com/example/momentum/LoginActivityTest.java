@@ -19,6 +19,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+/**
+ * This is a testing class for the login activity
+ * @author: alzafara
+ */
 public class LoginActivityTest {
     private Solo solo;
 

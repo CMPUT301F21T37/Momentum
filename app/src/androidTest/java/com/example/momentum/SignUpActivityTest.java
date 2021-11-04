@@ -12,6 +12,10 @@ import com.robotium.solo.Solo;
 
 import org.junit.*;
 
+/**
+ * This is a testing class for the login activity
+ * @author: alzafara
+ */
 public class SignUpActivityTest {
     private Solo solo;
 
