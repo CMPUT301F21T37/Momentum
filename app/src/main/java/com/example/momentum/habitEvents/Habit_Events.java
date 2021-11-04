@@ -95,6 +95,7 @@ public class Habit_Events extends AppCompatActivity {
         delete_habitEvent_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                delete_habitEvent_btn.setText("Finish");
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -103,8 +104,16 @@ public class Habit_Events extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                 });
+                delete_habitEvent_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        delete_habitEvent_btn.setText("Delete");
+                        delete_habitEvent_btn.setEnabled(false);
+                    }
+                });
             }
         });
+
 
 
 
