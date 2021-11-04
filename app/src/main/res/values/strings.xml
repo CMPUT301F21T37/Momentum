@@ -20,4 +20,8 @@
     <string name="add_habit_event_comment">Comment</string>
     <string name="comment_hint">Add an optional comment (up to 20 characters)</string>
     <string name="great_job">Great Job!</string>
+    <string name="motivation">Motivation</string>
+    <string name="frequency">Frequency</string>
+    <string name="starting_date">Starting Date</string>
+    <string name="privacy">Privacy</string>
 </resources>

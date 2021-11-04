@@ -230,7 +230,7 @@ public class DayHabitsFragment extends Fragment {
     }
 
     /**
-     * It takes a list of DayHabits from the document to be added to the habits list adapter
+     * It takes a list of DayHabits from the collection to be added to the habits list adapter
      */
     public void showDayHabits() {
         dayHabitsListView = binding.dayHabitsList;
