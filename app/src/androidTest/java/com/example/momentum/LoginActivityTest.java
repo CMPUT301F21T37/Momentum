@@ -62,7 +62,6 @@ public class LoginActivityTest {
         solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "temp@ca.co");
         solo.enterText((EditText) solo.getView(R.id.passwordEditText), "temp12");
         solo.clickOnButton("Login");
-
         assertTrue(solo.waitForActivity(MainActivity.class));
     }
 
