@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,11 +19,19 @@ import android.widget.ListView;
 
 
 import com.example.momentum.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +44,9 @@ import java.util.Arrays;
 public class Habit_Events extends AppCompatActivity {
     ListView listView;
     Button delete_habitEvent_btn;
+    private String uid;
+    private FirebaseUser user;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,20 +61,21 @@ public class Habit_Events extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         //create reference of database and retrieve habit events collection from db
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("Users").child("Habits").child("Events");//not sure the correct path
-        reference.addValueEventListener(new ValueEventListener() {
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+        CollectionReference reference = db.collection("Users").document(uid).collection("Events");
+        reference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 list.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    list.add(snapshot.getValue().toString());
+
+                for  (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                    if (doc.exists()){
+                        list.add(doc.getId());
+                    }
                 }
                 adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -82,6 +95,7 @@ public class Habit_Events extends AppCompatActivity {
         delete_habitEvent_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                delete_habitEvent_btn.setText("Finish");
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -90,8 +104,16 @@ public class Habit_Events extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                 });
+                delete_habitEvent_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        delete_habitEvent_btn.setText("Delete");
+                        delete_habitEvent_btn.setEnabled(false);
+                    }
+                });
             }
         });
+
 
 
 
