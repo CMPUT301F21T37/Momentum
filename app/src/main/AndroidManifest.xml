@@ -25,6 +25,9 @@
             android:name=".home.DayHabitsActivity"
             android:exported="true" />
         <activity
+            android:name=".habits.HabitsActivity"
+            android:exported="true" />
+        <activity
             android:name=".home.AddHabitEventActivity"
             android:exported="true" />
         <activity

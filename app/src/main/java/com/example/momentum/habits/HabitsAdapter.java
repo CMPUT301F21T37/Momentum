@@ -18,12 +18,14 @@ public class HabitsAdapter extends ArrayAdapter<Habit>{
 
     private int resourceId;
     private Context context;
+
     /* Rewrite the constructor, that is, the realization of the cross-line part above */
     public HabitsAdapter(Context context, int textViewResourceId, List<Habit> objects){
         super(context, textViewResourceId, objects);
         resourceId = textViewResourceId;
         this.context = context;
-    }    /* Override the getView() method, which will be called when each child item is scrolled to the screen */
+    }
+    /* Override the getView() method, which will be called when each child item is scrolled to the screen */
     public View getView(int position, View convertView, final ViewGroup parent){
         final Habit habits = getItem(position); //Get the Habits instance of the current item
         View view;
@@ -46,6 +48,7 @@ public class HabitsAdapter extends ArrayAdapter<Habit>{
         viewHolder.name.setText(habits.getTitle());
         /* event monitoring response part, that is, clicking the delete icon and the avatar will display the reminder information respectively */
         viewHolder.delete = view.findViewById(R.id.delete_button);
+
         viewHolder.delete.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Toast.makeText(getContext(), "you clicked delete button", Toast.LENGTH_SHORT).show();
@@ -59,7 +62,6 @@ public class HabitsAdapter extends ArrayAdapter<Habit>{
         return view; //back view
     }
     class ViewHolder{
-
         TextView name;
         View delete;
         View edit;

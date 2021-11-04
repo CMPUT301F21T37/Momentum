@@ -2,6 +2,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <com.example.momentum.habits.SwipeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
@@ -54,8 +55,8 @@
                 <View
                     android:layout_centerInParent="true"
                     android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:background="@drawable/edit"/>  <!--edit-->
+                    android:layout_height="28dp"/>
+                    <!--android:background="@drawable/edit"/>-->
             </RelativeLayout>
         </LinearLayout>
     </com.example.momentum.habits.SwipeLayout>

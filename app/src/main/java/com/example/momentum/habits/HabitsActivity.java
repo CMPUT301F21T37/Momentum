@@ -12,16 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HabitsActivity extends AppCompatActivity {
-    private ListView mlistvisthabis;
     private List<Habit> PersonList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_habits);
+        setContentView(R.layout.fragment_habits);
         HabitsAdapter adapter = new HabitsAdapter(HabitsActivity.this, R.layout.swipe_habits_activity_item, PersonList);
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
-        //mlistvisthabis= findViewById(R.id.habits);
-        //mlistvisthabis.setAdapter(new MyHabitsListAdapter(HabitsActivity.this));
     }
 }
