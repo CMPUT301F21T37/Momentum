@@ -2,6 +2,7 @@ package com.example.momentum.add;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,37 +70,42 @@ public class AddFragment extends Fragment{
         sat = binding.satButton;
         sun = binding.sunButton;
         privacy = binding.habitPrivacy;
-        Boolean[] frequency = new Boolean[7];
-
+        Activity activity = getActivity();
         final Button create_button = binding.createHabitButton;
         create_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (title.getText().toString().length() > 20){
                     Log.w(TAG, "Title too long");
-
+                    Toast.makeText(activity, "Title must be less than 20 chars",
+                            Toast.LENGTH_SHORT).show();
                 }
-                else if (reason.getText().toString().length() > 20){
+                else if (reason.getText().toString().length() > 30){
                     Log.w(TAG, "Reason too long");
+                    Toast.makeText(activity, "Reason must be less than 30 chars",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if(title == null || title.getText().toString().equals("")){
                     Log.w(TAG, "No Title Error");
+                    Toast.makeText(activity, "Title Required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    String t = title.getText().toString();
-                    String r = reason.getText().toString();
-                    Date d = null;
                     try {
+                        String t = title.getText().toString();
+                        String r = reason.getText().toString();
+                        Date d = null;
                         d = new SimpleDateFormat("dd/MM/yyyy").parse(date.getText().toString());
-                    } catch (ParseException e) {
-                        Log.w(TAG, "Date Parse Error");
-                        d = new Date();
+                        Boolean[] f = {mon.isChecked(), tue.isChecked(), wed.isChecked(), thu.isChecked(), fri.isChecked(), sat.isChecked(), sun.isChecked()};
+                        Boolean p = privacy.isChecked();
+                        Habit habit = new Habit(t, r, d, p, f);
+                        Log.w(TAG, "Habit_created");
+                        Log.w(TAG, habit.toString());
                     }
-                    Boolean[] f = {mon.isChecked(), tue.isChecked(), wed.isChecked(), thu.isChecked(), fri.isChecked(), sat.isChecked(), sun.isChecked()};
-                    Boolean p = privacy.isChecked();
-                    Habit habit = new Habit(t,r,d,p,f);
-                    Log.w(TAG, "Habit_created");
-                    Log.w(TAG, habit.toString());
+                    catch (ParseException e){
+                        Log.w(TAG, "Date Parse Error");
+                        Toast.makeText(activity, "Invalid Date Format Entered", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
