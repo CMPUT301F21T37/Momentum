@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.momentum.habitEvents.Habit_Events;
 import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentHomeBinding;
+import com.example.momentum.habits.HabitsActivity;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private CalendarView calendar;
     private Button habitEvents;
+    private Button habitButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +52,9 @@ public class HomeFragment extends Fragment {
         // habit events binding
         habitEvents = binding.viewAllHabitEventsButton;
         habitEvents.setOnClickListener(this::onHabitEventsClick);
+
+        habitButton = binding.viewAllHabitsButton;
+        habitButton.setOnClickListener(this::onHabitButtonClick);
 
         return root;
     }
@@ -151,6 +156,20 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(getContext(), Habit_Events.class);
         startActivity(intent);
 
+        return true;
+    }
+
+    /**
+     * Callback handler for when the viewAllHabits button is clicked
+     * @param view
+     * Current view associated with the listener.
+     * @return
+     * 'true' to confirm with the listener
+     */
+    private boolean onHabitButtonClick(View view) {
+        Intent intent = new Intent(getContext(), HabitsActivity.class);
+        startActivity(intent);
+        
         return true;
     }
 
