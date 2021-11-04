@@ -22,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -44,9 +43,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * A fragment in MainActivity from HomeFragment that shows the clicked date's habits.
+ * @author: Kaye Ena Crayzhel F. Misay
+ */
 public class DayHabitsFragment extends Fragment {
     public static final String TITLE_DAY_HABIT = "HABIT_TITLE";
     public static final String MOTIVATION = "MOTIVATION";
@@ -71,6 +73,7 @@ public class DayHabitsFragment extends Fragment {
     private ArrayAdapter<DayHabits> habitsAdapter;
 
     // global result launcher for when DayHabitsActivity is called
+    // when a habit is done, notify the adapter to set the changes
     ActivityResultLauncher<Intent> DayHabitsActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -84,6 +87,7 @@ public class DayHabitsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        // binds the fragment to MainActivity and creates the view
         DayHabitsViewModel = new ViewModelProvider(this).get(DayHabitsViewModel.class);
         binding = FragmentDayHabitsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -105,7 +109,6 @@ public class DayHabitsFragment extends Fragment {
                     ArrayList<?> frequency = (ArrayList<?>) doc.getData().get("frequency");
                     Timestamp start_timestamp = (Timestamp) doc.getData().get("date");
                     Date start_date = start_timestamp.toDate();
-                    Log.d("time", start_date.toString());
                     /*
                     - Current clicked date must be on or after the start date of a given habit
                     - There must be a frequency set (should be on add habits)
@@ -124,7 +127,7 @@ public class DayHabitsFragment extends Fragment {
         });
 
         /*
-        receiving data
+        receiving data to set view
         https://www.youtube.com/watch?v=iVxKMZ8sGXY
         Author: Oum Saokosal
          */
@@ -145,14 +148,31 @@ public class DayHabitsFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Callback handler for when a habit is clicked in the dayHabitsListView.
+     * When a habit is clicked, it checks if a habit is completed for the clicked date.
+     * If it is done, it checks if a habit event has already been completed for the day.
+     * Else, it prompts the user to add a habit event.
+     * @param adapterView
+     * View of the adapter associated with the listener.
+     * @param view
+     * Current general view associated with the listener.
+     * @param position
+     * Position in the adapter of what was clicked.
+     * @param id
+     * ID associated with the adapter.
+     * @return
+     * 'true' to confirm with the listener.
+     */
     private boolean onDayHabitsClick(AdapterView<?> adapterView, View view, int position, long id) {
         DayHabits habit = (DayHabits) adapterView.getAdapter().getItem(position);
-        CardView cardView = (CardView) view.findViewById(R.id.card_view);
+        CardView cardView = view.findViewById(R.id.card_view);
         habitEventTitle = habit.getDayHabitTitle() + ": " + clickedDateStr;
 
         // if the habit is completed for the current day, the user can add a habit event
         if ((cardView.getCardBackgroundColor().getDefaultColor() ==
                 ContextCompat.getColor(getContext(), R.color.red_main))) {
+
             // need to check if a habit event already exists for the current habit for that day
             DocumentReference documentReference = db.collection("Users").document(uid).
                     collection("Habits").document(habit.getDayHabitTitle()).
@@ -164,10 +184,12 @@ public class DayHabitsFragment extends Fragment {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
+                            // if a habit event already exists, generate a prompt for the user
                             Log.d(CHECK_IF_HABIT_EVENT_EXISTS, "Document exists");
-                            Toast.makeText(getContext(), "You have already added a habit event for today.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "You have already added a habit event for today. Please edit or delete your event by clicking the 'Habit Events' button on the Home page.",
+                                    Toast.LENGTH_LONG).show();
                         } else {
+                            // else, prompt the user to add a habit event by going to another activity
                             Log.d(CHECK_IF_HABIT_EVENT_EXISTS, "No such document");
                             Intent intent = new Intent(getContext(), AddHabitEventActivity.class);
                             intent.putExtra(TITLE_DAY_HABIT, habit.getDayHabitTitle());
