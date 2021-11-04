@@ -33,10 +33,12 @@ public class AddFragment extends Fragment{
     private AddViewModel AddViewModel;
     private FragmentAddHabitBinding binding;
 
+    //initialize database values
     private FirebaseFirestore db;
     private FirebaseUser user;
     private String uid;
 
+    //initialize interface values
     EditText title;
     EditText reason;
     EditText date;
@@ -119,9 +121,13 @@ public class AddFragment extends Fragment{
                             f.add("Sunday");
                         }
                         Boolean p = privacy.isChecked();
-                        Habit habit = new Habit(r, d, p, f);
-                        HashMap<String, Habit> data = new HashMap<>();
-                        data.put(t, habit);
+                        Habit habit = new Habit(t, r, d, p, f);
+                        HashMap<String, Object> data = new HashMap<>();
+                        data.put("date", d);
+                        data.put("frequency",f);
+                        data.put("private",p);
+                        data.put("reason", r);
+
                         collectionreference
                                 .document(t)
                                 .set(data)

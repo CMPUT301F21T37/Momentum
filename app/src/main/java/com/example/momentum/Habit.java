@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * @author Samtarkras
- * @version 1.3
+ * @version 1.4
  */
 public class Habit {
    /**
@@ -24,18 +24,27 @@ public class Habit {
     */
    private Boolean habit_private;
    /**
-    * this var contains the habit Title
+    * this var contains the habit reason
     * this var is of type {@link String}
     */
    private String reason;
+   /**
+    * this var contains the habit title
+    * this var is of type {@link String}
+    */
+   private String title;
 
-   public Habit(String r, Date d, Boolean hp, ArrayList<String> wf){
+   public Habit(String t, String r, Date d, Boolean hp, ArrayList<String> wf){
+      this.title = t;
       this.reason = r;
       this.date = d;
       this.habit_private = hp;
       this.weekly_frequency = wf;
    }
 
+   public String getTitle() {
+      return title;
+   }
    public String getReason() {
       return reason;
    }
@@ -49,6 +58,9 @@ public class Habit {
       return habit_private;
    }
 
+   public void setTitle(String title) {
+      this.title = title;
+   }
    public void setReason(String reason) {
       this.reason = reason;
    }
@@ -66,6 +78,6 @@ public class Habit {
       if (habit_private){
          hp_string = "private";
       }
-      return " -- reason: " + reason + " -- date: " + date + " -- privacy: " + hp_string + "-- day frequency: " + weekly_frequency;
+      return title+ " -- reason: " + reason + " -- date: " + date + " -- privacy: " + hp_string + "-- day frequency: " + weekly_frequency;
    }
 }
