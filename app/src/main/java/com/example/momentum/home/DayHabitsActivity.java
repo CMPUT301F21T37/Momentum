@@ -25,11 +25,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
+/**
+ * An activity that lets the user assign completion for the clicked habit iff the clicked date is the current date.
+ * @author: Kaye Ena Crayzhel F. Misay
+ */
 public class DayHabitsActivity extends AppCompatActivity {
     private final String TAG = "ADD_DONE_DATE";
     private ActivityDayHabitsBinding binding;
@@ -48,6 +51,7 @@ public class DayHabitsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // creates the activity view
         binding = ActivityDayHabitsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -84,17 +88,38 @@ public class DayHabitsActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Callback handler for when the back button is clicked.
+     * Goes back to the previous fragment.
+     * @param view
+     * Current view associated with the listener.
+     * @return
+     * 'true' to confirm with the listener
+     */
     private boolean backButtonOnClick(View view) {
         finish();
         return true;
     }
 
+    /**
+     * Callback handler for when the 'DONE' button is clicked.
+     * It checks when the clicked date and the current day are the same.
+     * If it is, set completion to the clicked habit.
+     * If not, generate a prompt to show to the user and goes back to the previous fragment.
+     * @param view
+     * Current view associated with the listener.
+     * @return
+     * 'true' to confirm with the listener
+     */
     private boolean doneButtonOnClick(View view) {
         if (!isDateClickedEqualCurrent) {
+            // tell the user that they cannot complete a habit and address the reason
             String dayHabitsInfo = "The clicked date is not today's date. The habit cannot be completed.";
             showCustomToast(dayHabitsInfo);
         }
         else {
+            // adds to the database of the current date, prompts the user to add a habit event,
+            // and go back to previous fragment
             addDoneDateToDatabase();
             String addHabitEventInfo = "Click the habit again to add a habit event.";
             showCustomToast(addHabitEventInfo);
@@ -104,6 +129,11 @@ public class DayHabitsActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Helper method that creates a custom toast.
+     * @param textData
+     * The text to be shown on the custom toast.
+     */
     private void showCustomToast(String textData) {
         /*
         creating a custom toast layout
@@ -114,6 +144,7 @@ public class DayHabitsActivity extends AppCompatActivity {
         View toastLayout = inflater.inflate(R.layout.custom_toast,
                 (ViewGroup) findViewById(R.id.customToast));
 
+        // sets the text
         TextView toastText = (TextView) toastLayout.findViewById(R.id.customToastText);
         toastText.setText(textData);
 
@@ -132,6 +163,7 @@ public class DayHabitsActivity extends AppCompatActivity {
         String done_dates_collection_name = "Done dates";
         HashMap<String, Boolean> data = new HashMap<>();
 
+        // adds to a sub-collection of Habits of the current user
         final CollectionReference collectionReference = db.collection(users_collection_name).document(uid)
                 .collection(habits_collection_name).document(title).collection(done_dates_collection_name);
 
@@ -142,14 +174,12 @@ public class DayHabitsActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Data has been added successfully!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // These are a method which gets executed if there’s any problem
                         Log.d(TAG, "Data could not be added!" + e.toString()); }
                 });
     }
