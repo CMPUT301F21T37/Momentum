@@ -14,6 +14,9 @@ import android.widget.Button;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.momentum.databinding.ActivityMainBinding;
 
+/**
+ * MainActivity of the program that binds to the navigation view.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;

@@ -17,11 +17,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
+/**
+ * An activity that lets the user add a habit event for when a habit is done for the day.
+ * @author: Kaye Ena Crayzhel F. Misay
+ */
 public class AddHabitEventActivity extends AppCompatActivity {
     private final String TAG = "ADD_HABIT_EVENT";
 
@@ -39,6 +42,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // creates the activity view
         binding = ActivityAddHabitEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -68,19 +72,36 @@ public class AddHabitEventActivity extends AppCompatActivity {
         checkButton.setOnClickListener(this :: checkButtonOnClick);
     }
 
+    /**
+     * Callback handler for when the back button is clicked.
+     * Goes back to the previous fragment.
+     * @param view
+     * Current view associated with the listener.
+     * @return
+     * 'true' to confirm with the listener
+     */
     private boolean backButtonOnClick(View view) {
         finish();
         return true;
     }
 
+    /**
+     * Callback handler for when the check button is clicked.
+     * Calls a method to add a habit event with optional comment.
+     * Goes back to the previous fragment.
+     * @param view
+     * Current view associated with the listener.
+     * @return
+     * 'true' to confirm with the listener
+     */
     private boolean checkButtonOnClick(View view) {
         final String comment = commentField.getText().toString();
         HashMap<String, String> comment_data = new HashMap<>();
 
-        if (comment.trim().length()>0) {
+        if (comment.trim().length()>0) { // for when there exists a comment
             comment_data.put("comment", comment);
         }
-        else {
+        else { // for when the comment is empty
             comment_data.put("comment", "");
         }
         addHabitEventToDatabase(comment_data);
@@ -89,14 +110,16 @@ public class AddHabitEventActivity extends AppCompatActivity {
     }
 
     /**
-     * Adds habit event for the given habit
+     * Adds habit event for the given habit.
      * @param comment_data
+     * The optional comment to be added with the habit event (empty string if not inputted).
      */
     private void addHabitEventToDatabase(HashMap<String,String> comment_data) {
         String users_collection_name = "Users";
         String habits_collection_name = "Habits";
         String habit_events_collection_name = "Events";
 
+        // adds to a sub-collection of Habits of the current user
         final CollectionReference collectionReference = db.collection(users_collection_name).document(uid).
                 collection(habits_collection_name).document(title).collection(habit_events_collection_name);
 
@@ -106,14 +129,12 @@ public class AddHabitEventActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Data has been added successfully!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // These are a method which gets executed if there’s any problem
                         Log.d(TAG, "Data could not be added!" + e.toString()); }
                 });
     }
