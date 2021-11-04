@@ -21,7 +21,7 @@ public class HabitsActivity extends AppCompatActivity {
         HabitsAdapter adapter = new HabitsAdapter(HabitsActivity.this, R.layout.swipe_habits_activity_item, PersonList);
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
-        //  mlistvisthabis= findViewById(R.id.habits);
-        // mlistvisthabis.setAdapter(new MyHabitsListAdapter(HabitsActivity.this));
+        //mlistvisthabis= findViewById(R.id.habits);
+        //mlistvisthabis.setAdapter(new MyHabitsListAdapter(HabitsActivity.this));
     }
 }
