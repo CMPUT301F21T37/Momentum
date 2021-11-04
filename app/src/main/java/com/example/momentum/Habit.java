@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * @author Samtarkras
- * @version 1.1
+ * @version 1.3
  */
 public class Habit {
    /**
@@ -72,5 +72,41 @@ public class Habit {
    }
    public void setWeekly_frequency(Boolean[] weekly_frequency) {
       this.weekly_frequency = weekly_frequency;
+   }
+   public String toString(){
+      String hp_string = "public";
+      String m = "";
+      String t = "";
+      String w = "";
+      String th = "";
+      String f = "";
+      String s = "";
+      String su = "";
+      if (habit_private){
+         hp_string = "private";
+      }
+      if(weekly_frequency[0]){
+         m = " Mon ";
+      }
+      if(weekly_frequency[1]){
+         t = " Tue ";
+      }
+      if(weekly_frequency[2]){
+         w = " Wed ";
+      }
+      if(weekly_frequency[3]){
+         th = " Thu ";
+      }
+      if(weekly_frequency[4]){
+         f = " Fri ";
+      }
+      if(weekly_frequency[5]){
+         s = " Sat ";
+      }
+      if(weekly_frequency[6]){
+         su = " Sun ";
+      }
+
+      return title + " -- reason: " + reason + " -- date: " + date + " -- privacy: " + hp_string + "-- day frequency: " + m +t + w +th +f +s +su;
    }
 }

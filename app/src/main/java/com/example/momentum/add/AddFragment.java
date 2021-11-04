@@ -1,6 +1,9 @@
 package com.example.momentum.add;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,20 +11,44 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.momentum.Habit;
+import com.example.momentum.MainActivity;
 import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentAddHabitBinding;
+import com.example.momentum.login.SignUpActivity;
 
-public class AddFragment extends Fragment {
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class AddFragment extends Fragment{
     private AddViewModel AddViewModel;
     private FragmentAddHabitBinding binding;
+
+    EditText title;
+    EditText reason;
+    EditText date;
+    ToggleButton mon;
+    ToggleButton tue;
+    ToggleButton wed;
+    ToggleButton thu;
+    ToggleButton fri;
+    ToggleButton sat;
+    ToggleButton sun;
+    Switch privacy;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -31,29 +58,53 @@ public class AddFragment extends Fragment {
 
         binding = FragmentAddHabitBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        final TextView textView = binding.textAddHabit;
-        AddViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-
+        title = binding.editTitle;
+        reason = binding.editReason;
+        date = binding.editDate;
+        mon = binding.monButton;
+        tue = binding.tueButton;
+        wed = binding.wedButton;
+        thu = binding.thuButton;
+        fri = binding.friButton;
+        sat = binding.satButton;
+        sun = binding.sunButton;
+        privacy = binding.habitPrivacy;
+        Boolean[] frequency = new Boolean[7];
 
         final Button create_button = binding.createHabitButton;
         create_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (title.getText().toString().length() > 20){
+                    Log.w(TAG, "Title too long");
 
+                }
+                else if (reason.getText().toString().length() > 20){
+                    Log.w(TAG, "Reason too long");
+                }
+                else if(title == null || title.getText().toString().equals("")){
+                    Log.w(TAG, "No Title Error");
+                }
+                else{
+                    String t = title.getText().toString();
+                    String r = reason.getText().toString();
+                    Date d = null;
+                    try {
+                        d = new SimpleDateFormat("dd/MM/yyyy").parse(date.getText().toString());
+                    } catch (ParseException e) {
+                        Log.w(TAG, "Date Parse Error");
+                        d = new Date();
+                    }
+                    Boolean[] f = {mon.isChecked(), tue.isChecked(), wed.isChecked(), thu.isChecked(), fri.isChecked(), sat.isChecked(), sun.isChecked()};
+                    Boolean p = privacy.isChecked();
+                    Habit habit = new Habit(t,r,d,p,f);
+                    Log.w(TAG, "Habit_created");
+                    Log.w(TAG, habit.toString());
+                }
             }
         });
-
-
-
         return root;
     }
-
 
     @Override
     public void onDestroyView() {

@@ -8,18 +8,11 @@
     tools:context=".add.AddFragment">
 
     <TextView
-        android:id="@+id/textAddHabit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Add Habit" />
-
-    <TextView
         android:id="@+id/add_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:textSize="20sp"
         android:textColor="@color/black"
         android:text="Title" />
@@ -47,6 +40,23 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:hint="up to 30 chars" />
+
+    <TextView
+        android:id="@+id/add_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="Date"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/edit_date"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:hint="DD/MM/YYYY" />
 
     <TextView
         android:id="@+id/add_weekly_freq"
