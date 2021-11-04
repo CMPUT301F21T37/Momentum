@@ -5,50 +5,153 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/darker_grey"
     tools:context=".settings.SettingsFragment">
+
+
 
     <TextView
         android:id="@+id/text_settings"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+       android:padding="10dp"
+        android:background="@color/red_main"
         android:text="Settings"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="40sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
 
-    <Button
-        android:id="@+id/showProfileButton"
+    <TextView
+        android:id="@+id/accountText_settings"
         android:layout_width="match_parent"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="8dp"
-        android:text="Profile"
+        android:textAlignment="center"
+        android:textSize="18dp"
+        android:text="Account"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_height="wrap_content">
 
-    </Button>
+    </TextView>
 
-    <Button
-        android:id="@+id/showSecurityButton"
+    <TextView
+        android:id="@+id/usernameSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:background="#f3f0e9"
+        android:drawableLeft="@drawable/id_card"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/red_main"
+
+        android:padding="7dp"
+        android:text="Some Username"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/emailSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="8dp"
+        android:background="#f3f0e9"
+        android:drawableLeft="@drawable/mail"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/red_main"
+        android:padding="7dp"
+        android:text="Some Email"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/passwordSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="8dp"
+        android:background="#f3f0e9"
+        android:drawableLeft="@drawable/lock"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/red_main"
+        android:padding="7dp"
+        android:text="********"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/languageSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="8dp"
+        android:background="#f3f0e9"
+        android:drawableLeft="@drawable/world"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/red_main"
+        android:padding="7dp"
+        android:text="Canada"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/socialText_settings"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:textAlignment="center"
+        android:textSize="18dp"
+        android:text="Stats"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <TextView
+        android:id="@+id/followingSettings"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:padding="7dp"
+        android:textSize="16dp"
+        android:background="#f3f0e9"
+        android:text="Following: 0"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <TextView
+        android:id="@+id/followersSettings"
         android:layout_width="match_parent"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="50dp"
-        android:text="Security"
+        android:padding="7dp"
+        android:textSize="16dp"
+        android:background="#f3f0e9"
+        android:text="Followers: 0"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_height="wrap_content">
-    </Button>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="310dp"
-        app:srcCompat="@drawable/settings_page_image"></ImageView>
-
+    </TextView>
 </LinearLayout>

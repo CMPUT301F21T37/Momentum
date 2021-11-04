@@ -14,10 +14,15 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.momentum.databinding.FragmentSettingsBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SettingsFragment extends Fragment {
     private SettingsViewModel SettingsViewModel;
     private FragmentSettingsBinding binding;
+
+    private FirebaseAuth mAuth;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -27,21 +32,23 @@ public class SettingsFragment extends Fragment {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSettings;
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        final TextView textSettings = binding.textSettings;
         SettingsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                textSettings.setText(s);
             }
         });
 
-        final Button profileButton = binding.showProfileButton;
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: show other screen
-            }
-        });
+        final TextView usernameSettings = binding.usernameSettings;
+        assert user != null;
+        usernameSettings.setText(user.getDisplayName());
+
+        final TextView emailSettings = binding.emailSettings;
+        emailSettings.setText(user.getEmail());
 
         return root;
     }
