@@ -12,7 +12,6 @@ import android.widget.CalendarView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.momentum.Habit_Events;
 import com.example.momentum.R;
@@ -21,6 +20,11 @@ import com.example.momentum.databinding.FragmentHomeBinding;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * A fragment in MainActivity for Home functionality.
+ * A user can choose to see their habits and habit events, and can click a calendar to see corresponding habits.
+ * @author Kaye Ena Crayzhel F. Misay
+ */
 public class HomeFragment extends Fragment {
     public static final String DATE_TITLE_DAY_HABIT = "DATE_TITLE";
     public static final String DAY_OF_WEEK = "DAY_OF_WEEK";
@@ -29,16 +33,13 @@ public class HomeFragment extends Fragment {
     public static final String DATE_CLICKED_DAY_HABIT_STR = "DATE_CLICKED_STR";
     public static final String START_DAY_HABIT_FRAGMENT = "DAY_HABIT_FRAGMENT";
 
-    private HomeViewModel HomeViewModel;
     private FragmentHomeBinding binding;
     private CalendarView calendar;
     private Button habitEvents;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-
+        // binds the fragment to MainActivity and creates the view
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -53,6 +54,20 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Callback handler for the listener of when a date in the calendar is clicked.
+     * Handles the date conversions and data transfer to DayHabitsFragment.
+     * @param calendarView
+     * View of the calendar associated with the listener.
+     * @param year
+     * The year that was set.
+     * @param month
+     * The month that was set [0-11]
+     * @param day
+     * The day of the month that was set.
+     * @return
+     * 'true' to confirm with the listener
+     */
     private boolean onDateClick(CalendarView calendarView, int year, int month, int day) {
         // initialize Calendar format
         Calendar calendar_click = Calendar.getInstance();
@@ -81,11 +96,15 @@ public class HomeFragment extends Fragment {
         bundle.putBoolean(DATE_COMPARE_DAY_HABIT, isSame);
         bundle.putSerializable(DATE_CLICKED_DAY_HABIT, calendar_click.getTime());
         bundle.putString(DATE_CLICKED_DAY_HABIT_STR, date);
-
         startDayHabitsFragment(bundle);
         return true;
     }
 
+    /**
+     * Helper method for onDateClick method to start the DayHabitsFragment and send the data bundle.
+     * @param bundle
+     * Consists of the data: date_title (String), dayOfWeek (String), isSame (boolean), clicked date (Date), clicked date (String)
+     */
     private void startDayHabitsFragment(Bundle bundle) {
         /*
         Android Developer Documentation
@@ -121,6 +140,13 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Callback handler for when the AllHabitEvents button is clicked
+     * @param view
+     * Current view associated with the listener.
+     * @return
+     * 'true' to confirm with the listener
+     */
     private boolean onHabitEventsClick(View view) {
         Intent intent = new Intent(getContext(), Habit_Events.class);
         startActivity(intent);
@@ -128,6 +154,9 @@ public class HomeFragment extends Fragment {
         return true;
     }
 
+    /**
+     * When view is destroyed, set binding to null
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
