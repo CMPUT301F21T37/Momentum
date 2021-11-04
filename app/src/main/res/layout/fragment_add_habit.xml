@@ -8,18 +8,15 @@
     tools:context=".add.AddFragment">
 
     <TextView
-        android:id="@+id/textAddHabit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Add Habit" />
-
-    <TextView
         android:id="@+id/add_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="TItle" />
+        android:layout_marginTop="30dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="Title" />
 
     <EditText
         android:id="@+id/edit_title"
@@ -33,7 +30,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Reason" />
+        android:text="Reason"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/edit_reason"
@@ -43,11 +44,34 @@
         android:hint="up to 30 chars" />
 
     <TextView
+        android:id="@+id/add_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="Date"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/edit_date"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:hint="DD/MM/YYYY" />
+
+    <TextView
         android:id="@+id/add_weekly_freq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Weekly Frequency" />
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:text="Weekly Frequency"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -137,11 +161,15 @@
 
     <Switch
         android:id="@+id/habit_privacy"
-        android:layout_width="100sp"
+        android:layout_width="150sp"
         android:layout_height="50sp"
         android:layout_gravity="center"
         android:checked="false"
-        android:text="Private" />
+        android:text="Private"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="50sp"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
 
     <Button
         android:id="@+id/create_habit_button"
