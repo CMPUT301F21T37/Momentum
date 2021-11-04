@@ -28,6 +28,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
+/**
+ * This is the activity used for sign up
+ * @author: alzafara
+ */
 public class SignUpActivity extends AppCompatActivity {
 
     EditText usernameText;
