@@ -16,6 +16,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+/**
+ * A class extending to an Array Adapter that keeps a list of events for HabitEventsFraagment up-to-date.
+ * @author Han Yan
+ * @author Kaye Ena Crayzhel F. Misay
+ */
 public class HabitEventsAdapter extends ArrayAdapter<Event> {
     private ArrayList<Event> events;
     private Context context;

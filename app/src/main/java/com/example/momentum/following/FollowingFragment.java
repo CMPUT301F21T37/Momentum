@@ -14,6 +14,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.momentum.databinding.FragmentFollowingBinding;
 
+/**
+ * This is a base code for FollowingFragment
+ * This will be for project part 4
+ */
 public class FollowingFragment extends Fragment {
     private FollowingViewModel FollowingViewModel;
     private FragmentFollowingBinding binding;
@@ -36,6 +40,9 @@ public class FollowingFragment extends Fragment {
         return root;
     }
 
+    /**
+     * When view is destroyed, set binding to null
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

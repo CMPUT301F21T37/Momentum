@@ -32,7 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 /**
- * an activity show individual view of a habit event
+ * an activity to show individual view of a habit event
  * comment can be edited
  * image and location uploading will be done by next project part
  * @author Han Yan

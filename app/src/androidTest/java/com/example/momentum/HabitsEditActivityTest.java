@@ -1,5 +1,6 @@
 package com.example.momentum;
 
+import static com.example.momentum.R.id.motivationText;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -9,7 +10,8 @@ import android.widget.EditText;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.momentum.home.DayHabitsActivity;
+import com.example.momentum.habits.HabitsEditActivity;
+import com.example.momentum.habits.ViewHabitActivity;
 import com.example.momentum.login.LoginActivity;
 import com.robotium.solo.Solo;
 
@@ -18,10 +20,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-/**
- * Test class for DayHabitsActivity. This also tests DayHabitsFragment functionalities since the activity is started from the fragment.
- */
-public class DayHabitsActivityTest {
+public class HabitsEditActivityTest {
     private Solo solo;
 
     @Rule
@@ -45,15 +44,6 @@ public class DayHabitsActivityTest {
     }
 
     /**
-     * Helper to go to the activity
-     */
-    private void goToActivity() {
-        solo.clickOnView(solo.getView(R.id.calendarView));
-        solo.waitForText("Habits", 1, 2000);
-        solo.clickOnText("Study");
-    }
-
-    /**
      * Simple test cast to verify if everything is okay.
      */
     @Test
@@ -66,33 +56,31 @@ public class DayHabitsActivityTest {
      */
     @Test
     public void checkbackButton() {
-        // goes to DayHabitsActivity
+        // goes to the Activity
         login();
-        goToActivity();
+        solo.clickOnButton("Habits");
+        solo.clickOnView(solo.getView(R.id.card_view_edit));
 
-        // checks if it is in the DayHabitsActivity
-        solo.assertCurrentActivity("Wrong Activity!", DayHabitsActivity.class);
+        // checks if it is in the ViewHabitActivity
+        solo.assertCurrentActivity("Wrong Activity!", HabitsEditActivity.class);
 
         // clicks on the back button and checks if it went to previous activity
-        solo.clickOnView(solo.getView(R.id.dayHabitsBack));
+        solo.clickOnView(solo.getView(R.id.viewHabitBack));
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
     }
 
     /**
-     * Checks if it shows correct title and motivation
+     * Checks changes
      */
     @Test
-    public void checkCorrectTitleMotivation() {
-        // goes to DayHabitsActivity
+    public void checkAllowableChanges() {
+        // goes to the Activity
         login();
-        goToActivity();
 
-        // checks if it is in the DayHabitsActivity
-        solo.assertCurrentActivity("Wrong Activity!", DayHabitsActivity.class);
-
-        // checks for the correct title and motivation
-        solo.waitForText("Study", 1, 2000);
-        solo.waitForText("I want to be smarter", 1, 2000);
+        // clicks an edit button and confirm switch
+        solo.clickOnButton("Habits");
+        solo.clickOnView(solo.getView(R.id.card_view_edit));
+        solo.assertCurrentActivity("Wrong Activity!", HabitsEditActivity.class);
     }
 
     /**

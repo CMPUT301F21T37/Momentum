@@ -8,6 +8,10 @@ import com.example.momentum.Habit;
 
 import java.util.ArrayList;
 
+/**
+ * Custom ViewModel for HabitsFragment that handles mutable live data for the all habits list.
+ * @author Kaye Ena Crayzhel F. Misay
+ */
 public class HabitsViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Habit>> habitsList;
 

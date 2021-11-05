@@ -34,7 +34,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * A class extending to an Array Adapter that keeps a list of habits for HabitsFraagment up-to-date.
+ * It carries listeners to view details of a habit, edit a habit, and delete a habit.
+ * @author Kaye Ena Crayzhel F. Misay
+ * @author Boxiao Li
+ */
 public class HabitsAdapter extends ArrayAdapter<Habit>{
     public static final String DELETE_HABIT = "DELETE_HABIT";
     public static final String DELETE_EVENT = "DELETE_EVENT";

@@ -89,34 +89,6 @@ public class Habit_Events extends AppCompatActivity {
             }
 
         });
-
-        //delete a habit event
-        delete_habitEvent_btn =findViewById(R.id.delete_he_btn);
-        delete_habitEvent_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                delete_habitEvent_btn.setText("Finish");
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                        String itemValue = (String)listView.getItemAtPosition(position);
-                        adapter.remove(itemValue);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-                delete_habitEvent_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        delete_habitEvent_btn.setText("Delete");
-                        delete_habitEvent_btn.setEnabled(false);
-                    }
-                });
-            }
-        });
-
-
-
-
     }
 
 

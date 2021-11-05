@@ -24,7 +24,7 @@
         android:layout_height="50dp"
         android:maxLength="20"
         android:layout_gravity="center"
-        android:hint="up to 20 chars" />
+        android:hint="up to 20 characters" />
 
     <TextView
         android:id="@+id/add_reason"
@@ -43,7 +43,7 @@
         android:layout_height="50dp"
         android:maxLength="30"
         android:layout_gravity="center"
-        android:hint="up to 30 chars" />
+        android:hint="up to 30 characters" />
 
     <TextView
         android:id="@+id/add_date"
@@ -61,6 +61,11 @@
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:focusable="false"
+        android:clickable="false"
+        android:longClickable="false"
+        android:cursorVisible="false"
+        android:focusableInTouchMode="false"
         android:hint="DD/MM/YYYY" />
 
     <TextView

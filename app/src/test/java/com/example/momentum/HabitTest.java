@@ -9,7 +9,6 @@ import java.util.Date;
 
 public class HabitTest {
 
-
     @Test
     public void habit_construct_get_test(){
         String test_title = "title";

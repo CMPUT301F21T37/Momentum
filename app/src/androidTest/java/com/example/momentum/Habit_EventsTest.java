@@ -1,4 +1,4 @@
-package com.example.momentum.habitEvents;
+package com.example.momentum;
 
 import static org.junit.Assert.assertTrue;
 
@@ -10,6 +10,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.example.momentum.MainActivity;
 import com.example.momentum.R;
+import com.example.momentum.habitEvents.Indiv_habitEvent_view;
 import com.example.momentum.home.DayHabitsActivity;
 import com.example.momentum.login.LoginActivity;
 import com.robotium.solo.Solo;
@@ -70,12 +71,9 @@ public class Habit_EventsTest extends TestCase {
         //check the List of habit event works
         solo.clickOnView(solo.getView(R.id.habit_event_listView));
         // checks that we are in Indiv_habitEvent_view
-        solo.assertCurrentActivity("Wrong Activity!",Indiv_habitEvent_view.class);
+        solo.assertCurrentActivity("Wrong Activity!", Indiv_habitEvent_view.class);
         assertTrue(solo.waitForText("Exercise", 1, 2000));
     }
-
-
-
 
 
     public void tearDown() throws Exception {

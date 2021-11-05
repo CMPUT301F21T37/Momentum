@@ -53,6 +53,9 @@ public class SettingsFragment extends Fragment {
         return root;
     }
 
+    /**
+     * When view is destroyed, set binding to null
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

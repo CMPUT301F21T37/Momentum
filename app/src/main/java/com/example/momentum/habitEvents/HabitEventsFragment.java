@@ -30,6 +30,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * A fragment that shows all habit events of a given user.
+ * @author Han Yan
+ * @author Kaye Ena Crayzhel F. Misay
+ */
 public class HabitEventsFragment extends Fragment {
     public static final String EVENT_TITLE = "EVENT_TITLE";
     public static final String EVENT_COMMENT = "EVENT_COMMENT";

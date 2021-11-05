@@ -17,23 +17,22 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.momentum.Habit;
 import com.example.momentum.databinding.ActivityEditHabitBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
+/**
+ * An activity that lets the user edit a habit.
+ * @author Kaye Ena Crayzhel F. Misay
+ */
 public class HabitsEditActivity extends AppCompatActivity {
     public static final String EDIT_HABIT = "EDIT HABIT";
 

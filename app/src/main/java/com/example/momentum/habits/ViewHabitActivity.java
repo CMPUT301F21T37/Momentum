@@ -16,7 +16,7 @@ import java.util.Date;
 
 /**
  * An activity that lets the user see their habits and corresponding details.
- * @author: Kaye Ena Crayzhel F. Misay
+ * @author Kaye Ena Crayzhel F. Misay
  */
 public class ViewHabitActivity extends AppCompatActivity {
     private ActivityViewHabitBinding binding;

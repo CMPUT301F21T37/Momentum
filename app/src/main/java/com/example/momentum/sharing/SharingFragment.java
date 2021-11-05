@@ -14,6 +14,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.momentum.databinding.FragmentSharingBinding;
 
+/**
+ * This is a base code for SharingFragment
+ * This will be for project part 4
+ */
 public class SharingFragment extends Fragment {
     private SharingViewModel SharingViewModel;
     private FragmentSharingBinding binding;
