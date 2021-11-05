@@ -58,7 +58,7 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
         View view = convertView;
         ViewHolder viewHolder;
-        Event event = getItem(position); // Get the Event instance of the current item
+        Event event = getItem(position); // Get the Events instance of the current item
 
         if(view == null){
             // if view is null, inflate the layout
