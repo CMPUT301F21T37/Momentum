@@ -2,7 +2,6 @@ package com.example.momentum.habits;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,7 @@ import java.util.Date;
 
 /**
  * A fragment in MainActivity from HomeFragment that shows all habits.
- * @author: Kaye Ena Crayzhel F. Misay
+ * @author Kaye Ena Crayzhel F. Misay
  */
 public class HabitsFragment extends Fragment {
     public static final String HABIT_TITLE = "HABIT_TITLE";
@@ -64,7 +63,6 @@ public class HabitsFragment extends Fragment {
         final CollectionReference habitsReference = db.collection("Users").
                 document(uid).collection("Habits");
 
-
         // listener for the Firestore database to accept realtime updates
         habitsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -90,9 +88,6 @@ public class HabitsFragment extends Fragment {
         // initiates the display
         showAllHabits();
 
-        // checks if a certain habit is clicked
-        habitsListView.setOnItemClickListener(this :: onHabitClick);
-
         return root;
     }
 
@@ -109,35 +104,6 @@ public class HabitsFragment extends Fragment {
                 habitsListView.setAdapter(habitsAdapter);
             }
         });
-    }
-
-    /**
-     * Callback handler for when a habit is clicked in the habitsListView.
-     * When a habit is clicked, it goes to another activity that shows its details.
-     * @param adapterView
-     * View of the adapter associated with the listener.
-     * @param view
-     * Current general view associated with the listener.
-     * @param position
-     * Position in the adapter of what was clicked.
-     * @param id
-     * ID associated with the adapter.
-     * @return
-     * 'true' to confirm with the listener.
-     */
-    private boolean onHabitClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Habit habit = (Habit) adapterView.getAdapter().getItem(position); // get the habit details
-
-        // show the user a view of its habit details by going to ViewHabitActivity
-        Intent intent = new Intent(getContext(), ViewHabitActivity.class);
-        intent.putExtra(HABIT_TITLE, habit.getTitle());
-        intent.putExtra(HABIT_REASON, habit.getReason());
-        intent.putExtra(HABIT_FREQUENCY, habit.getWeekly_frequency());
-        intent.putExtra(HABIT_PRIVACY, habit.isPrivate_account());
-        intent.putExtra(HABIT_DATE, habit.getDate());
-        startActivity(intent);
-
-        return true;
     }
 
     /**
