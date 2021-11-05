@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.momentum.habitEvents.HabitEventsFragment;
 import com.example.momentum.habitEvents.Habit_Events;
 import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentHomeBinding;
@@ -34,6 +35,7 @@ public class HomeFragment extends Fragment {
     public static final String DATE_CLICKED_DAY_HABIT_STR = "DATE_CLICKED_STR";
     public static final String START_DAY_HABIT_FRAGMENT = "DAY_HABIT_FRAGMENT";
     public static final String START_ALL_HABITS_VIEW_FRAGMENT = "HABITS_FRAGMENT";
+    public static final String START_ALL_EVENTS_VIEW_FRAGMENT = "EVENTS_FRAGMENT";
 
     private FragmentHomeBinding binding;
     private CalendarView calendar;
@@ -155,9 +157,11 @@ public class HomeFragment extends Fragment {
      * 'true' to confirm with the listener
      */
     private boolean onHabitEventsClick(View view) {
-        Intent intent = new Intent(getContext(), Habit_Events.class);
-        startActivity(intent);
-
+        Fragment fragment = new HabitEventsFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.nav_host_fragment_activity_main, fragment, START_ALL_EVENTS_VIEW_FRAGMENT);
+        transaction.addToBackStack(null);
+        transaction.commit();
         return true;
     }
 
