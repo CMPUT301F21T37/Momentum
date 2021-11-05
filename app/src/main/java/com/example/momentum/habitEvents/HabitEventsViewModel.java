@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.momentum.Habit;
-
 import java.util.ArrayList;
 
 /**
@@ -21,11 +19,11 @@ public class HabitEventsViewModel extends ViewModel {
     }
 
     /**
-     * Getter for habitsList
+     * Getter for habit eventsList
      * @return
-     * A Mutable Live ArrayList consisting of Habit habit
+     * A Mutable Live ArrayList consisting of Events habit events
      */
-    public LiveData<ArrayList<Event>> getHabitsList() {
+    public LiveData<ArrayList<Event>> getEventsList() {
         return eventsList;
     }
 

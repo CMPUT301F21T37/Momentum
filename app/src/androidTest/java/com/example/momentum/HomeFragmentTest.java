@@ -8,7 +8,6 @@ import android.widget.EditText;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.momentum.habitEvents.Habit_Events;
 import com.example.momentum.login.LoginActivity;
 import com.robotium.solo.Solo;
 

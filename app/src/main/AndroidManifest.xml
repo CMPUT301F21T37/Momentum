@@ -34,12 +34,6 @@
             android:name=".habits.HabitsEditActivity"
             android:exported="true"/>
         <activity
-            android:name=".habitEvents.Indiv_habitEvent_view"
-            android:exported="true" />
-        <activity
-            android:name=".habitEvents.Habit_Events"
-            android:exported="true" />
-        <activity
             android:name=".login.SignUpActivity"
             android:exported="true" />
     </application>

@@ -31,4 +31,12 @@ public class Event {
     public String getComment() {
         return comment;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }
