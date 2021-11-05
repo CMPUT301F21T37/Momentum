@@ -1,6 +1,5 @@
 package com.example.momentum;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
@@ -9,19 +8,20 @@ import android.widget.EditText;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import com.example.momentum.MainActivity;
+import com.example.momentum.R;
+import com.example.momentum.habitEvents.Indiv_habitEvent_view;
 import com.example.momentum.home.DayHabitsActivity;
 import com.example.momentum.login.LoginActivity;
 import com.robotium.solo.Solo;
 
-import org.junit.After;
+import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-/**
- * Test class for DayHabitsActivity. This also tests DayHabitsFragment functionalities since the activity is started from the fragment.
- */
-public class DayHabitsActivityTest {
+public class Habit_EventsTest extends TestCase {
     private Solo solo;
 
     @Rule
@@ -48,11 +48,10 @@ public class DayHabitsActivityTest {
      * Helper to go to the activity
      */
     private void goToActivity() {
-        solo.clickOnView(solo.getView(R.id.calendarView));
-        solo.waitForText("Habits", 1, 2000);
-        solo.clickOnText("Study");
-    }
+        solo.clickOnButton("Habit Events");
+        solo.waitForText("Habit Events", 1, 2000);
 
+    }
     /**
      * Simple test cast to verify if everything is okay.
      */
@@ -62,44 +61,22 @@ public class DayHabitsActivityTest {
     }
 
     /**
-     * Checks if the custom back button works correctly.
+     * Checks if the list of habit event work correctly
      */
     @Test
-    public void checkbackButton() {
-        // goes to DayHabitsActivity
+    public void testListView(){
+        // logs in with correct test inputs and go to the habit event activity
         login();
         goToActivity();
-
-        // checks if it is in the DayHabitsActivity
-        solo.assertCurrentActivity("Wrong Activity!", DayHabitsActivity.class);
-
-        // clicks on the back button and checks if it went to previous activity
-        solo.clickOnView(solo.getView(R.id.dayHabitsBack));
-        solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
+        //check the List of habit event works
+        solo.clickOnView(solo.getView(R.id.habit_event_listView));
+        // checks that we are in Indiv_habitEvent_view
+        solo.assertCurrentActivity("Wrong Activity!", Indiv_habitEvent_view.class);
+        assertTrue(solo.waitForText("Exercise", 1, 2000));
     }
 
-    /**
-     * Checks if it shows correct title and motivation
-     */
-    @Test
-    public void checkCorrectTitleMotivation() {
-        // goes to DayHabitsActivity
-        login();
-        goToActivity();
 
-        // checks if it is in the DayHabitsActivity
-        solo.assertCurrentActivity("Wrong Activity!", DayHabitsActivity.class);
-
-        // checks for the correct title and motivation
-        solo.waitForText("Study", 1, 2000);
-        solo.waitForText("I want to be smarter", 1, 2000);
-    }
-
-    /**
-     * Closes all activities after tests are done
-     */
-    @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
         solo.finishOpenedActivities();
     }
 }

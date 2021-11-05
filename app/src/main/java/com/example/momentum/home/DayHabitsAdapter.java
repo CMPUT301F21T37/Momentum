@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 /**
  * A custom list that extends to an array adapter that keeps the list of dayHabits up-to-date.
- * @author: Kaye Ena Crayzhel F. Misay
+ * @author Kaye Ena Crayzhel F. Misay
  */
 public class DayHabitsAdapter extends ArrayAdapter<DayHabits> {
     private static final String TAG = "DOCUMENT_EXISTENCE";

@@ -8,7 +8,6 @@ import android.widget.EditText;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.momentum.habitEvents.Habit_Events;
 import com.example.momentum.login.LoginActivity;
 import com.robotium.solo.Solo;
 
@@ -78,10 +77,28 @@ public class HomeFragmentTest {
         // checks that we are in MainActivity
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
 
-        // clicks the HabitEvents Button
+        // clicks the HabitEventsAdapter Button
         solo.clickOnButton("Habit Events");
 
-        // checks that we've changed activities
-        solo.assertCurrentActivity("Wrong Activity!", Habit_Events.class);
+        // checks that we've changed to the Events Fragment
+        solo.waitForText("Events", 1, 2000);
+    }
+
+    /**
+     * Checks if the Habit Events Button works
+     */
+    @Test
+    public void checkHabitsButton(){
+        // log in with correct entries
+        login();
+
+        // checks that we are in MainActivity
+        solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
+
+        // clicks the HabitEventsAdapter Button
+        solo.clickOnButton("Habits");
+
+        // checks that we've changed to the Events Fragment
+        solo.waitForText("Habits", 1, 2000);
     }
 }

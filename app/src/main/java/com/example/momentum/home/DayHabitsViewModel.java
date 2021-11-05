@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Custom ViewModel for DayHabitsFragment that handles mutable live data for the habits list of the current day.
- * @author: Kaye Ena Crayzhel F. Misay
+ * @author Kaye Ena Crayzhel F. Misay
  */
 public class DayHabitsViewModel extends ViewModel {
 

@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.momentum.Habit;
 import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentAddHabitBinding;
+import com.example.momentum.habits.HabitsEditActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -91,10 +92,11 @@ public class AddFragment extends Fragment{
         final CollectionReference collectionreference = db.collection("Users").document(uid).collection("Habits");
         final Button create_button = binding.createHabitButton;
 
-        // Date Picker dialog for edit_date
+        // this is a listener to let the user choose a date using datePickerDialog
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // initialization
                 final Calendar calendar = Calendar.getInstance();
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 int month = calendar.get(Calendar.MONTH);
@@ -123,6 +125,10 @@ public class AddFragment extends Fragment{
                     Toast.makeText(activity, "Title Required",
                             Toast.LENGTH_SHORT).show();
                 }
+                else if (f.isEmpty()) {
+                            Toast.makeText(getContext(), "Please choose at least one day to do your habit!",
+                                    Toast.LENGTH_SHORT).show()
+                }
                 else{
                     //try statement to ensure that when date is parsed invalid dates are not accepted
                     try {
@@ -131,6 +137,7 @@ public class AddFragment extends Fragment{
                         String r = reason.getText().toString();
 
                         Date d = new SimpleDateFormat("dd/MM/yyyy").parse(date.getText().toString());
+
                         ArrayList<String> f = new ArrayList<String>();
                         //series of if statements to check each toggle button
                         if (mon.isChecked()){
@@ -191,6 +198,8 @@ public class AddFragment extends Fragment{
                         Log.w(TAG, habit.toString());
                         //call to the clear function to reset all changed variables in the habit fragment
                         clear();
+
+
                     }
                     catch (ParseException e){
                         Log.w(TAG, "Date Parse Error");

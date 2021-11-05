@@ -41,5 +41,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/fin_delete_he_btn"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/super_dark_grey"
+        android:textStyle="bold"
+        android:text="View"
+        android:layout_gravity="center_horizontal|right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
 
 </LinearLayout>
