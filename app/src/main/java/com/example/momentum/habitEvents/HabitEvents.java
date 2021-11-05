@@ -2,16 +2,19 @@ package com.example.momentum.habitEvents;
 
 public class HabitEvents {
     private String title;
+    private String reason;
 
 
-    HabitEvents(String title){
+    public HabitEvents(String title, String reason){
         this.title = title;
-
+        this.reason = reason;
     }
 
-    String getEventTitle(){
+    public String getTitle() {
         return this.title;
     }
 
-
+    public String getReason() {
+        return this.reason;
+    }
 }
