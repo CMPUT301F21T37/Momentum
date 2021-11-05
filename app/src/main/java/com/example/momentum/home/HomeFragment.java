@@ -1,6 +1,5 @@
 package com.example.momentum.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.momentum.habitEvents.HabitEventsFragment;
-import com.example.momentum.habitEvents.Habit_Events;
 import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentHomeBinding;
 import com.example.momentum.habits.HabitsFragment;
