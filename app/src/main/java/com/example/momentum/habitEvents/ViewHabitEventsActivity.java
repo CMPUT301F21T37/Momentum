@@ -8,9 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.momentum.R;
-import com.example.momentum.databinding.FragmentHabitEventsBinding;
+import com.example.momentum.databinding.ActivityIndivHabitEventViewBinding;
+import com.example.momentum.databinding.ActivityViewHabitBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
@@ -19,19 +18,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  */
 
 public class ViewHabitEventsActivity extends AppCompatActivity {
-    private FragmentHabitEventsBinding binding;
+    private ActivityIndivHabitEventViewBinding binding;
     private String title;
     private String reason;
+    private FloatingActionButton backButton;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_indiv_habit_event_view);
-
         // creates the activity view
-        binding = FragmentHabitEventsBinding.inflate(getLayoutInflater());
+        binding = ActivityIndivHabitEventViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Get the Intent that started this activity and extract the strings
@@ -42,7 +40,11 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
 
         // set the displays
         setTitle();
-        setMotivation();
+        setComment();
+
+        // back button to go back to previous fragment
+        backButton = binding.viewEventBack;
+        backButton.setOnClickListener(this::backButtonOnClick);
 
     }
 
@@ -51,17 +53,30 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
      */
     private void setTitle() {
         TextView activityTitle;
-        activityTitle = findViewById(R.id.habit_event);
+        activityTitle = binding.habitEvent;
         activityTitle.setText(title);
     }
 
     /**
      * Helper method to set the motivation/reason
      */
-    private void setMotivation() {
+    private void setComment() {
         TextView motivation;
-        motivation = findViewById(R.id.comment);
+        motivation = binding.comment;
         motivation.setText(reason);
+    }
+
+    /**
+     * Callback handler for when the back button is clicked.
+     * Goes back to the previous fragment.
+     * @param view
+     * Current view associated with the listener.
+     * @return
+     * 'true' to confirm with the listener
+     */
+    private boolean backButtonOnClick(View view) {
+        finish();
+        return true;
     }
 
 
