@@ -34,7 +34,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         binding = ActivityViewHabitBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Get the Intent that started this activity and extract the strings
+        // Get the Intent that started this activity and extract them
         Intent intent = getIntent();
         title = intent.getStringExtra(HabitsFragment.HABIT_TITLE);
         reason = intent.getStringExtra(HabitsFragment.HABIT_REASON);
@@ -49,7 +49,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         setPrivacy();
         setFrequency();
 
-        // back button to go back to previous dayHabitsFragment
+        // back button to go back to previous fragment
         backButton = binding.viewHabitBack;
         backButton.setOnClickListener(this::backButtonOnClick);
     }
@@ -76,13 +76,12 @@ public class ViewHabitActivity extends AppCompatActivity {
      * Helper method to set the starting date
      */
     private void setStartingDate() {
-        TextView startingDate;
         String month = (String) DateFormat.format("MMMM", date);
         String day = (String) DateFormat.format("dd", date);
         String year = (String) DateFormat.format("yyyy", date);
         String str_date = month + " " + day + ", " + year;
 
-        startingDate = binding.dateText;
+        TextView startingDate = binding.dateText;
         startingDate.setText(str_date);
     }
 

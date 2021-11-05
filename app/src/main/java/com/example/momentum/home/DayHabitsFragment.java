@@ -47,7 +47,7 @@ import java.util.Date;
 
 /**
  * A fragment in MainActivity from HomeFragment that shows the clicked date's habits.
- * @author: Kaye Ena Crayzhel F. Misay
+ * @author Kaye Ena Crayzhel F. Misay
  */
 public class DayHabitsFragment extends Fragment {
     public static final String TITLE_DAY_HABIT = "HABIT_TITLE";
@@ -185,7 +185,7 @@ public class DayHabitsFragment extends Fragment {
                         if (document.exists()) {
                             // if a habit event already exists, generate a prompt for the user
                             Log.d(CHECK_IF_HABIT_EVENT_EXISTS, "Document exists");
-                            Toast.makeText(getContext(), "You have already added a habit event for today. Please edit or delete your event by clicking the 'Habit Events' button on the Home page.",
+                            Toast.makeText(getContext(), "You have already added a habit event for today. Edit or delete your event on the Habit Events page.",
                                     Toast.LENGTH_LONG).show();
                         } else {
                             // else, prompt the user to add a habit event by going to another activity
