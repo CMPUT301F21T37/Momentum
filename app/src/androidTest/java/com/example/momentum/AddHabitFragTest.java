@@ -16,6 +16,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+/**
+ * Test class for the Add Habit Fragment
+ */
 public class AddHabitFragTest {
     private Solo solo;
     @Rule
