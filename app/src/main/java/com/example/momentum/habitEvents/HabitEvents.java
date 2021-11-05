@@ -1,4 +1,4 @@
-package com.example.momentum.habitEvents;
+package com.example.momentum.habitvents;
 
 public class HabitEvents {
     private String title;

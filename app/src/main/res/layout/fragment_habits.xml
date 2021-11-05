@@ -5,15 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_day_habits_id"
-    tools:context=".home.DayHabitsFragment">
+    android:id="@+id/fragmentHabits"
+    tools:context=".habits.HabitsFragment">
 
     <TextView
-        android:id="@+id/day_habit_title"
+        android:id="@+id/allHabitsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="@string/chosen_day_habit_title"
+        android:text="@string/view_all_habits"
         android:textAlignment="center"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -23,13 +23,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/day_habits_list"
+        android:id="@+id/allHabitsList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/day_habit_title"
+        app:layout_constraintTop_toBottomOf="@+id/allHabitsTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         android:divider="@android:color/transparent"/>
 

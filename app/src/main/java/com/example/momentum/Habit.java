@@ -17,7 +17,7 @@ public class Habit {
     * this var contains the weekly frequency of the habit
     * this var is of type {@link Boolean[]}
     */
-   private ArrayList<String> weekly_frequency;
+   private ArrayList<?> weekly_frequency;
    /**
     * this var contains the habits privacy
     * this var is of type {@link Boolean}
@@ -34,7 +34,7 @@ public class Habit {
     */
    private String title;
 
-   public Habit(String t, String r, Date d, Boolean hp, ArrayList<String> wf){
+   public Habit(String t, String r, Date d, Boolean hp, ArrayList<?> wf){
       this.title = t;
       this.reason = r;
       this.date = d;
@@ -51,7 +51,7 @@ public class Habit {
    public Date getDate() {
       return date;
    }
-   public ArrayList<String> getWeekly_frequency() {
+   public ArrayList<?> getWeekly_frequency() {
       return weekly_frequency;
    }
    public Boolean isPrivate_account() {
@@ -70,7 +70,7 @@ public class Habit {
    public void setPrivacy(Boolean habit_private) {
       this.habit_private = habit_private;
    }
-   public void setWeekly_frequency(ArrayList<String> weekly_frequency) {
+   public void setWeekly_frequency(ArrayList<?> weekly_frequency) {
       this.weekly_frequency = weekly_frequency;
    }
    public String toString(){
