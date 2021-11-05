@@ -1,15 +1,13 @@
 package com.example.momentum;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-
 import android.app.Activity;
 import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.momentum.home.AddHabitEventActivity;
+import com.example.momentum.habitEvents.ViewHabitEventsActivity;
+import com.example.momentum.habits.ViewHabitActivity;
 import com.example.momentum.login.LoginActivity;
 import com.robotium.solo.Solo;
 
@@ -18,10 +16,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-/**
- * Test class for AddHabitEventActivity. This also tests DayHabitsFragment functionalities since the activity is started from the fragment.
- */
-public class AddHabitEventActivityTest {
+public class ViewHabitEventsActivityTest {
     private Solo solo;
 
     @Rule
@@ -36,21 +31,12 @@ public class AddHabitEventActivityTest {
     }
 
     /**
-     * Helper so to log in with correct entries to be able to test
+     * Helper method to log in with correct entries to be able to test
      */
     private void login() {
         solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "test@gmail.com");
         solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test12345");
         solo.clickOnButton("Login");
-    }
-
-    /**
-     * Helper to go to the activity
-     */
-    private void goToActivity() {
-        solo.clickOnView(solo.getView(R.id.calendarView));
-        solo.waitForText("Habits", 1, 2000);
-        solo.clickOnText("Coding");
     }
 
     /**
@@ -66,36 +52,35 @@ public class AddHabitEventActivityTest {
      */
     @Test
     public void backButton() {
-        // goes to AddHabitEventActivity
+        // goes to the Activity
         login();
-        goToActivity();
+        solo.clickOnButton("Events");
+        solo.clickOnText("Coding: November 4, 2021");
 
-        // checks if it is in the AddHabitEventActivity
-        solo.assertCurrentActivity("Wrong Activity!", AddHabitEventActivity.class);
+        // checks if it is in the activity
+        solo.assertCurrentActivity("Wrong Activity!", ViewHabitEventsActivity.class);
 
         // clicks on the back button and checks if it went to previous activity
-        solo.clickOnView(solo.getView(R.id.addHabitEventBack));
+        solo.clickOnView(solo.getView(R.id.viewEventBack));
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
     }
 
     /**
-     * Checks if the comment limit is working.
+     * Checks if it shows correct info given previous data
      */
     @Test
-    public void checkCommentLimit() {
-        // goes to AddHabitEventActivity
+    public void checkCorrectInfo() {
+        // goes to the Activity
         login();
-        goToActivity();
+        solo.clickOnButton("Events");
+        solo.clickOnText("Coding: November 04, 2021");
 
-        // checks if it is in the AddHabitEventActivity
-        solo.assertCurrentActivity("Wrong Activity!", AddHabitEventActivity.class);
+        // checks if it is in the ViewHabitActivity
+        solo.assertCurrentActivity("Wrong Activity!", ViewHabitEventsActivity.class);
 
-        // checks the comment limit to 20 characters
-        solo.enterText((EditText) solo.getView(R.id.AddHabitEventComment), "This is more than 20 characters.");
-        // this is more than 20 characters, so it is false
-        assertFalse(solo.waitForText("This is more than 20 characters.", 1, 2000));
-        // this is exactly 20 characters, so it is true
-        assertTrue(solo.waitForText("This is more than 20", 1, 2000));
+        // waits for texts to appear
+        solo.waitForText("Coding: November 04, 2021", 1, 2000);
+        solo.waitForText("hacker", 1, 2000);
     }
 
     /**

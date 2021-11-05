@@ -81,6 +81,30 @@ public class HabitsEditActivityTest {
         solo.clickOnButton("Habits");
         solo.clickOnView(solo.getView(R.id.card_view_edit));
         solo.assertCurrentActivity("Wrong Activity!", HabitsEditActivity.class);
+
+        // clears the title and checks the limit
+        solo.clearEditText((EditText) solo.getView(R.id.habitTitleText));
+        solo.enterText((EditText) solo.getView(R.id.AddHabitEventComment), "This is more than 20 characters.");
+        // this is more than 20 characters, so it is false
+        assertFalse(solo.waitForText("This is more than 20 characters.", 1, 2000));
+        // this is exactly 20 characters, so it is true
+        assertTrue(solo.waitForText("This is more than 20", 1, 2000));
+
+        // clears the reason and checks the limit
+        solo.clearEditText((EditText) solo.getView(R.id.habitTitleText));
+        solo.enterText((EditText) solo.getView(R.id.AddHabitEventComment), "1234567890123456789012345678901");
+        // this is more than 30 characters, so it is false
+        assertFalse(solo.waitForText("1234567890123456789012345678901", 1, 2000));
+        // this is exactly 30 characters, so it is true
+        assertTrue(solo.waitForText("123456789012345678901234567890", 1, 2000));
+
+        // checks if starting date can be changed
+        solo.clickOnView(solo.getView(R.id.dateText));
+        solo.waitForText("You cannot change your habit start date.", 1, 2000);
+
+        // checks if buttons can be clicked
+        solo.clickOnView(solo.getView(R.id.satButton));
+        solo.clickOnView(solo.getView(R.id.sunButton));
     }
 
     /**

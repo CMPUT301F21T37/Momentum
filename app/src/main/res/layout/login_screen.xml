@@ -7,7 +7,6 @@
     android:foregroundTint="#FF0000"
     android:orientation="vertical">
 
-
     <ImageView
         android:id="@+id/momentumImage"
         android:layout_width="match_parent"

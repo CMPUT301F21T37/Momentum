@@ -44,7 +44,6 @@ public class HabitEventsFragment extends Fragment {
     private FirebaseFirestore db;
     private FirebaseUser user;
     private String uid;
-    private ListView lView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // binds the fragment to MainActivity and creates the view

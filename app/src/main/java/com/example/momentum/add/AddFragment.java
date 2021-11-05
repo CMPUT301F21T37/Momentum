@@ -36,17 +36,14 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
+<<<<<<< Updated upstream
  * @version 1.5
  * @author rittwage, misay
- *
  */
 public class AddFragment extends Fragment{
     private AddViewModel AddViewModel;
     private FragmentAddHabitBinding binding;
 
-    /**
-     *
-     */
     private FirebaseFirestore db;
     private FirebaseUser user;
     private String uid;
@@ -119,15 +116,44 @@ public class AddFragment extends Fragment{
         create_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ArrayList<String> f = new ArrayList<String>();
+                //series of if statements to check each toggle button
+                if (mon.isChecked()){
+                    f.add("Monday");
+                }
+                if (mon.isChecked()){
+                    f.add("Tuesday");
+                }
+                if (wed.isChecked()){
+                    f.add("Wednesday");
+                }
+                if (thu.isChecked()){
+                    f.add("Thursday");
+                }
+                if (fri.isChecked()){
+                    f.add("Friday");
+                }
+                if (sat.isChecked()){
+                    f.add("Saturday");
+                }
+                if (sun.isChecked()){
+                    f.add("Sunday");
+                }
+
                 // If statement that checks for an empty title field, and prompts user to retry
                 if(title == null || title.getText().toString().equals("")){
                     Log.w(TAG, "No Title Error");
                     Toast.makeText(activity, "Title Required",
                             Toast.LENGTH_SHORT).show();
                 }
+                else if(reason == null || reason.getText().toString().equals("")){
+                    Log.w(TAG, "No Reason Error");
+                    Toast.makeText(activity, "Reason Required",
+                            Toast.LENGTH_SHORT).show();
+                }
                 else if (f.isEmpty()) {
                             Toast.makeText(getContext(), "Please choose at least one day to do your habit!",
-                                    Toast.LENGTH_SHORT).show()
+                                    Toast.LENGTH_SHORT).show();
                 }
                 else{
                     //try statement to ensure that when date is parsed invalid dates are not accepted
@@ -137,30 +163,6 @@ public class AddFragment extends Fragment{
                         String r = reason.getText().toString();
 
                         Date d = new SimpleDateFormat("dd/MM/yyyy").parse(date.getText().toString());
-
-                        ArrayList<String> f = new ArrayList<String>();
-                        //series of if statements to check each toggle button
-                        if (mon.isChecked()){
-                            f.add("Monday");
-                        }
-                        if (mon.isChecked()){
-                            f.add("Tuesday");
-                        }
-                        if (wed.isChecked()){
-                            f.add("Wednesday");
-                        }
-                        if (thu.isChecked()){
-                            f.add("Thursday");
-                        }
-                        if (fri.isChecked()){
-                            f.add("Friday");
-                        }
-                        if (sat.isChecked()){
-                            f.add("Saturday");
-                        }
-                        if (sun.isChecked()){
-                            f.add("Sunday");
-                        }
                         //checks if the habit should be private or not
                         Boolean p = privacy.isChecked();
                         //constructor for the habit class
