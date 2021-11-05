@@ -27,4 +27,6 @@
     <string name="starting_date">Starting Date</string>
     <string name="privacy">Privacy</string>
     <string name="events">Events</string>
+    <string name="title">Title</string>
+    <string name="edit_habit">Edit Habit</string>
 </resources>

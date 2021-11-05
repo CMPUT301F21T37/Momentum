@@ -73,11 +73,4 @@ public class Habit {
    public void setWeekly_frequency(ArrayList<?> weekly_frequency) {
       this.weekly_frequency = weekly_frequency;
    }
-   public String toString(){
-      String hp_string = "public";
-      if (habit_private){
-         hp_string = "private";
-      }
-      return title+ " -- reason: " + reason + " -- date: " + date + " -- privacy: " + hp_string + "-- day frequency: " + weekly_frequency;
-   }
 }

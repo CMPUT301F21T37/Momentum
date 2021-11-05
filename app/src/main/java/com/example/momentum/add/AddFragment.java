@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.momentum.Habit;
 import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentAddHabitBinding;
+import com.example.momentum.habits.HabitsEditActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -81,10 +82,11 @@ public class AddFragment extends Fragment{
         final CollectionReference collectionreference = db.collection("Users").document(uid).collection("Habits");
         final Button create_button = binding.createHabitButton;
 
-        // Date Picker dialog for date
+        // this is a listener to let the user choose a date using datePickerDialog
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // initialization
                 final Calendar calendar = Calendar.getInstance();
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 int month = calendar.get(Calendar.MONTH);
@@ -122,10 +124,6 @@ public class AddFragment extends Fragment{
                 }
                 else{
                     try {
-                        String t = title.getText().toString();
-                        String r = reason.getText().toString();
-
-                        Date d = new SimpleDateFormat("dd/MM/yyyy").parse(date.getText().toString());
                         ArrayList<String> f = new ArrayList<String>();
                         if (mon.isChecked()){
                             f.add("Monday");
@@ -148,36 +146,47 @@ public class AddFragment extends Fragment{
                         if (sun.isChecked()){
                             f.add("Sunday");
                         }
-                        Boolean p = privacy.isChecked();
-                        Habit habit = new Habit(t, r, d, p, f);
-                        HashMap<String, Object> data = new HashMap<>();
-                        data.put("date", d);
-                        data.put("frequency",f);
-                        data.put("private",p);
-                        data.put("reason", r);
 
-                        collectionreference
-                                .document(t)
-                                .set(data)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        // These are a method which gets executed when the task is succeeded
-                                        Log.d(TAG, "Data has been added successfully!");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // These are a method which gets executed if there’s any problem
-                                        Log.d(TAG, "Data could not be added!" + e.toString());
-                                    }
-                                });
-                        Toast.makeText(activity, "Habit Created",
-                                Toast.LENGTH_LONG).show();
-                        Log.w(TAG, "Habit_created");
-                        Log.w(TAG, habit.toString());
-                        clear();
+                        // if the new frequency is empty, show a prompt to the customer saying they should choose at least one
+                        if (f.isEmpty()) {
+                            Toast.makeText(getContext(), "Please choose at least one day to do your habit!",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            String t = title.getText().toString();
+                            String r = reason.getText().toString();
+
+                            Date d = new SimpleDateFormat("dd/MM/yyyy").parse(date.getText().toString());
+                            Boolean p = privacy.isChecked();
+                            Habit habit = new Habit(t, r, d, p, f);
+                            HashMap<String, Object> data = new HashMap<>();
+                            data.put("date", d);
+                            data.put("frequency",f);
+                            data.put("private",p);
+                            data.put("reason", r);
+
+                            collectionreference
+                                    .document(t)
+                                    .set(data)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // These are a method which gets executed when the task is succeeded
+                                            Log.d(TAG, "Data has been added successfully!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // These are a method which gets executed if there’s any problem
+                                            Log.d(TAG, "Data could not be added!" + e.toString());
+                                        }
+                                    });
+                            Toast.makeText(activity, "Habit Created",
+                                    Toast.LENGTH_LONG).show();
+                            Log.w(TAG, "Habit_created");
+                            Log.w(TAG, habit.toString());
+                            clear();
+                        }
                     }
                     catch (ParseException e){
                         Log.w(TAG, "Date Parse Error");

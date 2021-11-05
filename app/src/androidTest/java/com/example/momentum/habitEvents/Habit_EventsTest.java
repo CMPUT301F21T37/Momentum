@@ -1,4 +1,4 @@
-package com.example.momentum;
+package com.example.momentum.habitEvents;
 
 import static org.junit.Assert.assertTrue;
 
@@ -8,19 +8,19 @@ import android.widget.EditText;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.momentum.habitEvents.Habit_Events;
+import com.example.momentum.MainActivity;
+import com.example.momentum.R;
+import com.example.momentum.home.DayHabitsActivity;
 import com.example.momentum.login.LoginActivity;
 import com.robotium.solo.Solo;
+
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-
-/**
- * Test class for HomeFragment.
- */
-public class HomeFragmentTest {
+public class Habit_EventsTest extends TestCase {
     private Solo solo;
 
     @Rule
@@ -44,6 +44,14 @@ public class HomeFragmentTest {
     }
 
     /**
+     * Helper to go to the activity
+     */
+    private void goToActivity() {
+        solo.clickOnButton("Habit Events");
+        solo.waitForText("Habit Events", 1, 2000);
+
+    }
+    /**
      * Simple test cast to verify if everything is okay.
      */
     @Test
@@ -52,36 +60,25 @@ public class HomeFragmentTest {
     }
 
     /**
-     * Checks if the calendar view goes to another view (Current day's Habits page)
+     * Checks if the list of habit event work correctly
      */
     @Test
-    public void checkCalendar(){
-        // log in with correct entries
+    public void testListView(){
+        // logs in with correct test inputs and go to the habit event activity
         login();
-
-        // checks that we are in MainActivity
-        solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
-
-        // click on a date on the calendar and checks if it goes to another fragment
-        solo.clickOnView(solo.getView(R.id.calendarView));
-        assertTrue(solo.waitForText("Habits", 1, 2000));
+        goToActivity();
+        //check the List of habit event works
+        solo.clickOnView(solo.getView(R.id.habit_event_listView));
+        // checks that we are in Indiv_habitEvent_view
+        solo.assertCurrentActivity("Wrong Activity!",Indiv_habitEvent_view.class);
+        assertTrue(solo.waitForText("Exercise", 1, 2000));
     }
 
-    /**
-     * Checks if the Habit Events Button works
-     */
-    @Test
-    public void checkHabitEventsButton(){
-        // log in with correct entries
-        login();
 
-        // checks that we are in MainActivity
-        solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
 
-        // clicks the HabitEventsAdapter Button
-        solo.clickOnButton("Habit Events");
 
-        // checks that we've changed activities
-        solo.assertCurrentActivity("Wrong Activity!", Habit_Events.class);
+
+    public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
     }
 }
