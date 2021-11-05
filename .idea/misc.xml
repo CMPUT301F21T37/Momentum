@@ -3,6 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/CMPUT/CMPUT301NEW/Momentum/app/src/main/res/layout/activity_add_habit_event.xml" value="0.23233695652173914" />
+        <entry key="..\:/CMPUT/CMPUT301NEW/Momentum/app/src/main/res/layout/activity_habit_events.xml" value="0.266304347826087" />
+        <entry key="..\:/CMPUT/CMPUT301NEW/Momentum/app/src/main/res/layout/activity_indiv_habit_event_view.xml" value="0.23233695652173914" />
+        <entry key="..\:/CMPUT/CMPUT301NEW/Momentum/app/src/main/res/layout/activity_view_habit.xml" value="0.23233695652173914" />
+        <entry key="..\:/CMPUT/CMPUT301NEW/Momentum/app/src/main/res/layout/content_card_view.xml" value="0.23233695652173914" />
+        <entry key="..\:/CMPUT/CMPUT301NEW/Momentum/app/src/main/res/layout/fragment_add_habit.xml" value="0.23233695652173914" />
+        <entry key="..\:/CMPUT/CMPUT301NEW/Momentum/app/src/main/res/layout/fragment_habit_events.xml" value="0.23233695652173914" />
+        <entry key="..\:/CMPUT/CMPUT301NEW/Momentum/app/src/main/res/layout/fragment_habits.xml" value="0.23233695652173914" />
+        <entry key="..\:/CMPUT/CMPUT301NEW/Momentum/app/src/main/res/layout/fragment_home.xml" value="0.1933876811594203" />
+        <entry key="..\:/CMPUT/CMPUT301NEW/Momentum/app/src/main/res/layout/swipe_habits_activity_item.xml" value="0.23233695652173914" />
         <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/drawable/btn_toggle.xml" value="0.3125" />
         <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_add_habit_event.xml" value="0.21041666666666667" />
         <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_main.xml" value="0.29635416666666664" />
