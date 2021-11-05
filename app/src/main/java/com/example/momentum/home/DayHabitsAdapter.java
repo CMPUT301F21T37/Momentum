@@ -26,9 +26,9 @@ import java.util.ArrayList;
 
 /**
  * A custom list that extends to an array adapter that keeps the list of dayHabits up-to-date.
- * @author: Kaye Ena Crayzhel F. Misay
+ * @author Kaye Ena Crayzhel F. Misay
  */
-public class DayHabitsList extends ArrayAdapter<DayHabits> {
+public class DayHabitsAdapter extends ArrayAdapter<DayHabits> {
     private static final String TAG = "DOCUMENT_EXISTENCE";
 
     private ArrayList<DayHabits> habits;
@@ -38,7 +38,7 @@ public class DayHabitsList extends ArrayAdapter<DayHabits> {
     private String uid;
     private String clickedDateStr;
 
-    public DayHabitsList(Context context, ArrayList<DayHabits> habits, String clickedDateStr){
+    public DayHabitsAdapter(Context context, ArrayList<DayHabits> habits, String clickedDateStr){
         super(context, 0, habits);
         this.habits = habits;
         this.context = context;

@@ -28,13 +28,19 @@
             android:name=".home.AddHabitEventActivity"
             android:exported="true" />
         <activity
-            android:name=".habitEvents.Indiv_habitEvent_view"
-            android:exported="true" />
+            android:name=".habits.ViewHabitActivity"
+            android:exported="true"/>
         <activity
-            android:name=".habitEvents.Habit_Events"
-            android:exported="true" />
+            android:name=".habits.HabitsEditActivity"
+            android:exported="true"/>
         <activity
             android:name=".login.SignUpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".habitEvents.ViewHabitEventsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".habitEvents.HabitsEventsEditActivity"
             android:exported="true" />
     </application>
 

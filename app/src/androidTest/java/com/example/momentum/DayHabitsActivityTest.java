@@ -65,7 +65,7 @@ public class DayHabitsActivityTest {
      * Checks if the custom back button works correctly.
      */
     @Test
-    public void backButton() {
+    public void checkbackButton() {
         // goes to DayHabitsActivity
         login();
         goToActivity();
@@ -76,6 +76,23 @@ public class DayHabitsActivityTest {
         // clicks on the back button and checks if it went to previous activity
         solo.clickOnView(solo.getView(R.id.dayHabitsBack));
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
+    }
+
+    /**
+     * Checks if it shows correct title and motivation
+     */
+    @Test
+    public void checkCorrectTitleMotivation() {
+        // goes to DayHabitsActivity
+        login();
+        goToActivity();
+
+        // checks if it is in the DayHabitsActivity
+        solo.assertCurrentActivity("Wrong Activity!", DayHabitsActivity.class);
+
+        // checks for the correct title and motivation
+        solo.waitForText("Study", 1, 2000);
+        solo.waitForText("I want to be smarter", 1, 2000);
     }
 
     /**

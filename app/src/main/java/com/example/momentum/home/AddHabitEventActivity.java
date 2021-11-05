@@ -23,10 +23,10 @@ import java.util.HashMap;
 
 /**
  * An activity that lets the user add a habit event for when a habit is done for the day.
- * @author: Kaye Ena Crayzhel F. Misay
+ * @author Kaye Ena Crayzhel F. Misay
  */
 public class AddHabitEventActivity extends AppCompatActivity {
-    private final String TAG = "ADD_HABIT_EVENT";
+    private static final String TAG = "ADD_HABIT_EVENT";
 
     private ActivityAddHabitEventBinding binding;
     private FloatingActionButton backButton;
@@ -96,36 +96,39 @@ public class AddHabitEventActivity extends AppCompatActivity {
      */
     private boolean checkButtonOnClick(View view) {
         final String comment = commentField.getText().toString();
-        HashMap<String, String> comment_data = new HashMap<>();
+        // create a hashmap to be inputted
+        HashMap<String, String> data = new HashMap<>();
+        data.put("habit", title);
 
         if (comment.trim().length()>0) { // for when there exists a comment
-            comment_data.put("comment", comment);
+            data.put("comment", comment);
         }
         else { // for when the comment is empty
-            comment_data.put("comment", "");
+            data.put("comment", "");
         }
-        addHabitEventToDatabase(comment_data);
+        // make a call to the database and then close the activity
+        addHabitEventToDatabase(data);
         finish();
         return true;
     }
 
     /**
      * Adds habit event for the given habit.
-     * @param comment_data
-     * The optional comment to be added with the habit event (empty string if not inputted).
+     * @param data
+     * The data to be put in the Events document fields.
+     * Currently: optional comment and habit
      */
-    private void addHabitEventToDatabase(HashMap<String,String> comment_data) {
+    public void addHabitEventToDatabase(HashMap<String,String> data) {
         String users_collection_name = "Users";
-        String habits_collection_name = "Habits";
         String habit_events_collection_name = "Events";
 
         // adds to a sub-collection of Habits of the current user
         final CollectionReference collectionReference = db.collection(users_collection_name).document(uid).
-                collection(habits_collection_name).document(title).collection(habit_events_collection_name);
+                collection(habit_events_collection_name);
 
         collectionReference
                 .document(documentTitle)
-                .set(comment_data)
+                .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

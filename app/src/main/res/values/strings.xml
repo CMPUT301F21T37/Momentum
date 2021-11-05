@@ -11,6 +11,7 @@
     <string name="home_image_description">design image for home view</string>
     <string name="home_instructions">Get a clear view of your day.\n Click a date to see your habits for that day.\n Tap + to add a habit.</string>
     <string name="day_habits_title_activity">Habits Title</string>
+    <string name ="habit_event_title_activity">Habit Events Title</string>
     <string name="done">DONE</string>
     <string name="example_motivation_day_habits">Motivation \n Example motivation</string>
     <string name="example_toast">Example toast</string>
@@ -20,4 +21,12 @@
     <string name="add_habit_event_comment">Comment</string>
     <string name="comment_hint">Add an optional comment (up to 20 characters)</string>
     <string name="great_job">Great Job!</string>
+    <string name="motivation">Motivation</string>
+    <string name ="habit_event_comment">Habit Events Comment</string>
+    <string name="frequency">Frequency</string>
+    <string name="starting_date">Starting Date</string>
+    <string name="privacy">Privacy</string>
+    <string name="events">Events</string>
+    <string name="title">Title</string>
+    <string name="edit_habit">Edit Habit</string>
 </resources>

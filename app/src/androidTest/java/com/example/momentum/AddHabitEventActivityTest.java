@@ -50,7 +50,7 @@ public class AddHabitEventActivityTest {
     private void goToActivity() {
         solo.clickOnView(solo.getView(R.id.calendarView));
         solo.waitForText("Habits", 1, 2000);
-        solo.clickOnText("Exercise");
+        solo.clickOnText("Coding");
     }
 
     /**

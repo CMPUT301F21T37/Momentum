@@ -22,6 +22,10 @@
         android:id="@+id/habit_event_listView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:divider="@android:color/white"
+        android:dividerHeight="6dp"
         android:background="@drawable/rounded_corner"
         android:backgroundTint="@color/darker_grey">
 
@@ -36,6 +40,17 @@
         android:layout_gravity="center_horizontal|right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/fin_delete_he_btn"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/super_dark_grey"
+        android:textStyle="bold"
+        android:text="View"
+        android:layout_gravity="center_horizontal|right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
 
 </LinearLayout>

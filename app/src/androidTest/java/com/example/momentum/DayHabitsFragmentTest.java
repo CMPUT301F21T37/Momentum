@@ -86,7 +86,7 @@ public class DayHabitsFragmentTest {
         // clicks on the habit that is not completed
         solo.clickOnView(solo.getView(R.id.calendarView));
         solo.waitForText("Habits", 1, 2000);
-        solo.clickOnText("Exercise");
+        solo.clickOnText("Coding");
 
         // checks if it is in the AddHabitEventActivity to add a habit event
         solo.assertCurrentActivity("Wrong Activity!", AddHabitEventActivity.class);
@@ -104,10 +104,10 @@ public class DayHabitsFragmentTest {
         // clicks on the habit that is not completed
         solo.clickOnView(solo.getView(R.id.calendarView));
         solo.waitForText("Habits", 1, 2000);
-        solo.clickOnText("Coding");
+        solo.clickOnText("Exercise");
 
         // checks if a toast exists
-        solo.waitForText("You have already added a habit event for today. Please edit or delete your event by clicking the 'Habit Events' button on the Home page.",
+        solo.waitForText("You have already added a habit event for today. Edit or delete your event on the Habit Events page.",
                 1, 2000);
 
         // checks to see that it didn't go to another activity

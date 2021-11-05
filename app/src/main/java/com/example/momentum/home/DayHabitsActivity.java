@@ -31,7 +31,7 @@ import java.util.HashMap;
 
 /**
  * An activity that lets the user assign completion for the clicked habit iff the clicked date is the current date.
- * @author: Kaye Ena Crayzhel F. Misay
+ * @author Kaye Ena Crayzhel F. Misay
  */
 public class DayHabitsActivity extends AppCompatActivity {
     private final String TAG = "ADD_DONE_DATE";
@@ -163,11 +163,11 @@ public class DayHabitsActivity extends AppCompatActivity {
         String done_dates_collection_name = "Done dates";
         HashMap<String, Boolean> data = new HashMap<>();
 
-        // adds to a sub-collection of Habits of the current user
+        // adds to a sub-collection of Events of the current user
         final CollectionReference collectionReference = db.collection(users_collection_name).document(uid)
                 .collection(habits_collection_name).document(title).collection(done_dates_collection_name);
 
-        data.put("done",true);
+        data.put("done",true); // to fill data
         collectionReference
                 .document(clickedDateStr)
                 .set(data)

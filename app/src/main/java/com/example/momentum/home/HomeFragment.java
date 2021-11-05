@@ -1,6 +1,5 @@
 package com.example.momentum.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -13,9 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.momentum.habitEvents.Habit_Events;
+import com.example.momentum.habitEvents.HabitEventsFragment;
 import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentHomeBinding;
+import com.example.momentum.habits.HabitsFragment;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -32,10 +32,13 @@ public class HomeFragment extends Fragment {
     public static final String DATE_CLICKED_DAY_HABIT = "DATE_CLICKED";
     public static final String DATE_CLICKED_DAY_HABIT_STR = "DATE_CLICKED_STR";
     public static final String START_DAY_HABIT_FRAGMENT = "DAY_HABIT_FRAGMENT";
+    public static final String START_ALL_HABITS_VIEW_FRAGMENT = "HABITS_FRAGMENT";
+    public static final String START_ALL_EVENTS_VIEW_FRAGMENT = "EVENTS_FRAGMENT";
 
     private FragmentHomeBinding binding;
     private CalendarView calendar;
     private Button habitEvents;
+    private Button habits;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +53,10 @@ public class HomeFragment extends Fragment {
         // habit events binding
         habitEvents = binding.viewAllHabitEventsButton;
         habitEvents.setOnClickListener(this::onHabitEventsClick);
+
+        // habit binding
+        habits = binding.viewAllHabitsButton;
+        habits.setOnClickListener(this::onHabitsClick);
 
         return root;
     }
@@ -148,9 +155,27 @@ public class HomeFragment extends Fragment {
      * 'true' to confirm with the listener
      */
     private boolean onHabitEventsClick(View view) {
-        Intent intent = new Intent(getContext(), Habit_Events.class);
-        startActivity(intent);
+        Fragment fragment = new HabitEventsFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.nav_host_fragment_activity_main, fragment, START_ALL_EVENTS_VIEW_FRAGMENT);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        return true;
+    }
 
+    /**
+     * Callback handler for when the Habits button is clicked
+     * @param view
+     * Current view associated with the listener.
+     * @return
+     * 'true' to confirm with the listener
+     */
+    private boolean onHabitsClick(View view) {
+        Fragment fragment = new HabitsFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.nav_host_fragment_activity_main, fragment, START_ALL_HABITS_VIEW_FRAGMENT);
+        transaction.addToBackStack(null);
+        transaction.commit();
         return true;
     }
 

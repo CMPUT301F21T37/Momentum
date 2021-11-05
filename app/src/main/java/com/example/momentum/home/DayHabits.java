@@ -2,7 +2,7 @@ package com.example.momentum.home;
 
 /**
  * A class that stores information stored in DayHabitsFragments for easy access and initialization.
- * @author: Kaye Ena Crayzhel F. Misay
+ * @author Kaye Ena Crayzhel F. Misay
  */
 public class DayHabits {
     private String title;

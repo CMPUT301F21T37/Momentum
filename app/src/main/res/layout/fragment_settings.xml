@@ -5,10 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/darker_grey"
     tools:context=".settings.SettingsFragment">
-
-
 
     <TextView
         android:id="@+id/text_settings"
@@ -21,7 +18,6 @@
         android:textColor="@color/black"
         android:textSize="40sp"
         android:textStyle="bold" />
-
 
     <TextView
         android:id="@+id/accountText_settings"
@@ -43,7 +39,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
-        android:background="#f3f0e9"
+        android:background="@color/darker_grey"
         android:drawableLeft="@drawable/id_card"
         android:drawablePadding="10dp"
         android:drawableTint="@color/red_main"
@@ -63,7 +59,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
-        android:background="#f3f0e9"
+        android:background="@color/darker_grey"
         android:drawableLeft="@drawable/mail"
         android:drawablePadding="10dp"
         android:drawableTint="@color/red_main"
@@ -82,7 +78,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
-        android:background="#f3f0e9"
+        android:background="@color/darker_grey"
         android:drawableLeft="@drawable/lock"
         android:drawablePadding="10dp"
         android:drawableTint="@color/red_main"
@@ -101,7 +97,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
-        android:background="#f3f0e9"
+        android:background="@color/darker_grey"
         android:drawableLeft="@drawable/world"
         android:drawablePadding="10dp"
         android:drawableTint="@color/red_main"
@@ -133,7 +129,7 @@
         android:layout_marginEnd="8dp"
         android:padding="7dp"
         android:textSize="16dp"
-        android:background="#f3f0e9"
+        android:background="@color/darker_grey"
         android:text="Following: 0"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -148,7 +144,7 @@
         android:layout_marginEnd="8dp"
         android:padding="7dp"
         android:textSize="16dp"
-        android:background="#f3f0e9"
+        android:background="@color/darker_grey"
         android:text="Followers: 0"
         android:textStyle="bold"
         android:textColor="@color/black"
