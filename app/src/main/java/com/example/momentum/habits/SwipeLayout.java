@@ -11,7 +11,9 @@ import androidx.core.view.ViewCompat;
 import androidx.customview.widget.ViewDragHelper;
 
 /**
- *
+ * This is a class that extends LinearLayout to be used for swiping on ListView.
+ * This may be used for Project Part 4; however, it is not used for Project Part 3.
+ * @author Boxiao Li
  */
 public class SwipeLayout extends LinearLayout {
 

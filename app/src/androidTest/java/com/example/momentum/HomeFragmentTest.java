@@ -78,7 +78,7 @@ public class HomeFragmentTest {
         // checks that we are in MainActivity
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
 
-        // clicks the HabitEvents Button
+        // clicks the HabitEventsAdapter Button
         solo.clickOnButton("Habit Events");
 
         // checks that we've changed activities
