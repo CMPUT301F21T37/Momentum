@@ -2,20 +2,24 @@ package com.example.momentum.add;
 
 import static android.content.ContentValues.TAG;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.momentum.Habit;
+import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentAddHabitBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -75,6 +80,28 @@ public class AddFragment extends Fragment{
         Activity activity = getActivity();
         final CollectionReference collectionreference = db.collection("Users").document(uid).collection("Habits");
         final Button create_button = binding.createHabitButton;
+
+        // Date Picker dialog for date
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+                DatePickerDialog datePicker = new DatePickerDialog(getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int day) {
+                                date.setText(day + "/" + (month + 1) + "/" + year);
+                            }
+                        }, year, month, day);
+                datePicker.show();
+                datePicker.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(getContext(), R.color.red_main));
+                datePicker.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(getContext(), R.color.red_main));
+            }
+        });
+
         create_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,6 +124,7 @@ public class AddFragment extends Fragment{
                     try {
                         String t = title.getText().toString();
                         String r = reason.getText().toString();
+
                         Date d = new SimpleDateFormat("dd/MM/yyyy").parse(date.getText().toString());
                         ArrayList<String> f = new ArrayList<String>();
                         if (mon.isChecked()){
