@@ -35,11 +35,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * @version 1.5
+ * @author rittwage, misay
+ *
+ */
 public class AddFragment extends Fragment{
     private AddViewModel AddViewModel;
     private FragmentAddHabitBinding binding;
 
-    //initialize database values
+    /**
+     *
+     */
     private FirebaseFirestore db;
     private FirebaseUser user;
     private String uid;
@@ -60,7 +67,9 @@ public class AddFragment extends Fragment{
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AddViewModel = new ViewModelProvider(this).get(AddViewModel.class);
-
+        /**
+         * Database
+         */
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
@@ -78,6 +87,7 @@ public class AddFragment extends Fragment{
         sat = binding.satButton;
         sun = binding.sunButton;
         privacy = binding.habitPrivacy;
+
         Activity activity = getActivity();
         final CollectionReference collectionreference = db.collection("Users").document(uid).collection("Habits");
         final Button create_button = binding.createHabitButton;
@@ -103,28 +113,33 @@ public class AddFragment extends Fragment{
                 datePicker.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(getContext(), R.color.red_main));
             }
         });
-
+        // OnClickListener for the Create Habit button, when clicked reads all the other input
+        // information to create a habit object with that info. This information is also
+        // uploaded to the firestore database as fields in the habit document titled under title.
         create_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (title.getText().toString().length() > 20){
-                    Log.w(TAG, "Title too long");
-                    Toast.makeText(activity, "Title must be less than 20 chars",
-                            Toast.LENGTH_SHORT).show();
-                }
-                else if (reason.getText().toString().length() > 30){
-                    Log.w(TAG, "Reason too long");
-                    Toast.makeText(activity, "Reason must be less than 30 chars",
-                            Toast.LENGTH_SHORT).show();
-                }
-                else if(title == null || title.getText().toString().equals("")){
+                // If statement that checks for an empty title field, and prompts user to retry
+                if(title == null || title.getText().toString().equals("")){
                     Log.w(TAG, "No Title Error");
                     Toast.makeText(activity, "Title Required",
                             Toast.LENGTH_SHORT).show();
                 }
+                else if (f.isEmpty()) {
+                            Toast.makeText(getContext(), "Please choose at least one day to do your habit!",
+                                    Toast.LENGTH_SHORT).show()
+                }
                 else{
+                    //try statement to ensure that when date is parsed invalid dates are not accepted
                     try {
+                        //collects info from the edit_title, and edit_reason edittext objects
+                        String t = title.getText().toString();
+                        String r = reason.getText().toString();
+
+                        Date d = new SimpleDateFormat("dd/MM/yyyy").parse(date.getText().toString());
+
                         ArrayList<String> f = new ArrayList<String>();
+                        //series of if statements to check each toggle button
                         if (mon.isChecked()){
                             f.add("Monday");
                         }
@@ -146,47 +161,45 @@ public class AddFragment extends Fragment{
                         if (sun.isChecked()){
                             f.add("Sunday");
                         }
+                        //checks if the habit should be private or not
+                        Boolean p = privacy.isChecked();
+                        //constructor for the habit class
+                        Habit habit = new Habit(t, r, d, p, f);
+                        //hashmap of Strings and objects
+                        HashMap<String, Object> data = new HashMap<>();
+                        //puts key and object pairs in the data hashmap
+                        data.put("date", d);
+                        data.put("frequency",f);
+                        data.put("private",p);
+                        data.put("reason", r);
 
-                        // if the new frequency is empty, show a prompt to the customer saying they should choose at least one
-                        if (f.isEmpty()) {
-                            Toast.makeText(getContext(), "Please choose at least one day to do your habit!",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            String t = title.getText().toString();
-                            String r = reason.getText().toString();
+                        //uploads data into a firebase database into a document titled t
+                        collectionreference
+                                .document(t)
+                                .set(data)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        // These are a method which gets executed when the task is succeeded
+                                        Log.d(TAG, "Data has been added successfully!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // These are a method which gets executed if there’s any problem
+                                        Log.d(TAG, "Data could not be added!" + e.toString());
+                                    }
+                                });
+                        //toast to show that a habit has been created
+                        Toast.makeText(activity, "Habit Created",
+                                Toast.LENGTH_LONG).show();
+                        Log.w(TAG, "Habit_created");
+                        Log.w(TAG, habit.toString());
+                        //call to the clear function to reset all changed variables in the habit fragment
+                        clear();
 
-                            Date d = new SimpleDateFormat("dd/MM/yyyy").parse(date.getText().toString());
-                            Boolean p = privacy.isChecked();
-                            Habit habit = new Habit(t, r, d, p, f);
-                            HashMap<String, Object> data = new HashMap<>();
-                            data.put("date", d);
-                            data.put("frequency",f);
-                            data.put("private",p);
-                            data.put("reason", r);
 
-                            collectionreference
-                                    .document(t)
-                                    .set(data)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            // These are a method which gets executed when the task is succeeded
-                                            Log.d(TAG, "Data has been added successfully!");
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            // These are a method which gets executed if there’s any problem
-                                            Log.d(TAG, "Data could not be added!" + e.toString());
-                                        }
-                                    });
-                            Toast.makeText(activity, "Habit Created",
-                                    Toast.LENGTH_LONG).show();
-                            Log.w(TAG, "Habit_created");
-                            Log.w(TAG, habit.toString());
-                            clear();
-                        }
                     }
                     catch (ParseException e){
                         Log.w(TAG, "Date Parse Error");
@@ -199,6 +212,7 @@ public class AddFragment extends Fragment{
     }
 
     private void clear(){
+        //sets all input fields to their original values
         title.setText("");
         reason.setText("");
         date.setText("");

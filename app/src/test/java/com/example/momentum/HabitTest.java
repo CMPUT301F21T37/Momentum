@@ -9,6 +9,10 @@ import java.util.Date;
 
 public class HabitTest {
 
+
+    /**
+     * Tests Habit constructor and its get functions.
+     */
     @Test
     public void habit_construct_get_test(){
         String test_title = "title";
@@ -28,6 +32,10 @@ public class HabitTest {
         assertEquals(test_date, habit.getDate());
         assertEquals(test_freq, habit.getWeekly_frequency());
     }
+
+    /**
+     * Tests setters of the habit function
+     */
     @Test
     public void habit_Set_test(){
         String test_title = "title";
