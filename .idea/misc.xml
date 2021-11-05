@@ -11,21 +11,25 @@
         <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/signup_screen.xml" value="0.2884963768115942" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/drawable/he_btns.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/drawable/rounded_corner.xml" value="0.14583333333333334" />
-        <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/activity_habit_events.xml" value="0.264" />
-        <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/activity_indiv_habit_event_view.xml" value="0.11510416666666666" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/drawable/rounded_corner_translucent.xml" value="0.12291666666666666" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/activity_add_habit_event.xml" value="0.264" />
+        <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/activity_day_habits.xml" value="0.11875" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/activity_habit_events.xml" value="0.3497191011235955" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/activity_indiv_habit_event_view.xml" value="0.264" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/activity_main.xml" value="0.1296875" />
+        <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/activity_view_habit.xml" value="0.11875" />
+        <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/content_card_view.xml" value="0.1296875" />
+        <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/edit_habit_event.xml" value="0.1296875" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/floating_he.xml" value="0.1296875" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/fragment_add_habit.xml" value="0.1296875" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/fragment_day_habits.xml" value="0.1296875" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/fragment_following.xml" value="0.1296875" />
+        <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/fragment_habit_events.xml" value="0.11875" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/fragment_home.xml" value="0.1296875" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/fragment_settings.xml" value="0.1296875" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/fragment_sharing.xml" value="0.1296875" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/habit_events.xml" value="0.16" />
+        <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/he_del_edit_button.xml" value="0.1296875" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/individual_he_view.xml" value="0.264" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/list_content.xml" value="0.1296875" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/list_habit_events.xml" value="0.264" />
@@ -34,7 +38,6 @@
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/swipe_habits_activity_item.xml" value="0.2" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/layout/temperary_he_indvi_view.xml" value="0.12604166666666666" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.290625" />
-        <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/btn_toggle.xml" value="0.16041666666666668" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/he_btns.xml" value="0.290625" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.290625" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.290625" />
@@ -51,8 +54,6 @@
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/activity_day_habits.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/activity_day_habits_toast.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/activity_habit_events.xml" value="0.20199275362318841" />
-        <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/activity_habits.xml" value="0.19021739130434784" />
-        <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/activity_indiv_habit_event_view.xml" value="0.19021739130434784" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/activity_main.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/content_card_view.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/custom_toast.xml" value="0.20199275362318841" />
@@ -61,10 +62,6 @@
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/fragment_day_habits.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/fragment_following.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/fragment_home.xml" value="0.20199275362318841" />
-        <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/fragment_sharing.xml" value="0.19021739130434784" />
-        <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/login_screen.xml" value="0.18931159420289856" />
-        <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/signup_screen.xml" value="0.19021739130434784" />
-        <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/layout/swipe_habits_activity_item.xml" value="0.19021739130434784" />
         <entry key="..\:/Users/rapha/Documents/GitHub/Momentum/app/src/main/res/menu/bottom_nav_color.xml" value="0.27447916666666666" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.259375" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.1390625" />

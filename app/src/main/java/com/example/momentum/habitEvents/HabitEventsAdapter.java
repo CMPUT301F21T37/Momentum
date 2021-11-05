@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.momentum.R;
+import com.example.momentum.databinding.ActivityViewHabitBinding;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -19,9 +20,6 @@ import java.util.ArrayList;
 public class HabitEventsAdapter extends ArrayAdapter<Event> {
     private ArrayList<Event> events;
     private Context context;
-    private FirebaseFirestore db;
-    private FirebaseUser user;
-    private String uid;
 
     public HabitEventsAdapter(Context context, ArrayList<Event> habits){
         super(context, 0, habits);
@@ -39,7 +37,7 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
         }
         Event event = events.get(position);
 
-        // sets the habit list names
+        // sets the habit event list names
         TextView habitTitle = view.findViewById(R.id.card_view_text);
         habitTitle.setText(event.getTitle());
 

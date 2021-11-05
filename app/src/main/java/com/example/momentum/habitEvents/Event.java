@@ -1,7 +1,7 @@
 package com.example.momentum.habitEvents;
 
 /**
- * A class that stores information stored in DayHabitsFragments for easy access and initialization.
+ * A class that stores information stored in HabitEventsFragments for easy access and initialization.
  * @author Kaye Ena Crayzhel F. Misay
  */
 public class Event {
@@ -14,7 +14,7 @@ public class Event {
     }
 
     /**
-     * Getter for DayHabits title
+     * Getter for Event title
      * @return
      * A string of the title.
      */
@@ -23,7 +23,7 @@ public class Event {
     }
 
     /**
-     * Getter for DayHabits reason
+     * Getter for Event reason
      * @return
      * A string of the habit reason.
      */

@@ -38,8 +38,8 @@ import com.google.firebase.firestore.QuerySnapshot;
  * @author Han Yan
  */
 public class Indiv_habitEvent_view extends AppCompatActivity {
-    TextView title, he_date;
-    EditText comments;
+    TextView title;
+    TextView comments;
     CollectionReference myRef;
     private String uid;
     private FirebaseUser user;
@@ -51,7 +51,6 @@ public class Indiv_habitEvent_view extends AppCompatActivity {
         setContentView(R.layout.activity_indiv_habit_event_view);
 
         title = (TextView) findViewById(R.id.habit_event);
-        he_date = (TextView) findViewById(R.id.event_recordDate);
-        comments = (EditText) findViewById(R.id.comment);
+        comments = (TextView) findViewById(R.id.comment);
     }
 }

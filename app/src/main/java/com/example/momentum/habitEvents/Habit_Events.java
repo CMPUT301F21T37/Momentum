@@ -86,47 +86,16 @@ public class Habit_Events extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                startActivity(new Intent(Habit_Events.this, Partone_Indiv_he_view.class));
+                startActivity(new Intent(Habit_Events.this, Indiv_habitEvent_view.class));
             }
 
         });
-
-        //delete a habit event
-        delete_habitEvent_btn =findViewById(R.id.delete_he_btn);
-        finish_deletion_btn =findViewById(R.id.fin_delete_he_btn);
-
-        finish_deletion_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickView(view);
-            }
-        });
-
-        delete_habitEvent_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                        String itemValue = (String)listView.getItemAtPosition(position);
-                        adapter.remove(itemValue);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        });
-
 
 
 
 
     }
 
-    public void clickView(View v) {
-        // click view to change to view mode
-        Button deleteBtn = (Button) findViewById(R.id.delete_he_btn);
-        deleteBtn.setEnabled(false);
-    }
 
 
 

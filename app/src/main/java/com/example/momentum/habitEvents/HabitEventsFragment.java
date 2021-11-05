@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentHabitEventsBinding;
 import com.example.momentum.Habit;
 import com.google.firebase.Timestamp;
@@ -41,6 +42,7 @@ public class HabitEventsFragment extends Fragment {
     private FirebaseFirestore db;
     private FirebaseUser user;
     private String uid;
+    private ListView lView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -53,18 +55,18 @@ public class HabitEventsFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
-        final CollectionReference habitsReference = db.collection("Users").
+        final CollectionReference eventsReference = db.collection("Users").
                 document(uid).collection("Events");
 
 
         // listener for the Firestore database to accept realtime updates
-        habitsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        eventsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
                                 @Nullable FirebaseFirestoreException error) {
                 HabitEventsViewModel.clearEventsList();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                    // getting the data of a given habit document
+                    // getting the data of a given habit event document
                     String comment = (String) doc.getData().get("comment");
                     String habit_title = doc.getId();
 
@@ -90,7 +92,7 @@ public class HabitEventsFragment extends Fragment {
     public void showAllEvents() {
         habitsListView = binding.allEventsList;
 
-        HabitEventsViewModel.getHabitsList().observe(getViewLifecycleOwner(), new Observer<ArrayList<Event>>() {
+        HabitEventsViewModel.getEventsList().observe(getViewLifecycleOwner(), new Observer<ArrayList<Event>>() {
             @Override
             public void onChanged(ArrayList<Event> eventsList) {
                 eventsAdapter = new HabitEventsAdapter(getContext(),eventsList);
@@ -100,8 +102,8 @@ public class HabitEventsFragment extends Fragment {
     }
 
     /**
-     * Callback handler for when a habit is clicked in the habitsListView.
-     * When a habit is clicked, it goes to another activity that shows its details.
+     * Callback handler for when a habit event is clicked in the eventsListView.
+     * When a habit event is clicked, it goes to another activity that shows its details.
      * @param adapterView
      * View of the adapter associated with the listener.
      * @param view
@@ -116,7 +118,7 @@ public class HabitEventsFragment extends Fragment {
     private boolean onEventClick(AdapterView<?> adapterView, View view, int position, long id) {
         Event event = (Event) adapterView.getAdapter().getItem(position); // get the event details
 
-        // show the user a view of its habit details by going to ViewHabitActivity
+        // show the user a view of its habit event details by going to ViewHabitActivity
         Intent intent = new Intent(getContext(), Indiv_habitEvent_view.class);
         intent.putExtra(EVENT_TITLE, event.getTitle());
         intent.putExtra(EVENT_COMMENT, event.getComment());
