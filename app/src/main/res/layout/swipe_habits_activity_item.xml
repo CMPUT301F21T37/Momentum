@@ -39,8 +39,7 @@
                 <View
                     android:layout_centerInParent="true"
                     android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:background="@drawable/delete"/>  <!--delete-->
+                    android:layout_height="28dp" />  <!--delete-->
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
