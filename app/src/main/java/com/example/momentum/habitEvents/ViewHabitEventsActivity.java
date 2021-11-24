@@ -14,9 +14,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * An activity that lets the user see their habit events and corresponding details.
- * @author: Kaye Ena Crayzhel F. Misay, Han Yan
+ * @author Kaye Ena Crayzhel F. Misay
+ * @author Han Yan
  */
-
 public class ViewHabitEventsActivity extends AppCompatActivity {
     private ActivityIndivHabitEventViewBinding binding;
     private String title;

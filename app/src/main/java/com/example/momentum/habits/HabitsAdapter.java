@@ -66,6 +66,10 @@ public class HabitsAdapter extends ArrayAdapter<Habit>{
         ViewHolder viewHolder;
         Habit habit = getItem(position); // Get the Habit instance of the current item
 
+        /*
+        On How to create a functional layout for listview with buttons
+        https://stackoverflow.com/questions/17525886/listview-with-add-and-delete-buttons-in-each-row-in-android
+         */
         if(view == null){
             // if view is null, inflate the layout
             view = LayoutInflater.from(context).inflate(R.layout.content_card_view_edit_delete, parent,false);

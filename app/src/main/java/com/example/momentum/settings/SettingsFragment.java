@@ -18,6 +18,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * Base code for the settings fragment
+ * @author alzafara
+ */
 public class SettingsFragment extends Fragment {
     private SettingsViewModel SettingsViewModel;
     private FragmentSettingsBinding binding;
@@ -26,15 +30,16 @@ public class SettingsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SettingsViewModel =
-                new ViewModelProvider(this).get(SettingsViewModel.class);
-
+        // binding to the MainActivity
+        SettingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // getting instance of the database
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
+        // binding the text settings
         final TextView textSettings = binding.textSettings;
         SettingsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -43,10 +48,12 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        // binding the username
         final TextView usernameSettings = binding.usernameSettings;
         assert user != null;
         usernameSettings.setText(user.getDisplayName());
 
+        // binding the email of the user
         final TextView emailSettings = binding.emailSettings;
         emailSettings.setText(user.getEmail());
 

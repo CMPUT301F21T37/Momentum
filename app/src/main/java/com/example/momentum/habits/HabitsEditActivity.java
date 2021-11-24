@@ -38,18 +38,21 @@ public class HabitsEditActivity extends AppCompatActivity {
 
     private ActivityEditHabitBinding binding;
 
+    // database initialization
     private FirebaseFirestore db;
     private FirebaseUser user;
     private String uid;
     private CollectionReference habitsReference;
     private CollectionReference eventsReference;
 
+    // intent extras from fragment
     private String title;
     private String reason;
     private ArrayList<?> frequency;
     private Boolean isPrivate;
     private Date date;
 
+    // buttons to check
     private FloatingActionButton backButton;
     private EditText titleEdit;
     private EditText reasonEdit;
@@ -217,6 +220,10 @@ public class HabitsEditActivity extends AppCompatActivity {
         // initialize collection reference
         habitsReference = db.collection("Users").document(uid).collection("Habits");
 
+        // getting the new strings for title and reason
+        String newTitle = titleEdit.getText().toString();
+        String newReason = reasonEdit.getText().toString();
+
         // getting the new frequencies
         ArrayList<String> newFrequency = new ArrayList<>();
         if (mon.isChecked()){
@@ -241,16 +248,22 @@ public class HabitsEditActivity extends AppCompatActivity {
             newFrequency.add("Sunday");
         }
 
+        if (newTitle.trim().length() == 0) {
+            Toast.makeText(HabitsEditActivity.this, "Title must not be left blank.",
+                    Toast.LENGTH_SHORT).show();
+        }
+        else if (newReason.trim().length() == 0) {
+            Toast.makeText(HabitsEditActivity.this, "Reason must not be left blank.",
+                    Toast.LENGTH_SHORT).show();
+        }
         // if the new frequency is empty, show a prompt to the customer saying they should choose at least one
-        if (newFrequency.isEmpty()) {
+        else if (newFrequency.isEmpty()) {
             Toast.makeText(HabitsEditActivity.this, "Please choose at least one day to do your habit!",
                     Toast.LENGTH_SHORT).show();
         }
         // else, proceed with the update since all checks have been made
         else {
-            // getting the new strings for title and reason
-            String newTitle = titleEdit.getText().toString();
-            String newReason = reasonEdit.getText().toString();
+            // getting the privacy of the given habit
             Boolean newIsPrivate = privacy.isChecked();
 
             // add to a hashmap to update database
