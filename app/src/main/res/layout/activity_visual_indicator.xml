@@ -23,6 +23,48 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1Left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1Right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.34" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2Left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.38" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2Right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.62" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3Left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.66" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3Right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
     <TextView
         android:id="@+id/visualIndicatorTitle"
         android:layout_width="match_parent"
@@ -41,7 +83,10 @@
 
     <ProgressBar
         android:id="@+id/progressBarJanuary"
-        style="?android:attr/progressBarStyle"
+        style="@style/CircularDeterminateProgressBar"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:rotation="-90"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="25dp"
@@ -53,9 +98,9 @@
         app:layout_constraintVertical_bias="0.05"/>
 
     <TextView
+        android:id="@+id/percentageJanuary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jan"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/progressBarJanuary"
@@ -63,9 +108,25 @@
         app:layout_constraintStart_toStartOf="@id/progressBarJanuary"
         app:layout_constraintTop_toTopOf="@id/progressBarJanuary"/>
 
+    <TextView
+        android:id="@+id/JanuaryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="January"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline1Right"
+        app:layout_constraintStart_toStartOf="@id/guideline1Left"
+        app:layout_constraintTop_toBottomOf="@id/progressBarJanuary"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/progressBarFebruary"
-        style="?android:attr/progressBarStyle"
+        style="@style/CircularDeterminateProgressBar"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:rotation="-90"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -76,9 +137,9 @@
         app:layout_constraintVertical_bias="0.05"/>
 
     <TextView
+        android:id="@+id/percentageFebruary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Feb"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/progressBarFebruary"
@@ -86,9 +147,25 @@
         app:layout_constraintStart_toStartOf="@id/progressBarFebruary"
         app:layout_constraintTop_toTopOf="@id/progressBarFebruary"/>
 
+    <TextView
+        android:id="@+id/FebruaryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="February"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline2Right"
+        app:layout_constraintStart_toStartOf="@id/guideline2Left"
+        app:layout_constraintTop_toBottomOf="@id/progressBarFebruary"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/progressBarMarch"
-        style="?android:attr/progressBarStyle"
+        style="@style/CircularDeterminateProgressBar"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:rotation="-90"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="25dp"
@@ -96,13 +173,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/progressBarFebruary"
         app:layout_constraintTop_toBottomOf="@id/visualIndicatorTitle"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="0.05"/>
 
     <TextView
+        android:id="@+id/percentageMarch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mar"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/progressBarMarch"
@@ -110,23 +186,39 @@
         app:layout_constraintStart_toStartOf="@id/progressBarMarch"
         app:layout_constraintTop_toTopOf="@id/progressBarMarch"/>
 
+    <TextView
+        android:id="@+id/MarchText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="March"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline3Right"
+        app:layout_constraintStart_toStartOf="@id/guideline3Left"
+        app:layout_constraintTop_toBottomOf="@id/progressBarMarch"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/progressBarApril"
-        style="?android:attr/progressBarStyle"
+        style="@style/CircularDeterminateProgressBar"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="25dp"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:rotation="-90"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/progressBarMay"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progressBarJanuary"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.05"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/JanuaryText"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
+        android:id="@+id/percentageApril"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Apr"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/progressBarApril"
@@ -134,22 +226,38 @@
         app:layout_constraintStart_toStartOf="@id/progressBarApril"
         app:layout_constraintTop_toTopOf="@id/progressBarApril"/>
 
+    <TextView
+        android:id="@+id/AprilText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="April"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline1Right"
+        app:layout_constraintStart_toStartOf="@id/guideline1Left"
+        app:layout_constraintTop_toBottomOf="@id/progressBarApril"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/progressBarMay"
-        style="?android:attr/progressBarStyle"
+        style="@style/CircularDeterminateProgressBar"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:rotation="-90"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/progressBarJune"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/progressBarApril"
-        app:layout_constraintTop_toBottomOf="@id/progressBarFebruary"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintTop_toBottomOf="@id/FebruaryText"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
+        android:id="@+id/percentageMay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="May"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/progressBarMay"
@@ -157,23 +265,39 @@
         app:layout_constraintStart_toStartOf="@id/progressBarMay"
         app:layout_constraintTop_toTopOf="@id/progressBarMay"/>
 
+    <TextView
+        android:id="@+id/MayText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="May"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline2Right"
+        app:layout_constraintStart_toStartOf="@id/guideline2Left"
+        app:layout_constraintTop_toBottomOf="@id/progressBarMay"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/progressBarJune"
-        style="?android:attr/progressBarStyle"
+        style="@style/CircularDeterminateProgressBar"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:rotation="-90"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/progressBarMay"
-        app:layout_constraintTop_toBottomOf="@id/progressBarMarch"
+        app:layout_constraintTop_toBottomOf="@id/MarchText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.05"/>
+        app:layout_constraintVertical_bias="0.0"/>
 
     <TextView
+        android:id="@+id/percentageJune"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jun"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/progressBarJune"
@@ -181,23 +305,39 @@
         app:layout_constraintStart_toStartOf="@id/progressBarJune"
         app:layout_constraintTop_toTopOf="@id/progressBarJune"/>
 
+    <TextView
+        android:id="@+id/JuneText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="June"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline3Right"
+        app:layout_constraintStart_toStartOf="@id/guideline3Left"
+        app:layout_constraintTop_toBottomOf="@id/progressBarJune"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/progressBarJuly"
-        style="?android:attr/progressBarStyle"
+        style="@style/CircularDeterminateProgressBar"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:rotation="-90"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/progressBarAugust"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progressBarApril"
+        app:layout_constraintTop_toBottomOf="@id/AprilText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.05"/>
+        app:layout_constraintVertical_bias="0.0"/>
 
     <TextView
+        android:id="@+id/percentageJuly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jul"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/progressBarJuly"
@@ -205,22 +345,38 @@
         app:layout_constraintStart_toStartOf="@id/progressBarJuly"
         app:layout_constraintTop_toTopOf="@id/progressBarJuly"/>
 
+    <TextView
+        android:id="@+id/JulyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="July"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline1Right"
+        app:layout_constraintStart_toStartOf="@id/guideline1Left"
+        app:layout_constraintTop_toBottomOf="@id/progressBarJuly"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/progressBarAugust"
-        style="?android:attr/progressBarStyle"
+        style="@style/CircularDeterminateProgressBar"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:rotation="-90"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/progressBarSeptember"
         app:layout_constraintStart_toEndOf="@id/progressBarJuly"
-        app:layout_constraintTop_toBottomOf="@id/progressBarMay"
+        app:layout_constraintTop_toBottomOf="@id/MayText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.05"/>
+        app:layout_constraintVertical_bias="0.0"/>
 
     <TextView
+        android:id="@+id/percentageAugust"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aug"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/progressBarAugust"
@@ -228,23 +384,39 @@
         app:layout_constraintStart_toStartOf="@id/progressBarAugust"
         app:layout_constraintTop_toTopOf="@id/progressBarAugust"/>
 
+    <TextView
+        android:id="@+id/AugustText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="August"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline2Right"
+        app:layout_constraintStart_toStartOf="@id/guideline2Left"
+        app:layout_constraintTop_toBottomOf="@id/progressBarAugust"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/progressBarSeptember"
-        style="?android:attr/progressBarStyle"
+        style="@style/CircularDeterminateProgressBar"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:rotation="-90"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/progressBarAugust"
-        app:layout_constraintTop_toBottomOf="@id/progressBarJune"
+        app:layout_constraintTop_toBottomOf="@id/JuneText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.05"/>
+        app:layout_constraintVertical_bias="0.0"/>
 
     <TextView
+        android:id="@+id/percentageSeptember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sept"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/progressBarSeptember"
@@ -252,23 +424,39 @@
         app:layout_constraintStart_toStartOf="@id/progressBarSeptember"
         app:layout_constraintTop_toTopOf="@id/progressBarSeptember"/>
 
+    <TextView
+        android:id="@+id/SeptemberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="September"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline3Right"
+        app:layout_constraintStart_toStartOf="@id/guideline3Left"
+        app:layout_constraintTop_toBottomOf="@id/progressBarSeptember"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/progressBarOctober"
-        style="?android:attr/progressBarStyle"
+        style="@style/CircularDeterminateProgressBar"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:rotation="-90"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/progressBarNovember"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progressBarJuly"
+        app:layout_constraintTop_toBottomOf="@id/JulyText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.05"/>
+        app:layout_constraintVertical_bias="0.0"/>
 
     <TextView
+        android:id="@+id/percentageOctober"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Oct"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/progressBarOctober"
@@ -276,22 +464,38 @@
         app:layout_constraintStart_toStartOf="@id/progressBarOctober"
         app:layout_constraintTop_toTopOf="@id/progressBarOctober"/>
 
+    <TextView
+        android:id="@+id/OctoberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="October"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline1Right"
+        app:layout_constraintStart_toStartOf="@id/guideline1Left"
+        app:layout_constraintTop_toBottomOf="@id/progressBarOctober"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/progressBarNovember"
-        style="?android:attr/progressBarStyle"
+        style="@style/CircularDeterminateProgressBar"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:rotation="-90"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/progressBarDecember"
         app:layout_constraintStart_toEndOf="@id/progressBarOctober"
-        app:layout_constraintTop_toBottomOf="@id/progressBarAugust"
+        app:layout_constraintTop_toBottomOf="@id/AugustText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.05"/>
+        app:layout_constraintVertical_bias="0.0"/>
 
     <TextView
+        android:id="@+id/percentageNovember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nov"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/progressBarNovember"
@@ -299,28 +503,57 @@
         app:layout_constraintStart_toStartOf="@id/progressBarNovember"
         app:layout_constraintTop_toTopOf="@id/progressBarNovember"/>
 
+    <TextView
+        android:id="@+id/NovemberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="November"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline2Right"
+        app:layout_constraintStart_toStartOf="@id/guideline2Left"
+        app:layout_constraintTop_toBottomOf="@id/progressBarNovember"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/progressBarDecember"
-        style="?android:attr/progressBarStyle"
+        style="@style/CircularDeterminateProgressBar"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:rotation="-90"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/progressBarNovember"
-        app:layout_constraintTop_toBottomOf="@id/progressBarSeptember"
+        app:layout_constraintTop_toBottomOf="@id/SeptemberText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.05"/>
+        app:layout_constraintVertical_bias="0.0"/>
 
     <TextView
+        android:id="@+id/percentageDecember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dec"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/progressBarDecember"
         app:layout_constraintEnd_toEndOf="@id/progressBarDecember"
         app:layout_constraintStart_toStartOf="@id/progressBarDecember"
         app:layout_constraintTop_toTopOf="@id/progressBarDecember"/>
+
+    <TextView
+        android:id="@+id/DecemberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="December"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline3Right"
+        app:layout_constraintStart_toStartOf="@id/guideline3Left"
+        app:layout_constraintTop_toBottomOf="@id/progressBarDecember"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
