@@ -117,6 +117,7 @@ public class HabitsEventsEditActivity extends AppCompatActivity {
 
         // updates the database then closes the activity
         editEventToDatabase(newComment);
+        finish();
         return true;
     }
 

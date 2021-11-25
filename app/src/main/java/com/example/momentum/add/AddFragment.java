@@ -27,6 +27,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,17 +38,18 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
-<<<<<<< Updated upstream
  * @version 1.5
  * @author rittwage, misay
  */
-public class AddFragment extends Fragment{
+public class AddFragment extends Fragment {
+    public static final String UPDATE_COUNT = "UPDATE_COUNT";
     private AddViewModel AddViewModel;
     private FragmentAddHabitBinding binding;
 
     private FirebaseFirestore db;
     private FirebaseUser user;
     private String uid;
+    private CollectionReference collectionReference;
 
     //initialize interface values
     EditText title;
@@ -61,6 +64,8 @@ public class AddFragment extends Fragment{
     ToggleButton sun;
     Switch privacy;
 
+    HashMap<String, Object> data;
+    String title_str;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AddViewModel = new ViewModelProvider(this).get(AddViewModel.class);
@@ -86,7 +91,7 @@ public class AddFragment extends Fragment{
         privacy = binding.habitPrivacy;
 
         Activity activity = getActivity();
-        final CollectionReference collectionreference = db.collection("Users").document(uid).collection("Habits");
+        collectionReference = db.collection("Users").document(uid).collection("Habits");
         final Button create_button = binding.createHabitButton;
 
         // this is a listener to let the user choose a date using datePickerDialog
@@ -159,49 +164,40 @@ public class AddFragment extends Fragment{
                     //try statement to ensure that when date is parsed invalid dates are not accepted
                     try {
                         //collects info from the edit_title, and edit_reason edittext objects
-                        String t = title.getText().toString();
+                        title_str = title.getText().toString();
                         String r = reason.getText().toString();
 
                         Date d = new SimpleDateFormat("dd/MM/yyyy").parse(date.getText().toString());
                         //checks if the habit should be private or not
                         Boolean p = privacy.isChecked();
-                        //constructor for the habit class
-                        Habit habit = new Habit(t, r, d, p, f);
+
                         //hashmap of Strings and objects
-                        HashMap<String, Object> data = new HashMap<>();
+                        data = new HashMap<>();
                         //puts key and object pairs in the data hashmap
                         data.put("date", d);
                         data.put("frequency",f);
                         data.put("private",p);
                         data.put("reason", r);
 
-                        //uploads data into a firebase database into a document titled t
-                        collectionreference
-                                .document(t)
-                                .set(data)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        DocumentReference documentReference = db.collection("Users").document(uid).
+                                collection("HabitCount").document("count");
+
+                        documentReference
+                                .get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override
-                                    public void onSuccess(Void aVoid) {
-                                        // These are a method which gets executed when the task is succeeded
-                                        Log.d(TAG, "Data has been added successfully!");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // These are a method which gets executed if there’s any problem
-                                        Log.d(TAG, "Data could not be added!" + e.toString());
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        String count_str = (String) documentSnapshot.getData().get("habits");
+                                        data.put("order", count_str);
+                                        addData();
+
+                                        // set a new count since we're adding a new habit
+                                        Integer count = Integer.valueOf(count_str);
+                                        Integer new_count = count + 1;
+                                        String new_count_str = new_count.toString();
+                                        setNewCount(new_count_str);
                                     }
                                 });
-                        //toast to show that a habit has been created
-                        Toast.makeText(activity, "Habit Created",
-                                Toast.LENGTH_LONG).show();
-                        Log.w(TAG, "Habit_created");
-                        Log.w(TAG, habit.toString());
-                        //call to the clear function to reset all changed variables in the habit fragment
-                        clear();
-
-
                     }
                     catch (ParseException e){
                         Log.w(TAG, "Date Parse Error");
@@ -226,7 +222,55 @@ public class AddFragment extends Fragment{
         sat.setChecked(false);
         sun.setChecked(false);
         privacy.setChecked(false);
+    }
 
+    private void addData() {
+        //uploads data into a firebase database into a document titled t
+        collectionReference
+                .document(title_str)
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // These are a method which gets executed when the task is succeeded
+                        Log.d(TAG, "Data has been added successfully!");
+                        //toast to show that a habit has been created
+                        Toast.makeText(getActivity(), "Habit Created", Toast.LENGTH_LONG).show();
+                        //call to the clear function to reset all changed variables in the habit fragment
+                        clear();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // These are a method which gets executed if there’s any problem
+                        Log.d(TAG, "Data could not be added!" + e.toString());
+                    }
+                });
+    }
+
+    private void setNewCount(String count) {
+        /*
+        To update a document:
+        https://saveyourtime.medium.com/firebase-cloud-firestore-add-set-update-delete-get-data-6da566513b1b
+         */
+        DocumentReference documentReference = db.collection("Users").document(uid).
+                collection("HabitCount").document("count");
+
+        documentReference
+                .update("habits", count)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(UPDATE_COUNT, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(UPDATE_COUNT, "Error updating document", e);
+                    }
+                });
     }
 
     @Override

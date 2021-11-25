@@ -34,6 +34,15 @@
             android:name=".habits.HabitsEditActivity"
             android:exported="true"/>
         <activity
+            android:name=".habits.HabitYearActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".habits.DeleteHabitActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".habits.VisualIndicatorActivity"
+            android:exported="true"/>
+        <activity
             android:name=".login.SignUpActivity"
             android:exported="true" />
         <activity
