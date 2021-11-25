@@ -65,9 +65,13 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
         ViewHolder viewHolder;
         Event event = getItem(position); // Get the Events instance of the current item
 
+        /*
+        On How to create a functional layout for listview with buttons
+        https://stackoverflow.com/questions/17525886/listview-with-add-and-delete-buttons-in-each-row-in-android
+         */
         if(view == null){
             // if view is null, inflate the layout
-            view = LayoutInflater.from(context).inflate(R.layout.popup_card_view_edit_delete, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.content_card_view_edit_delete, parent,false);
             viewHolder = new ViewHolder();
             viewHolder.cardView = view.findViewById(R.id.card_view_edit_delete);
             viewHolder.deleteButton = view.findViewById(R.id.card_view_delete);
@@ -135,7 +139,7 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
      * An instance of event to be shown
      */
     private void showEventDetails(Event event) {
-        Intent intent = new Intent(getContext(), ViewHabitActivity.class);
+        Intent intent = new Intent(getContext(), ViewHabitEventsActivity.class);
         intent.putExtra(HabitEventsFragment.EVENT_TITLE, event.getTitle());
         intent.putExtra(HabitEventsFragment.EVENT_COMMENT, event.getComment());
         context.startActivity(intent);

@@ -31,6 +31,7 @@ public class HomeFragment extends Fragment {
     public static final String DATE_COMPARE_DAY_HABIT = "IS_DATE_CLICKED_CURRENT";
     public static final String DATE_CLICKED_DAY_HABIT = "DATE_CLICKED";
     public static final String DATE_CLICKED_DAY_HABIT_STR = "DATE_CLICKED_STR";
+    public static final String DATE_MONTH_CLICKED_DAY = "MONTH_CLICKED";
     public static final String START_DAY_HABIT_FRAGMENT = "DAY_HABIT_FRAGMENT";
     public static final String START_ALL_HABITS_VIEW_FRAGMENT = "HABITS_FRAGMENT";
     public static final String START_ALL_EVENTS_VIEW_FRAGMENT = "EVENTS_FRAGMENT";
@@ -103,6 +104,7 @@ public class HomeFragment extends Fragment {
         bundle.putBoolean(DATE_COMPARE_DAY_HABIT, isSame);
         bundle.putSerializable(DATE_CLICKED_DAY_HABIT, calendar_click.getTime());
         bundle.putString(DATE_CLICKED_DAY_HABIT_STR, date);
+        bundle.putString(DATE_MONTH_CLICKED_DAY, month_str);
         startDayHabitsFragment(bundle);
         return true;
     }

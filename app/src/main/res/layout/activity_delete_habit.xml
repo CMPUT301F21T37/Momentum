@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addHabitEventBack"
+        android:id="@+id/deleteHabitBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -24,10 +23,10 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/AddHabitEventTitle"
+        android:id="@+id/deleteHabitTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_habit_event_title"
+        android:text="@string/day_habits_title_activity"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="40sp"
@@ -36,91 +35,75 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addHabitEventBack"
+        app:layout_constraintTop_toBottomOf="@id/deleteHabitBack"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/AddHabitEventInstruction"
+        android:id="@+id/deleteHabitInstruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:text="@string/add_habit_event_info"
+        android:text="@string/are_you_sure_you_want_to_delete_this_habit"
         android:textSize="20sp"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/AddHabitEventTitle"
+        app:layout_constraintTop_toBottomOf="@id/deleteHabitTitle"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/AddHabitEventCommentText"
+    <ImageView
+        android:id="@+id/redCircleDeleteHabit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="15dp"
-        android:text="@string/add_habit_event_comment"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/AddHabitEventInstruction"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/AddHabitEventComment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/comment_hint"
-        android:maxLength="20"
-        android:textSize="15sp"
-        android:background="@drawable/rounded_corner_white"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:padding="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/AddHabitEventCommentText"
-        app:layout_constraintVertical_bias="0.0"/>
-
-    <TextView
-        android:id="@+id/AddHabitEventGreatJob"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/great_job"
-        android:textAlignment="center"
-        android:textColor="@color/red_main"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/AddHabitEventComment"
-        app:layout_constraintVertical_bias="0.605" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addHabitEventDone"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/red_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deleteHabitInstruction"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/deleteHabitMotivation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/rounded_corner_translucent"
+        android:elevation="5dp"
+        android:text="@string/example_motivation_day_habits"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@id/redCircleDeleteHabit"
+        app:layout_constraintEnd_toEndOf="@id/redCircleDeleteHabit"
+        app:layout_constraintStart_toStartOf="@id/redCircleDeleteHabit"
+        app:layout_constraintTop_toTopOf="@+id/redCircleDeleteHabit"
+        app:layout_constraintVertical_bias="0.479" />
+
+    <Button
+        android:id="@+id/deleteHabitButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_corner"
         android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_baseline_check_24"
-        app:backgroundTint="@color/darker_grey"
+        android:gravity="center"
+        android:text="@string/delete"
+        android:textColor="@color/black"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/AddHabitEventGreatJob"
+        app:layout_constraintTop_toBottomOf="@+id/redCircleDeleteHabit"
         app:layout_constraintVertical_bias="0.0" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
