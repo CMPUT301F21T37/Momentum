@@ -222,13 +222,34 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
      * @param event An instance of Event to be edited
      */
     private void onEditClicked(Event event) {
-        setDatabase(event);
+
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+        eventsReference = db.collection("Users").document(uid).collection("Events");
+
+        eventsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                @Nullable FirebaseFirestoreException error) {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    Event event2 = (Event) doc.toObject(Event.class);
+                    if (event.getLatitude() == event2.getLatitude() &&
+                            event.getLongitude() == event2.getLongitude() &&
+                            event.getTitle().equals(event2.getTitle()) &&
+                            event.getComment().equals(event2.getComment())) {
+
+                        docName = doc.getId();
+                    }
+                }
+            }
+        });
         Intent intent = new Intent(getContext(), HabitsEventsEditActivity.class);
         intent.putExtra(HabitEventsFragment.EVENT_TITLE, event.getTitle());
         intent.putExtra(HabitEventsFragment.EVENT_COMMENT, event.getComment());
         intent.putExtra(HabitEventsFragment.EVENT_LATITUDE, event.getLatitude());
         intent.putExtra(HabitEventsFragment.EVENT_LONGITUDE, event.getLongitude());
-        intent.putExtra(HabitEventsFragment.DOC_NAME, docName);
+        intent.putExtra(HabitEventsFragment.EVENT_OBJECT, event);
         context.startActivity(intent);
     }
 

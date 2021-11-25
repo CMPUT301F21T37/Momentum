@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -38,7 +39,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 /**
  * An activity that lets the user edit the details of their habit events.
@@ -53,7 +58,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
 
     private GoogleMap mMap;
-    private static final float DEFAULT_ZOOM = 15;
+    private static final float DEFAULT_ZOOM = 5;
 
     private ActivityEditEventsBinding binding;
 
@@ -62,6 +67,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
     private String uid;
     private CollectionReference eventReference;
     private String docName;
+    private Event event;
 
     private String title;
     private String reason;
@@ -91,9 +97,29 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         reason = intent.getStringExtra(HabitEventsFragment.EVENT_COMMENT);
         latitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LATITUDE, 0);
         longitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LONGITUDE, 0);
-        docName = intent.getStringExtra(HabitEventsFragment.DOC_NAME);
-        Toast.makeText(HabitsEventsEditActivity.this, docName, Toast.LENGTH_SHORT).show();
+        event = (Event) intent.getSerializableExtra(HabitEventsFragment.EVENT_OBJECT);
 
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+        CollectionReference eventsReference = db.collection("Users").document(uid).collection("Events");
+
+        eventsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                @Nullable FirebaseFirestoreException error) {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    Event event2 = (Event) doc.toObject(Event.class);
+                    if (event.getLatitude() == event2.getLatitude() &&
+                            event.getLongitude() == event2.getLongitude() &&
+                            event.getTitle().equals(event2.getTitle()) &&
+                            event.getComment().equals(event2.getComment())) {
+
+                        docName = doc.getId();
+                    }
+                }
+            }
+        });
 
         // initialize previous values
         initializeValues();

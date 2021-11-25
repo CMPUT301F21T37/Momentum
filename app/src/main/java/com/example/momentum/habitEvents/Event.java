@@ -1,11 +1,13 @@
 package com.example.momentum.habitEvents;
 
+import java.io.Serializable;
+
 /**
  * A class that stores information stored from HabitEventsFragment for easy access and initialization.
  * @author Kaye Ena Crayzhel F. Misay
  * @author Han Yan
  */
-public class Event {
+public class Event implements Serializable {
     private String title;
     private String comment;
     private double latitude;

@@ -132,7 +132,10 @@ public class AddHabitEventActivity extends FragmentActivity implements OnMapRead
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
                         userLocation = (Location) task.getResult();
-                        moveCamera(new LatLng(userLocation.getLatitude(), userLocation.getLongitude()), DEFAULT_ZOOM);
+                        LatLng latLng = new  LatLng(userLocation.getLatitude(), userLocation.getLongitude());
+                        moveCamera(latLng, DEFAULT_ZOOM);
+                        mMap.clear();
+                        mMap.addMarker(new MarkerOptions().position(latLng));
                         Toast.makeText(AddHabitEventActivity.this, "Current Location Selected!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(AddHabitEventActivity.this, "Unable to get current location", Toast.LENGTH_SHORT).show();
