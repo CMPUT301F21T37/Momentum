@@ -1,32 +1,64 @@
 package com.example.momentum.habitEvents;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
+import com.example.momentum.R;
 import com.example.momentum.databinding.ActivityEditEventsBinding;
+import com.example.momentum.home.AddHabitEventActivity;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 /**
  * An activity that lets the user edit the details of their habit events.
+ *
  * @author Kaye Ena Crayzhel F. Misay
  * @author Han Yan
+ * @author Mohammed Alzafarani
  */
-public class HabitsEventsEditActivity extends AppCompatActivity {
+public class HabitsEventsEditActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+
     public static final String EDIT_EVENT = "EDIT EVENT";
+
+
+    private GoogleMap mMap;
+    private static final float DEFAULT_ZOOM = 5;
 
     private ActivityEditEventsBinding binding;
 
@@ -34,9 +66,13 @@ public class HabitsEventsEditActivity extends AppCompatActivity {
     private FirebaseUser user;
     private String uid;
     private CollectionReference eventReference;
+    private String docName;
+    private Event event;
 
     private String title;
     private String reason;
+    private double latitude;
+    private double longitude;
 
     private FloatingActionButton backButton;
     private TextView titleView;
@@ -59,6 +95,31 @@ public class HabitsEventsEditActivity extends AppCompatActivity {
         Intent intent = getIntent();
         title = intent.getStringExtra(HabitEventsFragment.EVENT_TITLE);
         reason = intent.getStringExtra(HabitEventsFragment.EVENT_COMMENT);
+        latitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LATITUDE, 0);
+        longitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LONGITUDE, 0);
+        event = (Event) intent.getSerializableExtra(HabitEventsFragment.EVENT_OBJECT);
+
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+        CollectionReference eventsReference = db.collection("Users").document(uid).collection("Events");
+
+        eventsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                @Nullable FirebaseFirestoreException error) {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    Event event2 = (Event) doc.toObject(Event.class);
+                    if (event.getLatitude() == event2.getLatitude() &&
+                            event.getLongitude() == event2.getLongitude() &&
+                            event.getTitle().equals(event2.getTitle()) &&
+                            event.getComment().equals(event2.getComment())) {
+
+                        docName = doc.getId();
+                    }
+                }
+            }
+        });
 
         // initialize previous values
         initializeValues();
@@ -70,6 +131,11 @@ public class HabitsEventsEditActivity extends AppCompatActivity {
         // listener for when the check button is clicked
         editEventButton = binding.editEventDone;
         editEventButton.setOnClickListener(this::editEventButtonOnClick);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.editMap);
+
+        mapFragment.getMapAsync(this);
     }
 
     /**
@@ -83,16 +149,14 @@ public class HabitsEventsEditActivity extends AppCompatActivity {
         // initializes the reason
         reasonEdit = binding.editHabitEventComment;
         reasonEdit.setText(reason);
-
     }
 
     /**
      * Callback handler for when the back button is clicked.
      * Goes back to the previous fragment.
-     * @param view
-     * Current view associated with the listener.
-     * @return
-     * 'true' to confirm with the listener
+     *
+     * @param view Current view associated with the listener.
+     * @return 'true' to confirm with the listener
      */
     private boolean backButtonOnClick(View view) {
         finish();
@@ -103,10 +167,9 @@ public class HabitsEventsEditActivity extends AppCompatActivity {
      * Callback handler for when the edit button is clicked.
      * Calls a method to update the database.
      * Goes back to the previous fragment.
-     * @param view
-     * Current view associated with the listener.
-     * @return
-     * 'true' to confirm with the listener
+     *
+     * @param view Current view associated with the listener.
+     * @return 'true' to confirm with the listener
      */
     private boolean editEventButtonOnClick(View view) {
         // initialize collection reference
@@ -114,40 +177,69 @@ public class HabitsEventsEditActivity extends AppCompatActivity {
 
         // getting the new strings for newComment
         String newComment = reasonEdit.getText().toString();
+        Event event = new Event(title, newComment, latitude, longitude);
 
         // updates the database then closes the activity
-        editEventToDatabase(newComment);
+
+        editEventToDatabase(event);
         finish();
         return true;
     }
 
     /**
      * Edits a given event.
-     * @param newComment
-     * The data to be put in Events field comment.
+     *
+     * @param event The data to be put in Events field comment.
      */
-    private void editEventToDatabase(String newComment) {
+    private void editEventToDatabase(Event event) {
         String users_collection_name = "Users";
         String events_collection_name = "Events";
 
         // adds to a sub-collection of Habits of the current user
         final DocumentReference documentReference = db.collection(users_collection_name).document(uid).
-                collection(events_collection_name).document(title);
+                collection(events_collection_name).document(docName);
 
-        // this will overwrite the document since it is unknown what the user will change to use .update()
         documentReference
-                .update("comment", newComment)
+                .set(event)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(EDIT_EVENT, "Data has been added successfully!");
+                        Log.d("EditEventToDatabase", "Data has been edited successfully!");
+                        Toast.makeText(HabitsEventsEditActivity.this, "Event Updated!", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d(EDIT_EVENT, "Data could not be added!" + e.toString());
+                        Log.d("EditEventToDatabase", "Data could not be edited!" + e.toString());
                     }
                 });
+    }
+
+
+    private void moveCamera(LatLng latLng, float zoom) {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+    }
+
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.setOnMapClickListener(this);
+
+        LatLng latLng = new LatLng(latitude, longitude);
+        moveCamera(latLng, DEFAULT_ZOOM);
+        mMap.addMarker(new MarkerOptions().position(latLng));
+
+    }
+
+
+    @Override
+    public void onMapClick(@NonNull LatLng latLng) {
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions().position(latLng));
+        latitude = latLng.latitude;
+        longitude = latLng.longitude;
+        Toast.makeText(HabitsEventsEditActivity.this, "Changed to marked location", Toast.LENGTH_SHORT).show();
     }
 }

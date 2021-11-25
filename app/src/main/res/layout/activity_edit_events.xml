@@ -2,8 +2,32 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/editMap"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="116dp"
+        app:layout_constraintBottom_toTopOf="@+id/editEventDone"
+        app:layout_constraintStart_toStartOf="parent"></fragment>
+
+    <TextView
+        android:id="@+id/location_title3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="2dp"
+        android:text="Location"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/editMap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.034"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/editEventBack"
@@ -88,7 +112,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editHabitEventComment"
-        app:layout_constraintVertical_bias="0.638" />
+        app:layout_constraintVertical_bias="0.78" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
