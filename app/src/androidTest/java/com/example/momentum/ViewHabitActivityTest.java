@@ -103,8 +103,8 @@ public class ViewHabitActivityTest {
         solo.waitForText("Coding", 1, 2000);
         solo.waitForText("Everyday", 1, 2000);
         solo.waitForText("November 1, 2021", 1, 2000);
-        solo.waitForText("Public");
-        solo.waitForText("I want to learn more");
+        solo.waitForText("Public", 1, 2000);
+        solo.waitForText("I want to learn more", 1, 2000);
     }
 
     /**
