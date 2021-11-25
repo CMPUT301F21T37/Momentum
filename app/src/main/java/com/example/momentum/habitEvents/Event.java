@@ -8,10 +8,18 @@ package com.example.momentum.habitEvents;
 public class Event {
     private String title;
     private String comment;
+    private double latitude;
+    private double longitude;
 
-    public Event (String title, String comment){
+    public Event(){
+
+    }
+
+    public Event (String title, String comment, double latitude, double longitude){
         this.title = title;
         this.comment = comment;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     /**
@@ -38,5 +46,21 @@ public class Event {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }
