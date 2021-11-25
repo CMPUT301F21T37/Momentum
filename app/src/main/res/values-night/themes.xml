@@ -14,4 +14,14 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- removes the default action bar -->
     </style>
+
+    <!--Here, android: indeterminateDrawable sets the picture displayed in
+the animation or the xml file of this animation and android: indeterminateOnly
+   This property is set to true,the progress bar will be ignored Progress and present
+   an infinite loop of animation
+-->
+    <style name="CircularDeterminateProgressBar">
+        <item name="android:indeterminateOnly">false </item>
+        <item name="android:progressDrawable">@drawable/progress_bar</item>
+    </style>
 </resources>

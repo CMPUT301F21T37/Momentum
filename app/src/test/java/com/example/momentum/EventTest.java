@@ -6,6 +6,9 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
+/**
+ * Test for Event class
+ */
 public class EventTest {
     /**
      * Helper method to instantiate Event
