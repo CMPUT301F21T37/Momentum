@@ -14,28 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-
-import com.example.momentum.Habit;
 import com.example.momentum.R;
-import com.example.momentum.databinding.ActivityViewHabitBinding;
-import com.example.momentum.habits.HabitsAdapter;
-import com.example.momentum.habits.HabitsEditActivity;
-import com.example.momentum.habits.HabitsFragment;
-import com.example.momentum.habits.ViewHabitActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A class extending to an Array Adapter that keeps a list of events for HabitEventsFraagment up-to-date.
