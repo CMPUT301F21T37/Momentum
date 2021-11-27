@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentDayHabitsBinding;
+import com.example.momentum.habits.HabitsFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -52,8 +53,6 @@ import java.util.Date;
 public class DayHabitsFragment extends Fragment {
     public static final String TITLE_DAY_HABIT = "HABIT_TITLE";
     public static final String MOTIVATION = "MOTIVATION";
-    public static final String DATE_COMPARE_DAY_HABIT = "IS_DATE_CLICKED_CURRENT";
-    public static final String CLICKED_DATE_STR = "DATE_CLICKED_STR";
     public static final String TITLE_HABIT_EVENT = "HABIT_EVENT_TITLE";
     public static final String CHECK_IF_HABIT_EVENT_EXISTS = "CHECK_HABIT_EVENT_EXISTENCE";
 
@@ -69,6 +68,7 @@ public class DayHabitsFragment extends Fragment {
     private TextView titleText;
     private Date clickedDate;
     private String clickedDateStr;
+    private String clickedMonthStr;
     private String habitEventTitle;
     private ArrayAdapter<DayHabits> habitsAdapter;
 
@@ -138,6 +138,7 @@ public class DayHabitsFragment extends Fragment {
             isDateClickedEqualCurrent = bundle.getBoolean(HomeFragment.DATE_COMPARE_DAY_HABIT);
             clickedDate = (Date) bundle.getSerializable(HomeFragment.DATE_CLICKED_DAY_HABIT);
             clickedDateStr = bundle.getString(HomeFragment.DATE_CLICKED_DAY_HABIT_STR);
+            clickedMonthStr = bundle.getString(HomeFragment.DATE_MONTH_CLICKED_DAY);
             changeDayTitle();
             showDayHabits();
         }
@@ -206,8 +207,9 @@ public class DayHabitsFragment extends Fragment {
             Intent intent = new Intent(getContext(), DayHabitsActivity.class);
             intent.putExtra(TITLE_DAY_HABIT, habit.getDayHabitTitle());
             intent.putExtra(MOTIVATION, habit.getDayHabitReason());
-            intent.putExtra(DATE_COMPARE_DAY_HABIT, isDateClickedEqualCurrent);
-            intent.putExtra(CLICKED_DATE_STR, clickedDateStr);
+            intent.putExtra(HomeFragment.DATE_COMPARE_DAY_HABIT, isDateClickedEqualCurrent);
+            intent.putExtra(HomeFragment.DATE_CLICKED_DAY_HABIT_STR, clickedDateStr);
+            intent.putExtra(HomeFragment.DATE_MONTH_CLICKED_DAY, clickedMonthStr);
             DayHabitsActivityResultLauncher.launch(intent);
         }
         return true;

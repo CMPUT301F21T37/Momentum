@@ -9,7 +9,7 @@ import android.widget.EditText;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.momentum.habits.HabitsEditActivity;
+import com.example.momentum.habitEvents.HabitsEventsEditActivity;
 import com.example.momentum.login.LoginActivity;
 import com.robotium.solo.Solo;
 
@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class HabitsEventsEditActivity {
+public class HabitsEventsEditActivityTest {
     private Solo solo;
 
     @Rule
@@ -62,7 +62,7 @@ public class HabitsEventsEditActivity {
         solo.assertCurrentActivity("Wrong Activity!", HabitsEventsEditActivity.class);
 
         // clicks on the back button and checks if it went to previous activity
-        solo.clickOnView(solo.getView(R.id.viewEventBack));
+        solo.clickOnView(solo.getView(R.id.editEventBack));
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
     }
 
@@ -80,16 +80,16 @@ public class HabitsEventsEditActivity {
         solo.assertCurrentActivity("Wrong Activity!", HabitsEventsEditActivity.class);
 
         // clears the title and checks the limit
-        solo.clearEditText((EditText) solo.getView(R.id.motivationText));
+        solo.clearEditText((EditText) solo.getView(R.id.editHabitEventComment));
         // checks the comment limit to 20 characters
-        solo.enterText((EditText) solo.getView(R.id.motivationText), "This is more than 20 characters.");
+        solo.enterText((EditText) solo.getView(R.id.editHabitEventComment), "This is more than 20 characters.");
         // this is more than 20 characters, so it is false
         assertFalse(solo.waitForText("This is more than 20 characters.", 1, 2000));
         // this is exactly 20 characters, so it is true
         assertTrue(solo.waitForText("This is more than 20", 1, 2000));
 
         // checks if goes back to main activity
-        solo.clickOnView(solo.getView(R.id.editConfirmButton));
+        solo.clickOnView(solo.getView(R.id.editEventDone));
         solo.waitForText("Events", 1, 2000);
 
 

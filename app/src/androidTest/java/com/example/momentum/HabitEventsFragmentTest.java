@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class HabitEventsFragmentTest extends TestCase {
+public class HabitEventsFragmentTest {
     private Solo solo;
 
     @Rule
@@ -48,14 +48,6 @@ public class HabitEventsFragmentTest extends TestCase {
     }
 
     /**
-     * Helper to go to the activity
-     */
-    private void goToActivity() {
-        solo.clickOnButton("Habit Events");
-        solo.waitForText("Habit Events", 1, 2000);
-
-    }
-    /**
      * Simple test cast to verify if everything is okay.
      */
     @Test
@@ -65,7 +57,7 @@ public class HabitEventsFragmentTest extends TestCase {
 
 
     /**
-     * Checks to see that all habits are there
+     * Checks to see that all events are there
      * It is logged in into the group's test account which will have Exercise, Coding, and Study in its events
      */
     @Test
@@ -113,7 +105,6 @@ public class HabitEventsFragmentTest extends TestCase {
         // logs in with correct test inputs and adds test habit
         login();
 
-
         // clicks on the button to go to HabitsFragment
         solo.clickOnButton("Events");
 
@@ -130,7 +121,7 @@ public class HabitEventsFragmentTest extends TestCase {
     }
 
     /**
-     * Checks to see if clicking the event will go to the ViewHabitActivity
+     * Checks to see if clicking the event will go to the ViewEventsctivity
      */
     @Test
     public void testEventView() {
@@ -143,7 +134,7 @@ public class HabitEventsFragmentTest extends TestCase {
         // checks to see that we are in the fragment
         solo.waitForText("Events", 1, 2000);
 
-        // checks to see that it is on the ViewHabitActivity
+        // checks to see that it is on the ViewEventsActivity
         solo.clickOnView(solo.getView(R.id.card_view_edit_delete));
         solo.assertCurrentActivity("Wrong Activity!", ViewHabitEventsActivity.class);
     }

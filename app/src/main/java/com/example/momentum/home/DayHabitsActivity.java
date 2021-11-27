@@ -19,12 +19,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.momentum.R;
 import com.example.momentum.databinding.ActivityDayHabitsBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -35,6 +39,8 @@ import java.util.HashMap;
  */
 public class DayHabitsActivity extends AppCompatActivity {
     private final String TAG = "ADD_DONE_DATE";
+    private final String ADD_YEAR = "ADD_YEAR";
+
     private ActivityDayHabitsBinding binding;
     private FloatingActionButton backButton;
     private TextView activityTitle;
@@ -43,6 +49,7 @@ public class DayHabitsActivity extends AppCompatActivity {
     private String title;
     private String reason;
     private String clickedDateStr;
+    private String clickedMonthStr;
     private Boolean isDateClickedEqualCurrent;
     private FirebaseFirestore db;
     private FirebaseUser user;
@@ -64,8 +71,9 @@ public class DayHabitsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         title = intent.getStringExtra(DayHabitsFragment.TITLE_DAY_HABIT);
         reason = intent.getStringExtra(DayHabitsFragment.MOTIVATION);
-        isDateClickedEqualCurrent = intent.getBooleanExtra(DayHabitsFragment.DATE_COMPARE_DAY_HABIT, true);
-        clickedDateStr = intent.getStringExtra(DayHabitsFragment.CLICKED_DATE_STR);
+        isDateClickedEqualCurrent = intent.getBooleanExtra(HomeFragment.DATE_COMPARE_DAY_HABIT, true);
+        clickedDateStr = intent.getStringExtra(HomeFragment.DATE_CLICKED_DAY_HABIT_STR);
+        clickedMonthStr = intent.getStringExtra(HomeFragment.DATE_MONTH_CLICKED_DAY);
 
         // back button to go back to previous dayHabitsFragment
         backButton = binding.dayHabitsBack;
@@ -121,6 +129,7 @@ public class DayHabitsActivity extends AppCompatActivity {
             // adds to the database of the current date, prompts the user to add a habit event,
             // and go back to previous fragment
             addDoneDateToDatabase();
+            addYearToDatabase();
             String addHabitEventInfo = "Click the habit again to add a habit event.";
             showCustomToast(addHabitEventInfo);
             setResult(RESULT_OK);
@@ -161,13 +170,16 @@ public class DayHabitsActivity extends AppCompatActivity {
         String users_collection_name = "Users";
         String habits_collection_name = "Habits";
         String done_dates_collection_name = "Done dates";
-        HashMap<String, Boolean> data = new HashMap<>();
+        String year = clickedDateStr.substring(clickedDateStr.length() - 4);
+        HashMap<String, String> data = new HashMap<>();
 
-        // adds to a sub-collection of Events of the current user
+        // adds to a sub-collection of Habits of the current user
         final CollectionReference collectionReference = db.collection(users_collection_name).document(uid)
                 .collection(habits_collection_name).document(title).collection(done_dates_collection_name);
 
-        data.put("done",true); // to fill data
+        // fill data for better querying later on
+        data.put("month", clickedMonthStr);
+        data.put("year", year);
         collectionReference
                 .document(clickedDateStr)
                 .set(data)
@@ -180,7 +192,59 @@ public class DayHabitsActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "Data could not be added!" + e.toString()); }
+                        Log.d(TAG, "Data could not be added!" + e.toString());
+                    }
                 });
+    }
+
+    private void  addYearToDatabase() {
+        String users_collection_name = "Users";
+        String habits_collection_name = "Habits";
+        String years_collection_name = "Years";
+        HashMap<String, String> data = new HashMap<>();
+
+        /*
+        Get the year in clickedDateStr
+        https://howtodoinjava.com/java/string/get-last-4-characters/
+         */
+        String year = clickedDateStr.substring(clickedDateStr.length() - 4);
+
+        // getting the reference of the supposed date
+        DocumentReference documentReference = db.collection(users_collection_name).document(uid)
+                .collection(habits_collection_name).document(title).collection(years_collection_name)
+                .document(year);
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // if the year exists, do nothing
+                        Log.d(ADD_YEAR, "The year already exists");
+                    } else {
+                        // else, add the year
+                        CollectionReference collectionReference = db.collection(users_collection_name).document(uid)
+                                .collection(habits_collection_name).document(title).collection(years_collection_name);
+
+                        collectionReference
+                                .document(year)
+                                .set(data)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "Data has been added successfully!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d(TAG, "Data could not be added!" + e.toString());
+                                    }
+                                });
+                    }
+                }
+            }
+        });
     }
 }

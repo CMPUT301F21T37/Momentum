@@ -21,13 +21,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 /**
  * A class extending to an Array Adapter that keeps a list of events for HabitEventsFraagment up-to-date.
+ *
  * @author Han Yan
  * @author Kaye Ena Crayzhel F. Misay
  */
@@ -40,8 +45,9 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
     private FirebaseUser user;
     private String uid;
     private CollectionReference eventsReference;
+    private String docName;
 
-    public HabitEventsAdapter(Context context, ArrayList<Event> events){
+    public HabitEventsAdapter(Context context, ArrayList<Event> events) {
         super(context, 0, events);
         this.events = events;
         this.context = context;
@@ -49,7 +55,7 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
         ViewHolder viewHolder;
         Event event = getItem(position); // Get the Events instance of the current item
@@ -58,16 +64,15 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
         On How to create a functional layout for listview with buttons
         https://stackoverflow.com/questions/17525886/listview-with-add-and-delete-buttons-in-each-row-in-android
          */
-        if(view == null){
+        if (view == null) {
             // if view is null, inflate the layout
-            view = LayoutInflater.from(context).inflate(R.layout.content_card_view_edit_delete, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.content_card_view_edit_delete, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.cardView = view.findViewById(R.id.card_view_edit_delete);
             viewHolder.deleteButton = view.findViewById(R.id.card_view_delete);
             viewHolder.editButton = view.findViewById(R.id.card_view_edit);
             view.setTag(viewHolder);
-        }
-        else {
+        } else {
             // else, use the previous one
             viewHolder = (ViewHolder) view.getTag();
         }
@@ -112,42 +117,63 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
         private CardView cardView;
 
     }
+
     /**
      * Helper method to set the database
      */
-    private void setDatabase() {
+    private void setDatabase(Event event) {
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
         eventsReference = db.collection("Users").document(uid).collection("Events");
+
+        eventsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                @Nullable FirebaseFirestoreException error) {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    Event event2 = (Event) doc.toObject(Event.class);
+                    if (event.getLatitude() == event2.getLatitude() &&
+                            event.getLongitude() == event2.getLongitude() &&
+                            event.getTitle().equals(event2.getTitle()) &&
+                            event.getComment().equals(event2.getComment())) {
+
+                            docName = doc.getId();
+                    }
+                }
+            }
+        });
+
     }
 
     /**
      * Method to show a event's details by going to another activity
-     * @param event
-     * An instance of event to be shown
+     *
+     * @param event An instance of event to be shown
      */
     private void showEventDetails(Event event) {
         Intent intent = new Intent(getContext(), ViewHabitEventsActivity.class);
         intent.putExtra(HabitEventsFragment.EVENT_TITLE, event.getTitle());
         intent.putExtra(HabitEventsFragment.EVENT_COMMENT, event.getComment());
+        intent.putExtra(HabitEventsFragment.EVENT_LATITUDE, event.getLatitude());
+        intent.putExtra(HabitEventsFragment.EVENT_LONGITUDE, event.getLongitude());
         context.startActivity(intent);
     }
 
     /**
      * Method to show an alert dialog to the user to confirm deletion of event
-     * @param event
-     * An instance of Habit habit to be deleted
+     *
+     * @param event An instance of Habit habit to be deleted
      */
     private void onDeleteClicked(Event event) {
-        setDatabase(); // set an instance of the database
+        setDatabase(event); // set an instance of the database
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
         alertDialog.setMessage("Are you sure you want to delete " + event.getTitle() + "?");
         alertDialog.setPositiveButton("Delete", (dialog, id) -> {
-            deleteHabitEvents(event);
+            deleteHabitEvents(docName);
             dialog.cancel();
         });
-        alertDialog.setNegativeButton("Cancel", (dialog,id) -> dialog.cancel());
+        alertDialog.setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
 
         AlertDialog dialogBuilder = alertDialog.create();
         dialogBuilder.show();
@@ -157,12 +183,13 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
 
     /**
      * method to delete an event
-     * @param event
-     * an instance of event to be deleted
+     *
+     * @param docName the document to be deleted
      */
-    private void deleteHabitEvents(Event event) {
+    private void deleteHabitEvents(String docName) {
+
         eventsReference
-                .document(event.getTitle())
+                .document(docName)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -182,13 +209,38 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
 
     /**
      * Method to go to another activity to let the user edit a given event
-     * @param event
-     * An instance of Event to be edited
+     *
+     * @param event An instance of Event to be edited
      */
     private void onEditClicked(Event event) {
+
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+        eventsReference = db.collection("Users").document(uid).collection("Events");
+
+        eventsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                @Nullable FirebaseFirestoreException error) {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    Event event2 = (Event) doc.toObject(Event.class);
+                    if (event.getLatitude() == event2.getLatitude() &&
+                            event.getLongitude() == event2.getLongitude() &&
+                            event.getTitle().equals(event2.getTitle()) &&
+                            event.getComment().equals(event2.getComment())) {
+
+                        docName = doc.getId();
+                    }
+                }
+            }
+        });
         Intent intent = new Intent(getContext(), HabitsEventsEditActivity.class);
         intent.putExtra(HabitEventsFragment.EVENT_TITLE, event.getTitle());
         intent.putExtra(HabitEventsFragment.EVENT_COMMENT, event.getComment());
+        intent.putExtra(HabitEventsFragment.EVENT_LATITUDE, event.getLatitude());
+        intent.putExtra(HabitEventsFragment.EVENT_LONGITUDE, event.getLongitude());
+        intent.putExtra(HabitEventsFragment.EVENT_OBJECT, event);
         context.startActivity(intent);
     }
 

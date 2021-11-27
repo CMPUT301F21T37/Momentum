@@ -17,6 +17,7 @@ import com.example.momentum.MainActivity;
 import com.example.momentum.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -157,6 +158,22 @@ public class SignUpActivity extends AppCompatActivity {
         HashMap<String, String> emptyMap = new HashMap<>();
 
         db.collection(users_collection_name).document(users_id).set(emptyMap);
+        addHabitCountToDatabase(users_id);
+    }
+
+    /**
+     * This method initializes a habit count for the user
+     * @param users_id
+     */
+    private void addHabitCountToDatabase(String users_id) {
+        String users_collection_name = "Users";
+        String habit_count_collection_name = "HabitCount";
+        String count_document_name = "count";
+        HashMap<String, String> data = new HashMap<>();
+
+        data.put("habits", "0");
+        db.collection(users_collection_name).document(users_id).collection(habit_count_collection_name)
+                .document(count_document_name).set(data);
     }
 
     /**
@@ -179,8 +196,6 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
     }
 
     /**

@@ -16,14 +16,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.momentum.Habit;
+import com.example.momentum.MainActivity;
 import com.example.momentum.databinding.ActivityEditHabitBinding;
+import com.example.momentum.login.LoginActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,7 +50,6 @@ public class HabitsEditActivity extends AppCompatActivity {
     private FirebaseUser user;
     private String uid;
     private CollectionReference habitsReference;
-    private CollectionReference eventsReference;
 
     // intent extras from fragment
     private String title;
@@ -273,41 +279,30 @@ public class HabitsEditActivity extends AppCompatActivity {
             data.put("private",newIsPrivate);
             data.put("reason", newReason);
 
-            // if the title has changed, delete the old document (based on database structure)
-            if (!newTitle.equals(title)) {
-                Habit habit = new Habit(title, reason, date, isPrivate, frequency);
-                eventsReference = db.collection("Users").document(uid).collection("Events");
-                deleteOldHabitDatabase(habit);
-            }
-            // updates the database then closes the activity
-            editHabitToDatabase(data, newTitle);
-            finish();
+            // get the current order
+            DocumentReference documentReference = db.collection("Users").document(uid).
+                    collection("Habits").document(title);
 
+            documentReference
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            String order_str = (String) documentSnapshot.getData().get("order");
+                            data.put("order", order_str);
+
+                            // if the title has changed, delete the old document (based on database structure)
+                            if (!newTitle.equals(title)) {
+                                editHabitToDatabaseNew(data, newTitle);
+                            }
+                            else {
+                                // updates the database then closes the activity
+                                editHabitToDatabaseOld(data, newTitle);
+                            }
+                        }
+                    });
         }
         return true;
-    }
-
-    /**
-     * Deletes the instance of the previous habit in the database
-     * @param habit
-     * Instance of Habit to be deleted
-     */
-    private void deleteOldHabitDatabase(Habit habit) {
-        habitsReference
-                .document(habit.getTitle())
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(HabitsAdapter.DELETE_HABIT, "DocumentSnapshot successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(HabitsAdapter.DELETE_HABIT, "Error Deleting document", e);
-                    }
-                });
     }
 
     /**
@@ -315,7 +310,7 @@ public class HabitsEditActivity extends AppCompatActivity {
      * @param data
      * The data to be put in Habit fields.
      */
-    private void editHabitToDatabase(HashMap<String, Object> data, String newTitle) {
+    private void editHabitToDatabaseOld(HashMap<String, Object> data, String newTitle) {
         String users_collection_name = "Users";
         String habits_collection_name = "Habits";
 
@@ -331,6 +326,55 @@ public class HabitsEditActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(EDIT_HABIT, "Data has been added successfully!");
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(EDIT_HABIT, "Data could not be added!" + e.toString());
+                    }
+                });
+    }
+
+    /**
+     * Edits a given habit.
+     * @param data
+     * The data to be put in Habit fields.
+     */
+    private void editHabitToDatabaseNew(HashMap<String, Object> data, String newTitle) {
+        String users_collection_name = "Users";
+        String habits_collection_name = "Habits";
+
+        // adds to a sub-collection of Habits of the current user
+        final CollectionReference collectionReference = db.collection(users_collection_name).document(uid).
+                collection(habits_collection_name);
+
+        // this will overwrite the document since it is unknown what the user will change to use .update()
+        collectionReference
+                .document(newTitle)
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(EDIT_HABIT, "Data has been added successfully!");
+                        // delete the old activity
+                        habitsReference
+                                .document(title)
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Log.d(HabitsAdapter.DELETE_HABIT, "DocumentSnapshot successfully deleted!");
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(HabitsAdapter.DELETE_HABIT, "Error Deleting document", e);
+                                    }
+                                });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

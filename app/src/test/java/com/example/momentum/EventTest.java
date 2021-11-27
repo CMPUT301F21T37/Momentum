@@ -6,6 +6,9 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
+/**
+ * Test for Event class
+ */
 public class EventTest {
     /**
      * Helper method to instantiate Event
@@ -14,7 +17,7 @@ public class EventTest {
      */
 
     private Event mockEvents(){
-        return new Event("Event Title","Event comment");
+        return new Event("Event Title","Event comment",0,0);
     }
 
     /**

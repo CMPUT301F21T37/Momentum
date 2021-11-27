@@ -2,35 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fragment
-        android:id="@+id/editMap"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="200dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="116dp"
-        app:layout_constraintBottom_toTopOf="@+id/editEventDone"
-        app:layout_constraintStart_toStartOf="parent"></fragment>
-
-    <TextView
-        android:id="@+id/location_title3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="2dp"
-        android:text="Location"
-        android:textSize="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/editMap"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.034"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/editEventBack"
+        android:id="@+id/deleteHabitBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -47,10 +23,10 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/editEventTitle"
+        android:id="@+id/deleteHabitTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_habit_event_title"
+        android:text="@string/day_habits_title_activity"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="40sp"
@@ -59,60 +35,75 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editEventBack"
+        app:layout_constraintTop_toBottomOf="@id/deleteHabitBack"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/editHabitEventCommentText"
+        android:id="@+id/deleteHabitInstruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="15dp"
-        android:text="@string/add_habit_event_comment"
+        android:text="@string/are_you_sure_you_want_to_delete_this_habit"
         android:textSize="20sp"
-        android:textStyle="bold"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editEventTitle"
+        app:layout_constraintTop_toBottomOf="@id/deleteHabitTitle"
         app:layout_constraintVertical_bias="0.0" />
 
-    <EditText
-        android:id="@+id/editHabitEventComment"
+    <ImageView
+        android:id="@+id/redCircleDeleteHabit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/comment_hint"
-        android:maxLength="20"
-        android:textSize="15sp"
-        android:background="@drawable/rounded_corner_white"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:padding="5dp"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/red_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editHabitEventCommentText"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintTop_toBottomOf="@id/deleteHabitInstruction"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/editEventDone"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/deleteHabitMotivation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/rounded_corner_translucent"
+        android:elevation="5dp"
+        android:text="@string/example_motivation_day_habits"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@id/redCircleDeleteHabit"
+        app:layout_constraintEnd_toEndOf="@id/redCircleDeleteHabit"
+        app:layout_constraintStart_toStartOf="@id/redCircleDeleteHabit"
+        app:layout_constraintTop_toTopOf="@+id/redCircleDeleteHabit"
+        app:layout_constraintVertical_bias="0.479" />
+
+    <Button
+        android:id="@+id/deleteHabitButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_corner"
         android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_baseline_check_24"
-        app:backgroundTint="@color/darker_grey"
+        android:gravity="center"
+        android:text="@string/delete"
+        android:textColor="@color/black"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editHabitEventComment"
-        app:layout_constraintVertical_bias="0.78" />
-
+        app:layout_constraintTop_toBottomOf="@+id/redCircleDeleteHabit"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

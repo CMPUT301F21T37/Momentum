@@ -76,20 +76,53 @@
         android:id="@+id/AddHabitEventComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/comment_hint"
-        android:maxLength="20"
-        android:textSize="15sp"
-        android:background="@drawable/rounded_corner_white"
-        android:layout_marginBottom="15dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/rounded_corner_white"
+        android:hint="@string/comment_hint"
+        android:maxLength="20"
         android:padding="5dp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/AddHabitEventCommentText"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/AddHabitEventLocationTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="124dp"
+        android:text="Location"
+
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AddHabitEventComment" />
+
+    <Button
+        android:id="@+id/AddHabitEventUserLocationButton"
+        android:layout_width="200dp"
+        android:layout_height="52dp"
+        android:layout_marginEnd="4dp"
+        android:text="Select Current Location"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AddHabitEventLocationTxt"></Button>
+
+    <fragment
+        android:id="@+id/mapAddHabit"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AddHabitEventUserLocationButton"></fragment>
+
 
     <ImageView
         android:id="@+id/getImageView"
@@ -144,6 +177,7 @@
         android:id="@+id/AddHabitEventGreatJob"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
         android:text="@string/great_job"
         android:textAlignment="center"
         android:textColor="@color/red_main"
