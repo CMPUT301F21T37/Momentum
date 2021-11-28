@@ -66,7 +66,6 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
         reason = intent.getStringExtra(HabitEventsFragment.EVENT_COMMENT);
         latitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LATITUDE,0);
         longitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LONGITUDE,0);
-        imageUri = intent.getStringExtra(HabitEventsFragment.EVENT_IMAGE);
 
         // set the displays
         setTitle();

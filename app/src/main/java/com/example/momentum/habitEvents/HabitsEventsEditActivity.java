@@ -126,11 +126,6 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
                         imageUri = contentUri.toString();
                         mImageView.setImageURI(contentUri);
 
-                        //save image in gallery
-                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        mediaScanIntent.setData(contentUri);
-                        LocalBroadcastManager.getInstance(context).sendBroadcast(mediaScanIntent);
-
                         //call method to upload image to firebase storage
                         String fileName = f.getName();
                         uploadImageToFirebase(fileName, contentUri);
@@ -183,7 +178,6 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         reason = intent.getStringExtra(HabitEventsFragment.EVENT_COMMENT);
         latitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LATITUDE, 0);
         longitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LONGITUDE, 0);
-        imageUri = intent.getStringExtra(HabitEventsFragment.EVENT_IMAGE);
         event = (Event) intent.getSerializableExtra(HabitEventsFragment.EVENT_OBJECT);
 
         db = FirebaseFirestore.getInstance();
@@ -199,7 +193,6 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
                     Event event2 = (Event) doc.toObject(Event.class);
                     if (event.getLatitude() == event2.getLatitude() &&
                             event.getLongitude() == event2.getLongitude() &&
-                            event.getImageUri().equals(event2.getImageUri()) &&
                             event.getTitle().equals(event2.getTitle()) &&
                             event.getComment().equals(event2.getComment())) {
 
@@ -319,9 +312,6 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         reasonEdit = binding.editHabitEventComment;
         reasonEdit.setText(reason);
 
-        imageView = binding.getImageView;
-        Uri muri = Uri.parse(imageUri);
-        imageView.setImageURI(muri);
 
     }
 
@@ -351,7 +341,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
         // getting the new strings for newComment
         String newComment = reasonEdit.getText().toString();
-        Event event = new Event(title, newComment, latitude, longitude, imageUri);
+        Event event = new Event(title, newComment, latitude, longitude);
 
 
         // updates the database then closes the activity

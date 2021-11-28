@@ -125,11 +125,6 @@ public class AddHabitEventActivity extends FragmentActivity {
                         imageUri = contentUri.toString();
                         mImageView.setImageURI(contentUri);
 
-                        //save image in gallery
-                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        mediaScanIntent.setData(contentUri);
-                        LocalBroadcastManager.getInstance(context).sendBroadcast(mediaScanIntent);
-
                         //call method to upload image to firebase storage
                         String fileName = f.getName();
                         uploadImageToFirebase(fileName, contentUri);
@@ -166,6 +161,11 @@ public class AddHabitEventActivity extends FragmentActivity {
         binding = ActivityAddHabitEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAddHabit);
+
+        mapFragment.getMapAsync((OnMapReadyCallback) this);
+
+        getLocationPermission();
 
         // initializing the database
         db = FirebaseFirestore.getInstance();
@@ -218,12 +218,6 @@ public class AddHabitEventActivity extends FragmentActivity {
                 galleryActivityResultLauncher.launch(gallery);
             }
         });
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAddHabit);
-
-        mapFragment.getMapAsync((OnMapReadyCallback) this);
-
-        getLocationPermission();
 
 
     }
@@ -347,9 +341,9 @@ public class AddHabitEventActivity extends FragmentActivity {
         // create a hashmap to be inputted
         Event event;
         if (userLocation == null) {
-            event = new Event(title, comment, 0, 0, imageUri);
+            event = new Event(title, comment, 0, 0);
         } else {
-            event = new Event(title, comment, userLocation.getLatitude(), userLocation.getLongitude(), imageUri);
+            event = new Event(title, comment, userLocation.getLatitude(), userLocation.getLongitude());
         }
 
 
