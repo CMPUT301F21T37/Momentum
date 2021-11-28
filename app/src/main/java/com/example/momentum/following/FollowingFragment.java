@@ -9,14 +9,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.momentum.databinding.FragmentFollowingBinding;
@@ -27,10 +31,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -48,11 +55,19 @@ public class FollowingFragment extends Fragment{
     private String uid;
     private CollectionReference collectionReference;
 
+    private ArrayAdapter<String> requestAdapter;
+    private ListView requestListView;
+
 
     Button follow_user;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FollowingViewModel = new ViewModelProvider(this).get(FollowingViewModel.class);
+
+        binding = FragmentFollowingBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+        follow_user = binding.followUser;
+        Activity activity = getActivity();
 
         /**
          * Database
@@ -61,11 +76,29 @@ public class FollowingFragment extends Fragment{
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
 
-        binding = FragmentFollowingBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        final CollectionReference requestReference = db.collection("Users").document(uid).collection("Followers");
 
-        follow_user = binding.followUser;
-        Activity activity = getActivity();
+
+        // listener for the Firestore database to accept realtime updates
+        requestReference
+                .whereEqualTo("allow_follow", false)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                @Nullable FirebaseFirestoreException error) {
+                FollowingViewModel.clearRequestList();
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                    String name = (String) doc.getData().get("username");
+                    // store it to the the view model
+                    FollowingViewModel.addRequest(name);
+                }
+                // Notifying the adapter to render any new data fetched from the cloud
+                requestAdapter.notifyDataSetChanged();
+            }
+        });
+        // initiates the display
+        showRequests();
+
         follow_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +116,6 @@ public class FollowingFragment extends Fragment{
                             Toast.makeText(activity, "Proper UID Entry Required",
                                     Toast.LENGTH_SHORT).show();
                         }
-                        //QF9w rkfi GWVt tVkY u002 ZDV1 l0A3
                         else{
                             db.collection("Users")
                                     .whereEqualTo("Username", entered_username)
@@ -119,11 +151,21 @@ public class FollowingFragment extends Fragment{
         });
         return root;
     }
+    public void showRequests(){
+        requestListView = binding.requestList;
+        FollowingViewModel.getRequestList().observe(getViewLifecycleOwner(), new Observer<ArrayList<String>>() {
+            @Override
+            public void onChanged(ArrayList<String> requestList){
+                requestAdapter = new FollowingListAdapter(getContext(), requestList);
+                requestListView.setAdapter(requestAdapter);
+            }
+        });
+    }
 
     private void Add_follow(String fid, String Fusername){
         HashMap<String, Object> data = new HashMap<>();
         data.put("username", Fusername);
-        db.collection("Users").document(uid).collection("Followers")
+        db.collection("Users").document(uid).collection("Following")
                 .document(fid)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -145,7 +187,7 @@ public class FollowingFragment extends Fragment{
         HashMap<String, Object> data = new HashMap<>();
         data.put("username", Uusername);
         data.put("allow_follow", false);
-        db.collection("Users").document(fid).collection("Following")
+        db.collection("Users").document(fid).collection("Followers")
                 .document(uid)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

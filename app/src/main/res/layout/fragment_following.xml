@@ -43,8 +43,9 @@
 
     <ListView
         android:id="@+id/request_list"
-        android:layout_width="wrap_content"
-        android:layout_height="626dp"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1" />
 </LinearLayout>
 </ScrollView>
