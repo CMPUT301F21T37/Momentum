@@ -37,6 +37,8 @@ import androidx.fragment.app.FragmentActivity;
 import com.example.momentum.R;
 import com.example.momentum.databinding.ActivityAddHabitEventBinding;
 import com.example.momentum.habitEvents.Event;
+import com.example.momentum.habitEvents.HabitsEventsEditActivity;
+import com.example.momentum.utils.Constants;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -174,8 +176,8 @@ public class AddHabitEventActivity extends FragmentActivity {
 
         // Get the Intent that started this activity and extract the strings
         Intent intent = getIntent();
-        title = intent.getStringExtra(DayHabitsFragment.TITLE_DAY_HABIT);
-        documentTitle = intent.getStringExtra(DayHabitsFragment.TITLE_HABIT_EVENT);
+        title = intent.getStringExtra(Constants.TITLE_DAY_HABIT);
+        documentTitle = intent.getStringExtra(Constants.TITLE_HABIT_EVENT);
 
         // back button to go back to previous dayHabitsFragment
         backButton = binding.addHabitEventBack;

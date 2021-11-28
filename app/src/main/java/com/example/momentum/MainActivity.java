@@ -1,5 +1,7 @@
 package com.example.momentum;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -9,7 +11,9 @@ import android.os.Bundle;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import com.example.momentum.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
  * MainActivity of the program that binds to the navigation view.
@@ -21,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // binds all of the fragments in the navigation bar and all the other fragments
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
