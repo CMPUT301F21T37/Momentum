@@ -11,6 +11,7 @@ import androidx.test.rule.ActivityTestRule;
 import com.example.momentum.login.LoginActivity;
 import com.robotium.solo.Solo;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,13 +38,13 @@ public class HomeFragmentTest {
      * Helper method to log in with correct entries to be able to test
      */
     private void login() {
-        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "test@gmail.com");
+        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "testUI1@gmail.com");
         solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test12345");
         solo.clickOnButton("Login");
     }
 
     /**
-     * Simple test cast to verify if everything is okay.
+     * Simple test case to verify if everything is okay.
      */
     @Test
     public void start() {
@@ -54,7 +55,7 @@ public class HomeFragmentTest {
      * Checks if the calendar view goes to another view (Current day's Habits page)
      */
     @Test
-    public void checkCalendar(){
+    public void testCalendar(){
         // log in with correct entries
         login();
 
@@ -70,7 +71,7 @@ public class HomeFragmentTest {
      * Checks if the Habit Events Button works
      */
     @Test
-    public void checkHabitEventsButton(){
+    public void testHabitEventsButton(){
         // log in with correct entries
         login();
 
@@ -88,7 +89,7 @@ public class HomeFragmentTest {
      * Checks if the Habit Events Button works
      */
     @Test
-    public void checkHabitsButton(){
+    public void testHabitsButton(){
         // log in with correct entries
         login();
 
@@ -100,5 +101,13 @@ public class HomeFragmentTest {
 
         // checks that we've changed to the Events Fragment
         solo.waitForText("Habits", 1, 2000);
+    }
+
+    /**
+     * Closes all activities after tests are done
+     */
+    @After
+    public void tearDown() {
+        solo.finishOpenedActivities();
     }
 }

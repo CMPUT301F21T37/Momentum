@@ -1,15 +1,13 @@
 package com.example.momentum;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import android.app.Activity;
 import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.momentum.home.DayHabitsActivity;
+import com.example.momentum.habits.HabitYearActivity;
+import com.example.momentum.habits.ViewHabitActivity;
 import com.example.momentum.login.LoginActivity;
 import com.robotium.solo.Solo;
 
@@ -18,10 +16,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-/**
- * Test class for DayHabitsActivity. This also tests DayHabitsFragment functionalities since the activity is started from the fragment.
- */
-public class DayHabitsActivityTest {
+public class HabitYearActivityTest {
     private Solo solo;
 
     @Rule
@@ -59,40 +54,44 @@ public class DayHabitsActivityTest {
      */
     @Test
     public void testBackButton() {
-        // goes to DayHabitsActivity
+        // logs in with correct input
         login();
 
-        // clicking on the habit
-        solo.clickOnView(solo.getView(R.id.calendarView));
-        solo.clickOnText("Testing2");
+        // goes to home, clicks on habits button and then click the newly added habit
+        solo.clickOnView(solo.getView(R.id.navigation_home));
+        solo.clickOnButton("Habits");
+        solo.clickOnText("Testing3");
 
-        // checks if it is in the DayHabitsActivity
-        solo.assertCurrentActivity("Wrong Activity!", DayHabitsActivity.class);
+        // click the visual indicator button and make sure that it goes to HabitYearActivity
+        solo.clickOnView(solo.getView(R.id.viewIndicatorButton));
+        solo.assertCurrentActivity("Wrong Activity!", HabitYearActivity.class);
 
-        // clicks on the back button and checks if it went to previous activity
-        solo.clickOnView(solo.getView(R.id.dayHabitsBack));
-        solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
+        // go back to view activity
+        solo.clickOnView(solo.getView(R.id.yearHabitBack));
+        solo.assertCurrentActivity("Wrong Activity!", ViewHabitActivity.class);
+
     }
 
     /**
-     * Checks if it shows correct title and motivation
+     * Checks to see if the HabitYearActivity is good UI-wise
      */
     @Test
-    public void testCorrectEntries() {
-        // goes to DayHabitsActivity
+    public void testYear() {
+        // logs in with correct input
         login();
 
-        // clicking on the habit not completed
-        solo.clickOnView(solo.getView(R.id.calendarView));
-        solo.clickOnText("Testing2");
+        // goes to home, clicks on habits button and then click the newly added habit
+        solo.clickOnView(solo.getView(R.id.navigation_home));
+        solo.clickOnButton("Habits");
+        solo.clickOnText("Testing3");
 
-        // checks if it is in the DayHabitsActivity
-        solo.assertCurrentActivity("Wrong Activity!", DayHabitsActivity.class);
+        // click the visual indicator button and make sure that it goes to HabitYearActivity
+        solo.clickOnView(solo.getView(R.id.viewIndicatorButton));
+        solo.assertCurrentActivity("Wrong Activity!", HabitYearActivity.class);
 
-        // checks for the correct title and motivation
-        solo.waitForText("Testing2", 1, 2000);
-        solo.waitForText("for more testing!!!", 1, 2000);
-        solo.waitForText("DONE", 1, 2000);
+        // look for texts
+        solo.waitForText("Choose a Year", 1, 2000);
+        solo.waitForText("2021", 1, 2000);
     }
 
     /**
