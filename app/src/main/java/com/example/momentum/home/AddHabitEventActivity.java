@@ -73,7 +73,8 @@ import java.util.Date;
  * @author Kaye Ena Crayzhel F. Misay
  * @author Mohammed Alzafarani
  */
-public class AddHabitEventActivity extends FragmentActivity {
+public class AddHabitEventActivity extends FragmentActivity
+        implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     private static final String TAG = "ADD_HABIT_EVENT";
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -136,7 +137,7 @@ public class AddHabitEventActivity extends FragmentActivity {
 
 
     // a launcher for gallery
-    ActivityResultLauncher<Intent>  galleryActivityResultLauncher = registerForActivityResult(
+    ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -238,7 +239,7 @@ public class AddHabitEventActivity extends FragmentActivity {
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
                         userLocation = (Location) task.getResult();
-                        LatLng latLng = new  LatLng(userLocation.getLatitude(), userLocation.getLongitude());
+                        LatLng latLng = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
                         moveCamera(latLng, DEFAULT_ZOOM);
                         mMap.clear();
                         mMap.addMarker(new MarkerOptions().position(latLng));
@@ -252,12 +253,11 @@ public class AddHabitEventActivity extends FragmentActivity {
     }
 
 
-
     private void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File imageFile = null;
         try {
-            if(mCameraPermissionsGranted) {
+            if (mCameraPermissionsGranted) {
                 imageFile = createImageFile();
                 Uri contentUri = FileProvider.getUriForFile(context, "com.example.android.fileprovider", imageFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
@@ -267,7 +267,6 @@ public class AddHabitEventActivity extends FragmentActivity {
 
         }
     }
-
 
 
     // a method to upload image to firebase storage
@@ -291,7 +290,6 @@ public class AddHabitEventActivity extends FragmentActivity {
                 Toast.makeText(AddHabitEventActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
     }
@@ -447,7 +445,7 @@ public class AddHabitEventActivity extends FragmentActivity {
             if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                     WRITE_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                        READ_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                        READ_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     mCameraPermissionsGranted = true;
                     openCamera();
                 } else {
