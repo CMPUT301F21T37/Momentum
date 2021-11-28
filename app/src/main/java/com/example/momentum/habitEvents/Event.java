@@ -1,5 +1,7 @@
 package com.example.momentum.habitEvents;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 
 /**
@@ -10,8 +12,7 @@ import java.io.Serializable;
 public class Event implements Serializable {
     private String title;
     private String comment;
-    private double latitude;
-    private double longitude;
+
 
     public Event(){
 
@@ -20,8 +21,6 @@ public class Event implements Serializable {
     public Event (String title, String comment, double latitude, double longitude){
         this.title = title;
         this.comment = comment;
-        this.latitude = latitude;
-        this.longitude = longitude;
     }
 
     /**
@@ -50,19 +49,6 @@ public class Event implements Serializable {
         this.comment = comment;
     }
 
-    public double getLatitude() {
-        return latitude;
-    }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
 
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
 }
