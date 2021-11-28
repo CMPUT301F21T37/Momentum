@@ -97,17 +97,17 @@ public class AddHabitEventActivity extends FragmentActivity {
     private static final float DEFAULT_ZOOM = 5;
     private Location userLocation;
 
-    private static final int PERMISSION_CODE = 101;
-    private static final int CAMERA_REQUEST_CODE = 102;
-    private static final int GALLERY_REQUEST_CODE = 105;
+    private boolean mCameraPermissionsGranted = false;
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 101;
+    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
+    private static final String WRITE_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    private static final String READ_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
 
     private ImageView mImageView;
     private Button openCameraBtn, openGalleryBtn;
     private String currentPhotoPath;
-    private CollectionReference imageCollectionReference;
-    private DocumentReference eventReference;
     private StorageReference storageReference;
-    private Uri imageUri;
+    private String imageUri;
     private Context context;
 
     // a launcher for camera
@@ -121,16 +121,18 @@ public class AddHabitEventActivity extends FragmentActivity {
                         // form a filename for images
                         //Bundle bundle = result.getData().getExtras();
                         File f = new File(currentPhotoPath);
-                        mImageView.setImageURI(imageUri);
+                        Uri contentUri = Uri.fromFile(f);
+                        imageUri = contentUri.toString();
+                        mImageView.setImageURI(contentUri);
 
                         //save image in gallery
                         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        mediaScanIntent.setData(imageUri);
+                        mediaScanIntent.setData(contentUri);
                         LocalBroadcastManager.getInstance(context).sendBroadcast(mediaScanIntent);
 
                         //call method to upload image to firebase storage
                         String fileName = f.getName();
-                        uploadImageToFirebase(fileName);
+                        uploadImageToFirebase(fileName, contentUri);
                     }
                 }
             });
@@ -144,14 +146,15 @@ public class AddHabitEventActivity extends FragmentActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         // set image in ImageView
-                        imageUri = result.getData().getData();
+                        Uri contentUri = result.getData().getData();
                         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
-                        String imageFileName = "JPEG_" + timeStamp + getFileExt(imageUri);
+                        String imageFileName = "JPEG_" + timeStamp + getFileExt(contentUri);
                         Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
-                        mImageView.setImageURI(imageUri);
+                        imageUri = contentUri.toString();
+                        mImageView.setImageURI(contentUri);
 
                         //call method to upload image to firebase storage
-                        uploadImageToFirebase(imageFileName);
+                        uploadImageToFirebase(imageFileName, contentUri);
                     }
                 }
             });
@@ -163,12 +166,6 @@ public class AddHabitEventActivity extends FragmentActivity {
         binding = ActivityAddHabitEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapAddHabit);
-
-        mapFragment.getMapAsync(this);
-
-        getLocationPermission();
 
         // initializing the database
         db = FirebaseFirestore.getInstance();
@@ -201,13 +198,6 @@ public class AddHabitEventActivity extends FragmentActivity {
         // a storage reference to save images
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        // a document reference of current event
-        eventReference = db.collection("Users").document(uid).
-                collection("Events").document(documentTitle);
-
-        // a collection reference for image uri
-        imageCollectionReference = eventReference.collection("Images");
-
         mImageView = binding.getImageView;
 
 
@@ -215,8 +205,7 @@ public class AddHabitEventActivity extends FragmentActivity {
         openCameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                askGalleryPermissions();
-                askCameraPermissions();
+                getCameraPermission();
 
             }
         });
@@ -225,11 +214,16 @@ public class AddHabitEventActivity extends FragmentActivity {
         openGalleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                askGalleryPermissions();
                 Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 galleryActivityResultLauncher.launch(gallery);
             }
         });
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAddHabit);
+
+        mapFragment.getMapAsync((OnMapReadyCallback) this);
+
+        getLocationPermission();
 
 
     }
@@ -262,51 +256,29 @@ public class AddHabitEventActivity extends FragmentActivity {
     }
 
 
-    // a method to ask permission for camera on the phone
-    private void askCameraPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_CODE);
-        }
-        openCamera();
-    }
 
     private void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File imageFile = null;
         try {
-            imageFile = createImageFile();
+            if(mCameraPermissionsGranted) {
+                imageFile = createImageFile();
+                Uri contentUri = FileProvider.getUriForFile(context, "com.example.android.fileprovider", imageFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+                cameraActivityResultLauncher.launch(takePictureIntent);
+            }
         } catch (IOException ex) {
 
         }
-        if (imageFile != null) {
-            imageUri = FileProvider.getUriForFile(context, "com.example.android.fileprovider", imageFile);
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            cameraActivityResultLauncher.launch(takePictureIntent);
-        }
     }
 
-    private void askGalleryPermissions() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R) {
-            try {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                intent.addCategory("android.intent.category.DEFAULT");
-                intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_CODE);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
-        }
-    }
 
 
     // a method to upload image to firebase storage
-    private void uploadImageToFirebase(String fileName) {
+    private void uploadImageToFirebase(String fileName, Uri contentUri) {
         //save image in storage
         StorageReference image = storageReference.child("images/" + fileName);
-        image.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -324,20 +296,6 @@ public class AddHabitEventActivity extends FragmentActivity {
             }
         });
 
-        // save image uri in event collection
-        imageCollectionReference
-                .add(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("tag", "Image Uri is uploaded.");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("tag", "Image Uri is fail to upload.");
-            }
-        });
 
 
     }
@@ -389,9 +347,9 @@ public class AddHabitEventActivity extends FragmentActivity {
         // create a hashmap to be inputted
         Event event;
         if (userLocation == null) {
-            event = new Event(title, comment, 0, 0);
+            event = new Event(title, comment, 0, 0, imageUri);
         } else {
-            event = new Event(title, comment, userLocation.getLatitude(), userLocation.getLongitude());
+            event = new Event(title, comment, userLocation.getLatitude(), userLocation.getLongitude(), imageUri);
         }
 
 
@@ -483,10 +441,39 @@ public class AddHabitEventActivity extends FragmentActivity {
 
     }
 
+    private void getCameraPermission() {
+        String[] permissions = {Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE};
+
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                    WRITE_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                        READ_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    mCameraPermissionsGranted = true;
+                    openCamera();
+                } else {
+                    ActivityCompat.requestPermissions(this, permissions, CAMERA_PERMISSION_REQUEST_CODE);
+                }
+
+            } else {
+                ActivityCompat.requestPermissions(this, permissions, CAMERA_PERMISSION_REQUEST_CODE);
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, CAMERA_PERMISSION_REQUEST_CODE);
+        }
+
+    }
+
+
+    //check if the permission is given to the app
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         mLocationPermissionsGranted = false;
+        mCameraPermissionsGranted = false;
 
         switch (requestCode) {
             case LOCATION_PERMISSION_REQUEST_CODE: {
@@ -500,10 +487,18 @@ public class AddHabitEventActivity extends FragmentActivity {
                     mLocationPermissionsGranted = true;
                 }
             }
+            case CAMERA_PERMISSION_REQUEST_CODE: {
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        mCameraPermissionsGranted = false;
+                        return;
+                    }
+                }
+                mCameraPermissionsGranted = true;
+            }
         }
     }
 
-    @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -516,12 +511,11 @@ public class AddHabitEventActivity extends FragmentActivity {
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
-        mMap.setOnMapClickListener(this);
+        mMap.setOnMapClickListener((GoogleMap.OnMapClickListener) this);
 
     }
 
 
-    @Override
     public void onMapClick(@NonNull LatLng latLng) {
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(latLng));

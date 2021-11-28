@@ -37,6 +37,7 @@ public class HabitEventsFragment extends Fragment {
     public static final String EVENT_COMMENT = "EVENT_COMMENT";
     public static final String EVENT_LATITUDE = "EVENT_LATITUDE";
     public static final String EVENT_LONGITUDE = "EVENT_LONGITUDE";
+    public static final String EVENT_IMAGE = "EVENT_IMAGE";
     public static final String EVENT_OBJECT = "EVENT_OBJECT";
 
     private HabitEventsViewModel HabitEventsViewModel;

@@ -12,15 +12,21 @@ import java.io.Serializable;
 public class Event implements Serializable {
     private String title;
     private String comment;
+    private double latitude;
+    private double longitude;
+    private String imageUri;
 
 
     public Event(){
 
     }
 
-    public Event (String title, String comment, double latitude, double longitude){
+    public Event (String title, String comment, double latitude, double longitude, String imageUri){
         this.title = title;
         this.comment = comment;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.imageUri = imageUri;
     }
 
     /**
@@ -49,6 +55,27 @@ public class Event implements Serializable {
         this.comment = comment;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
 }

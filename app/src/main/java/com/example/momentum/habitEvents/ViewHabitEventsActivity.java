@@ -4,9 +4,11 @@ package com.example.momentum.habitEvents;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.squareup.picasso.Picasso;
 
 /**
  * An activity that lets the user see their habit events and corresponding details.
@@ -36,6 +39,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
     private String reason;
     private double latitude;
     private double longitude;
+    private String imageUri;
     private FloatingActionButton backButton;
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -62,10 +66,12 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
         reason = intent.getStringExtra(HabitEventsFragment.EVENT_COMMENT);
         latitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LATITUDE,0);
         longitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LONGITUDE,0);
+        imageUri = intent.getStringExtra(HabitEventsFragment.EVENT_IMAGE);
 
         // set the displays
         setTitle();
         setComment();
+        setImage();
 
         getLocationPermission();
 
@@ -94,6 +100,13 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
         motivation.setText(reason);
     }
 
+    private void setImage(){
+        ImageView image;
+        image = binding.individualImage;
+        Uri muri = Uri.parse(imageUri);
+        Picasso.get().load(muri).into(image);
+
+    }
     /**
      * Callback handler for when the back button is clicked.
      * Goes back to the previous fragment.
