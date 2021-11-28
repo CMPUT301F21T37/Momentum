@@ -217,16 +217,28 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
     }
 
 
+    /**
+     * This moves the map camera to a latLing and a zoom
+     *
+     * @param latLng The latLing to go to
+     * @param zoom   The zoom to display at
+     */
     private void moveCamera(LatLng latLng, float zoom) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
+    /**
+     * When the map is ready to start this method is called with a google map
+     *
+     * @param googleMap The ready google map
+     */
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
 
+        // adding a marker on current user location
         LatLng latLng = new LatLng(latitude, longitude);
         moveCamera(latLng, DEFAULT_ZOOM);
         mMap.addMarker(new MarkerOptions().position(latLng));
@@ -234,6 +246,11 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
     }
 
 
+    /**
+     * This is called when a user clicks on a map
+     *
+     * @param latLng The latLing the user clicked on
+     */
     @Override
     public void onMapClick(@NonNull LatLng latLng) {
         mMap.clear();
