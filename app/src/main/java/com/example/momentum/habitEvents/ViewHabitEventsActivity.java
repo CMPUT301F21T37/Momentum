@@ -39,7 +39,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
     private String reason;
     private double latitude;
     private double longitude;
-    private String imageUri;
+    private String imageUriStr;
     private FloatingActionButton backButton;
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -66,6 +66,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
         reason = intent.getStringExtra(HabitEventsFragment.EVENT_COMMENT);
         latitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LATITUDE,0);
         longitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LONGITUDE,0);
+        imageUriStr = intent.getStringExtra(HabitEventsFragment.EVENT_IMAGE);
 
         // set the displays
         setTitle();
@@ -102,7 +103,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
     private void setImage(){
         ImageView image;
         image = binding.individualImage;
-        Uri muri = Uri.parse(imageUri);
+        Uri muri = Uri.parse(imageUriStr);
         Picasso.get().load(muri).into(image);
 
     }

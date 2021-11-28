@@ -97,12 +97,11 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
     private String reason;
     private double latitude;
     private double longitude;
-    private String imageUri;
+    private String imageUriStr;
 
     private FloatingActionButton backButton;
     private TextView titleView;
     private EditText reasonEdit;
-    private ImageView imageView;
     private FloatingActionButton editEventButton;
 
     private ImageView mImageView;
@@ -123,7 +122,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
                         //Bundle bundle = result.getData().getExtras();
                         File f = new File(currentPhotoPath);
                         Uri contentUri = Uri.fromFile(f);
-                        imageUri = contentUri.toString();
+                        imageUriStr = contentUri.toString();
                         mImageView.setImageURI(contentUri);
 
                         //call method to upload image to firebase storage
@@ -146,7 +145,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
                         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
                         String imageFileName = "JPEG_" + timeStamp + getFileExt(contentUri);
                         Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
-                        imageUri = contentUri.toString();
+                        imageUriStr = contentUri.toString();
                         mImageView.setImageURI(contentUri);
 
                         //call method to upload image to firebase storage
@@ -176,6 +175,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         Intent intent = getIntent();
         title = intent.getStringExtra(HabitEventsFragment.EVENT_TITLE);
         reason = intent.getStringExtra(HabitEventsFragment.EVENT_COMMENT);
+        imageUriStr = intent.getStringExtra(HabitEventsFragment.EVENT_IMAGE);
         latitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LATITUDE, 0);
         longitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LONGITUDE, 0);
         event = (Event) intent.getSerializableExtra(HabitEventsFragment.EVENT_OBJECT);
@@ -193,6 +193,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
                     Event event2 = (Event) doc.toObject(Event.class);
                     if (event.getLatitude() == event2.getLatitude() &&
                             event.getLongitude() == event2.getLongitude() &&
+                            event.getImageUriStr().equals(event2.getImageUriStr()) &&
                             event.getTitle().equals(event2.getTitle()) &&
                             event.getComment().equals(event2.getComment())) {
 
@@ -341,7 +342,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
         // getting the new strings for newComment
         String newComment = reasonEdit.getText().toString();
-        Event event = new Event(title, newComment, latitude, longitude);
+        Event event = new Event(title, newComment, latitude, longitude, imageUriStr);
 
 
         // updates the database then closes the activity

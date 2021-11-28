@@ -109,7 +109,7 @@ public class AddHabitEventActivity extends FragmentActivity {
     private Button openCameraBtn, openGalleryBtn;
     private String currentPhotoPath;
     private StorageReference storageReference;
-    private String imageUri;
+    private String imageUriStr;
     private Context context;
 
     // a launcher for camera
@@ -124,7 +124,7 @@ public class AddHabitEventActivity extends FragmentActivity {
                         //Bundle bundle = result.getData().getExtras();
                         File f = new File(currentPhotoPath);
                         Uri contentUri = Uri.fromFile(f);
-                        imageUri = contentUri.toString();
+                        imageUriStr = contentUri.toString();
                         mImageView.setImageURI(contentUri);
 
                         //call method to upload image to firebase storage
@@ -147,7 +147,7 @@ public class AddHabitEventActivity extends FragmentActivity {
                         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
                         String imageFileName = "JPEG_" + timeStamp + getFileExt(contentUri);
                         Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
-                        imageUri = contentUri.toString();
+                        imageUriStr = contentUri.toString();
                         mImageView.setImageURI(contentUri);
 
                         //call method to upload image to firebase storage
@@ -343,9 +343,9 @@ public class AddHabitEventActivity extends FragmentActivity {
         // create a hashmap to be inputted
         Event event;
         if (userLocation == null) {
-            event = new Event(title, comment, 0, 0);
+            event = new Event(title, comment, 0, 0, imageUriStr);
         } else {
-            event = new Event(title, comment, userLocation.getLatitude(), userLocation.getLongitude());
+            event = new Event(title, comment, userLocation.getLatitude(), userLocation.getLongitude(), imageUriStr);
         }
 
 
