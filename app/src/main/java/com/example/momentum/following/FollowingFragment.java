@@ -164,7 +164,7 @@ public class FollowingFragment extends Fragment{
 
     private void Add_follow(String fid, String Fusername){
         HashMap<String, Object> data = new HashMap<>();
-        data.put("username", Fusername);
+        data.put("Username", Fusername);
         db.collection("Users").document(uid).collection("Following")
                 .document(fid)
                 .set(data)
@@ -185,7 +185,7 @@ public class FollowingFragment extends Fragment{
     private void Req_follow(String fid){
         String Uusername = user.getDisplayName();
         HashMap<String, Object> data = new HashMap<>();
-        data.put("username", Uusername);
+        data.put("Username", Uusername);
         data.put("allow_follow", false);
         db.collection("Users").document(fid).collection("Followers")
                 .document(uid)
