@@ -3,11 +3,29 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/CMPUT/CMPUT301NEW/Momentum/app/src/main/res/layout/item_infolist_lv.xml" value="0.19376899696048633" />
         <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/drawable/btn_toggle.xml" value="0.3125" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/drawable/rounded_corner.xml" value="0.3807291666666667" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_add_habit_event.xml" value="0.20416666666666666" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_day_habits.xml" value="0.20416666666666666" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_delete_habit.xml" value="0.20416666666666666" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_edit_events.xml" value="0.20416666666666666" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_edit_habit.xml" value="0.20416666666666666" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_habit_events.xml" value="0.20416666666666666" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_indiv_habit_event_view.xml" value="0.20416666666666666" />
         <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_main.xml" value="0.29635416666666664" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_view_habit.xml" value="0.20416666666666666" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/activity_visual_indicator.xml" value="0.3182291666666667" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/content_card_view.xml" value="0.3645833333333333" />
         <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/date_dialog.xml" value="0.20416666666666666" />
-        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/fragment_add_habit.xml" value="0.29936594202898553" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/follow_user_dialogue.xml" value="0.3125" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/follower_request_list_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/fragment_add_habit.xml" value="0.1" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/fragment_following.xml" value="0.2571428571428571" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/fragment_habit_events.xml" value="0.3645833333333333" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/fragment_habits.xml" value="0.20416666666666666" />
         <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/fragment_settings.xml" value="0.2884963768115942" />
+        <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/list_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Github/Cmput301-Project/Momentum/app/src/main/res/layout/signup_screen.xml" value="0.2884963768115942" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/drawable/he_btns.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/chu75/Desktop/301Project/Momentum/app/src/main/res/drawable/rounded_corner.xml" value="0.14583333333333334" />

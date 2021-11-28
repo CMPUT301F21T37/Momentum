@@ -1,7 +1,6 @@
 package com.example.momentum.login;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,14 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.momentum.MainActivity;
 import com.example.momentum.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -130,7 +126,8 @@ public class SignUpActivity extends AppCompatActivity {
                                         Toast.makeText(SignUpActivity.this, "Sign Up Successful!",
                                                 Toast.LENGTH_SHORT).show();
                                         setUsername(user);
-                                        addUserToDatabase(user);
+                                        addUserToDatabase(user, usernameText.getText().toString());
+
                                         updateUI(user);
                                     } else {
                                         // If sign up fails, display a message to the user.
@@ -152,12 +149,13 @@ public class SignUpActivity extends AppCompatActivity {
      *
      * @param user The user that just logged in
      */
-    private void addUserToDatabase(FirebaseUser user) {
+    private void addUserToDatabase(FirebaseUser user, String username) {
         String users_collection_name = "Users";
         String users_id = user.getUid();
-        HashMap<String, String> emptyMap = new HashMap<>();
+        HashMap<String, String> data = new HashMap<>();
+        data.put("Username",username);
 
-        db.collection(users_collection_name).document(users_id).set(emptyMap);
+        db.collection(users_collection_name).document(users_id).set(data);
         addHabitCountToDatabase(users_id);
     }
 

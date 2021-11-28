@@ -34,4 +34,7 @@
     <string name="choose_a_year">Choose a Year</string>
     <string name="are_you_sure_you_want_to_delete_this_habit">Are you sure you want to delete this habit?</string>
     <string name="delete">DELETE</string>
+    <string name="following_name">FOLLOWING NAME</string>
+    <string name="uid">uid:</string>
+    <string name="search">Search</string>
 </resources>

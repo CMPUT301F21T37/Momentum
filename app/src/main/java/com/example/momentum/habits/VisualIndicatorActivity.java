@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.momentum.databinding.ActivityVisualIndicatorBinding;
+import com.example.momentum.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -59,10 +60,10 @@ public class VisualIndicatorActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract them
         Intent intent = getIntent();
-        title = intent.getStringExtra(HabitsFragment.HABIT_TITLE);
-        yearStr = intent.getStringExtra(HabitYearActivity.HABIT_YEAR);
-        uid = intent.getStringExtra(ViewHabitActivity.VISUAL_INDICATOR_USER);
-        frequency = (ArrayList<?>) intent.getStringArrayListExtra(HabitsFragment.HABIT_FREQUENCY);
+        title = intent.getStringExtra(Constants.HABIT_TITLE);
+        yearStr = intent.getStringExtra(Constants.HABIT_YEAR);
+        uid = intent.getStringExtra(Constants.VISUAL_INDICATOR_USER);
+        frequency = (ArrayList<?>) intent.getStringArrayListExtra(Constants.HABIT_FREQUENCY);
 
         // show the title
         setTitle();

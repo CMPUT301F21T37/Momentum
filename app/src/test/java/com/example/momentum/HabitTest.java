@@ -24,7 +24,7 @@ public class HabitTest {
         test_freq.add("Tuesday");
         test_freq.add("Wednesday");
         test_freq.add("Thursday");
-        Habit habit = new Habit(test_title,test_reason, test_date, test_private, test_freq);
+        Habit habit = new Habit(test_title,test_reason, test_date, test_private, test_freq, 1);
 
         assertEquals(test_title, habit.getTitle());
         assertEquals(test_reason, habit.getReason());
@@ -47,7 +47,7 @@ public class HabitTest {
         test_freq.add("Tuesday");
         test_freq.add("Wednesday");
         test_freq.add("Thursday");
-        Habit habit = new Habit(test_title,test_reason, test_date, test_private, test_freq);
+        Habit habit = new Habit(test_title,test_reason, test_date, test_private, test_freq, 1);
 
         String new_title = "better_title";
         String new_reason = "better_reason";
@@ -61,7 +61,7 @@ public class HabitTest {
         habit.setDate(new_date);
         habit.setPrivacy(new_private);
         habit.setWeekly_frequency(new_freq);
-        Habit new_habit = new Habit(new_title, new_reason, new_date, new_private, new_freq);
+        Habit new_habit = new Habit(new_title, new_reason, new_date, new_private, new_freq, 1);
 
         assertEquals(new_title, habit.getTitle());
         assertEquals(new_reason, habit.getReason());
