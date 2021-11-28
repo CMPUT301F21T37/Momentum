@@ -1,48 +1,24 @@
 package com.example.momentum.habits;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.momentum.Habit;
-import com.example.momentum.MainActivity;
 import com.example.momentum.R;
-import com.example.momentum.add.AddFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Version 2.0:
@@ -52,7 +28,7 @@ import java.util.List;
  * @author Kaye Ena Crayzhel F. Misay
  *
  * Note:
- * This was updated from extending to an Array Adapter to a RecyclerView Adapter for drag and drop reordering.
+ * This was updated from extending to an ArrayAdapter for ListView to a RecyclerView Adapter for drag and drop reordering.
  * First Version authors:
  * @author Kaye Ena Crayzhel F. Misay
  * @author Boxiao Li
@@ -60,15 +36,9 @@ import java.util.List;
 public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.MyViewModel>
         implements HabitsMoveCallback.RecyclerViewRowTouchHelperContract {
     public static final String DELETE_HABIT = "DELETE_HABIT";
-    public static final String DELETE_EVENT = "DELETE_EVENT";
 
     private ArrayList<Habit> habits;
     private Context context;
-    private FirebaseFirestore db;
-    private FirebaseUser user;
-    private String uid;
-    private CollectionReference habitsReference;
-    private CollectionReference eventsReference;
 
     public HabitsAdapter(Context context, ArrayList<Habit> habits){
         this.habits = habits;
@@ -116,19 +86,23 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.MyViewMode
         });
     }
 
+    /**
+     * Gets the current count of the habits list
+     * @return
+     * size of the habit
+     */
     @Override
     public int getItemCount() {
         return habits.size();
     }
 
+    /**
+     * When an item in recycle view is being moved, swap the two items via Collections.
+     * @param from
+     * @param to
+     */
     @Override
     public void onRowMoved(int from, int to) {
-        Integer size = getItemCount();
-        Integer fromPos = from;
-        Integer toPos = to;
-
-        String size_str = size.toString() + " From: " + fromPos + " To: " + toPos;
-        Log.d("Size", size_str);
 
         if (from < to) {
             for (int index = from; index < to; index++) {
@@ -143,16 +117,29 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.MyViewMode
         this.notifyItemMoved(from, to);
     }
 
+    /**
+     * When the user is currently selecting/holding the habit, set the background color to dark grey.
+     * @param viewHolder
+     * view holder for all the contents of card view
+     */
     @Override
     public void onRowSelected(MyViewModel viewHolder) {
         viewHolder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.super_dark_grey));
     }
 
+    /**
+     * When the user is done selecting the habit, set the background color of the clicked item as white.
+     * @param viewHolder
+     * view holder for all the contents of card view
+     */
     @Override
     public void onRowClear(MyViewModel viewHolder) {
         viewHolder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
     }
 
+    /**
+     * Custom View Holder for the contents of the card view given recycle view
+     */
     public class MyViewModel extends RecyclerView.ViewHolder {
 
         private FloatingActionButton editButton;
@@ -167,15 +154,6 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.MyViewMode
             deleteButton = view.findViewById(R.id.card_view_delete);
             editButton = view.findViewById(R.id.card_view_edit);
         }
-    }
-
-    /**
-     * Helper method to set the database
-     */
-    private void setDatabase() {
-        db = FirebaseFirestore.getInstance();
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        uid = user.getUid();
     }
 
     /**

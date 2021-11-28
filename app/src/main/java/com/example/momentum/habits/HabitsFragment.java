@@ -128,6 +128,9 @@ public class HabitsFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Setting the correct order of all the habits based on the stored order
+     */
     private void setCorrectOrder() {
         // initializing to all null
         for (int index = 0; index < habitsListHelper.size(); index++) {
@@ -144,6 +147,7 @@ public class HabitsFragment extends Fragment {
 
     /**
      * Edits the order of the database
+     * On complete, notify the habitsAdapter
      */
     private void editOrder() {
         // setting up the document references
@@ -174,27 +178,32 @@ public class HabitsFragment extends Fragment {
         super.onDestroyView();
         editOrder();
         binding = null;
-        Log.d("resume", "on destroy");
     }
 
+    /**
+     * On pause of the fragment, edit the order
+     */
     @Override
     public void onPause() {
         super.onPause();
         editOrder();
-        Log.d("resume", "on pause");
     }
 
+    /**
+     * On stop of the fragment, edit the order
+     */
     @Override
     public void onStop() {
         super.onStop();
         editOrder();
-        Log.d("resume", "on stop");
     }
 
+    /**
+     * On resume of the fragment, notify the adapter
+     */
     @Override
     public void onResume() {
         super.onResume();
         habitsAdapter.notifyDataSetChanged();
-        Log.d("resume", "on resume");
     }
 }

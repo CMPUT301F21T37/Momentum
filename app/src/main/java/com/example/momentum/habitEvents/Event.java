@@ -14,7 +14,6 @@ public class Event implements Serializable {
     private double longitude;
 
     public Event(){
-
     }
 
     public Event (String title, String comment, double latitude, double longitude){
@@ -42,13 +41,22 @@ public class Event implements Serializable {
         return comment;
     }
 
+    /**
+     * Setter for Events title
+     * @param title
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Setter for Events comment
+     * @param comment
+     */
     public void setComment(String comment) {
         this.comment = comment;
     }
+
 
     public double getLatitude() {
         return latitude;

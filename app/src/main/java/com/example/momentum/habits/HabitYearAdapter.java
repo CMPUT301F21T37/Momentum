@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 /**
  * An adapter that extends to an ArrayAdapter of Strings to keep the list of years up-to-date
+ * @author Kaye Ena Crayzhel F. Misay
  */
 public class HabitYearAdapter extends ArrayAdapter<String> {
 
