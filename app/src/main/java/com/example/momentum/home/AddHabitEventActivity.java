@@ -43,7 +43,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * An activity that lets the user add a habit event for when a habit is done for the day.
- *
  * @author Kaye Ena Crayzhel F. Misay
  * @author Mohammed Alzafarani
  */
@@ -171,9 +170,9 @@ public class AddHabitEventActivity extends FragmentActivity implements OnMapRead
         // create a hashmap to be inputted
         Event event;
         if (userLocation == null) {
-            event = new Event(title, comment, 0, 0);
+            event = new Event(documentTitle, comment, 0, 0);
         } else {
-            event = new Event(title, comment, userLocation.getLatitude(), userLocation.getLongitude());
+            event = new Event(documentTitle, comment, userLocation.getLatitude(), userLocation.getLongitude());
         }
 
 
