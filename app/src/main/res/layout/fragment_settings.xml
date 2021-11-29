@@ -150,4 +150,12 @@
         android:textColor="@color/black"
         android:layout_height="wrap_content">
     </TextView>
+
+    <Button
+        android:id="@+id/logOutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:textAlignment="center"
+        android:text="Log out"></Button>
 </LinearLayout>

@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * Custom ViewModel for HabitEventsFragment that handles mutable live data for all habit events.
  * @author Kaye Ena Crayzhel F. Misay
  * @author Han Yan
+ * @author Mohammed Alzafarani
  */
 public class HabitEventsViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Event>> eventsList;
