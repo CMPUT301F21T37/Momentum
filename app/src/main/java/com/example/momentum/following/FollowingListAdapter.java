@@ -23,7 +23,12 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+/**
+ * Adapter to keep the list of people trying to follow up-to-date
+ * @ author rittwage, misay
+ */
 public class FollowingListAdapter extends ArrayAdapter<Follower> {
 
     private ArrayList<Follower> follow_requests;
@@ -78,7 +83,7 @@ public class FollowingListAdapter extends ArrayAdapter<Follower> {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Denied " + follower.getId());
-                deny_follow(follower);
+                //deny_follow(follower);
                 Toast.makeText(context, "Denied Follow",
                         Toast.LENGTH_SHORT).show();
             }
@@ -87,6 +92,11 @@ public class FollowingListAdapter extends ArrayAdapter<Follower> {
         return view;
     }
 
+    /**
+     * Accept the follow of a user
+     * @param f
+     * follower
+     */
     private void accept_follow(Follower f){
         follow_reqs
                 .document(f.getId())
@@ -95,6 +105,7 @@ public class FollowingListAdapter extends ArrayAdapter<Follower> {
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "Follower Allowed");
+                        Add_follow(f.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -105,39 +116,30 @@ public class FollowingListAdapter extends ArrayAdapter<Follower> {
                 });
 
     }
-    private void deny_follow(Follower f){
-        db.collection("Users").document(f.getId()).collection("Following")
+
+    /**
+     * Add the current user to following of the follower
+     * @param fid
+     * follower id
+     */
+    private void Add_follow(String fid){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("username", user.getDisplayName());
+        db.collection("Users").document(fid).collection("Following")
                 .document(uid)
-                .delete()
+                .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "Removed you from their following list");
+                    public void onSuccess(Void aVoid) {
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error", e);
+
                     }
                 });
-        follow_reqs
-                .document(f.getId())
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "Follower Denied");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error", e);
-                    }
-                });
-
-
     }
 }
 

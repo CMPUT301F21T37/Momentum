@@ -73,10 +73,13 @@ public class AddFragment extends Fragment {
     String title_str;
     ArrayList<String> frequency;
 
+    Activity activity;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // binding the fragment to main activity
         binding = FragmentAddHabitBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        activity = getActivity();
 
         // initializing the database
         db = FirebaseFirestore.getInstance();
@@ -294,7 +297,7 @@ public class AddFragment extends Fragment {
                         // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Data has been added successfully!");
                         //toast to show that a habit has been created
-                        Toast.makeText(getActivity(), "Habit Created", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, "Habit Created", Toast.LENGTH_LONG).show();
                         //call to the clear function to reset all changed variables in the habit fragment
                         clear();
                     }

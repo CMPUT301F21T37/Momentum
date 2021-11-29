@@ -53,20 +53,6 @@ public class FollowerFragTest {
     }
 
     @Test
-    public void Test_follow_nav(){
-        login(0);
-        solo.clickOnView(solo.getView(R.id.navigation_following));
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-    }
-    @Test
-    public void Test_account_change(){
-        login(0);
-        solo.clickOnView(solo.getView(R.id.navigation_following));
-        change_acc(1);
-        solo.clickOnView(solo.getView(R.id.navigation_settings));
-        solo.waitForText("Sam1", 1, 2000);
-    }
-    @Test
     public void Test_add_request(){
         login(0);
         solo.clickOnView(solo.getView(R.id.navigation_following));
