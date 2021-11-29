@@ -17,7 +17,7 @@ public class EventTest {
      */
 
     private Event mockEvents(){
-        return new Event("Event Title","Event comment",0,0);
+        return new Event("Event Title","Event comment",0,0, "JPEG_2021_11_28_17_00_01_8502855713060057668.jpg");
     }
 
     /**
