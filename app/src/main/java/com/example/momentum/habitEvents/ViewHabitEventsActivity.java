@@ -99,7 +99,9 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
 
     }
 
-    // a method to get image uri and set it in the imageView`
+    /**
+     * this method helps get image uri and set it in the imageView
+     */
     private void setImage(){
         StorageReference imageRef = storageReference.child("images/").child(imageName);
         ImageView eventImage;
