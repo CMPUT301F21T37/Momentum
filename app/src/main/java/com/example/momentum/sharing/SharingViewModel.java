@@ -47,7 +47,7 @@ public class SharingViewModel extends ViewModel {
                             List<FollowingEntity> followingIdList = new ArrayList<>();
                             for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                                 if (doc != null) {
-                                    String name = (String) doc.getData().get("Username");
+                                    String name = (String) doc.getData().get("username");
                                     FollowingEntity following = new FollowingEntity(name, doc.getId());
                                     //If 'followingName' is null or empty, not filter
                                     if (!TextUtils.isEmpty(followingName)) {
