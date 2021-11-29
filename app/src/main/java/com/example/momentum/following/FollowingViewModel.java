@@ -11,30 +11,30 @@ import java.util.ArrayList;
  */
 public class FollowingViewModel extends ViewModel {
 
-    private MutableLiveData<ArrayList<String>> requestList;
+    private MutableLiveData<ArrayList<Follower>> requestList;
 
     public FollowingViewModel() {
         requestList = new MutableLiveData<>();
     }
 
-    public LiveData<ArrayList<String>> getRequestList() {
+    public LiveData<ArrayList<Follower>> getRequestList() {
         return requestList;
     }
 
-    public void addRequest(String user){
-        ArrayList<String> listHelper;
+    public void addRequest(Follower follower){
+        ArrayList<Follower> listHelper;
         if (requestList.getValue() != null){
             listHelper = new ArrayList<>(requestList.getValue());
         }
         else {
-        listHelper = new ArrayList<>();
+            listHelper = new ArrayList<>();
         }
-        listHelper.add(user);
+        listHelper.add(follower);
         requestList.setValue(listHelper);
     }
 
     public void clearRequestList(){
-        ArrayList<String> listHelper = new ArrayList<>();
+        ArrayList<Follower> listHelper = new ArrayList<>();
         requestList.setValue(listHelper);
     }
 }
