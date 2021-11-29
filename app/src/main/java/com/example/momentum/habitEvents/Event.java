@@ -1,5 +1,7 @@
 package com.example.momentum.habitEvents;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +18,8 @@ public class Event implements Serializable {
     private String comment;
     private double latitude;
     private double longitude;
+    private String imageName;
+
 
     /**
      * This constructor constructs a new Event Object
@@ -24,6 +28,7 @@ public class Event implements Serializable {
 
     }
 
+    public Event (String title, String comment, double latitude, double longitude, String imageName){
     /**
      * This constructor constructs an event object with a title, comment, lat, and long
      *
@@ -31,12 +36,14 @@ public class Event implements Serializable {
      * @param comment   The comment of the event
      * @param latitude  The latitude of the event
      * @param longitude The longitude of the event
+     * @param imageName The file name of an image
      */
-    public Event(String title, String comment, double latitude, double longitude) {
+    public Event(String title, String comment, double latitude, double longitude, String imageName) {
         this.title = title;
         this.comment = comment;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.imageName = imageName;
     }
 
     /**
@@ -110,4 +117,8 @@ public class Event implements Serializable {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    public String getImageName() { return imageName; }
+
+    public void setImageName(String imageName) { this.imageName = imageName; }
 }
