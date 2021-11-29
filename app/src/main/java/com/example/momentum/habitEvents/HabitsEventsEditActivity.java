@@ -119,7 +119,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
     private StorageReference storageReference;
     private Context context;
 
-    // a launcher for camera
+    // global result launcher for when camera is called
     ActivityResultLauncher<Intent> cameraActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -140,7 +140,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
             });
 
 
-    // a launcher for gallery
+    // global result launcher for when gallery is called
     ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -241,6 +241,9 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         mapFragment.getMapAsync(this);
     }
 
+    /**
+     * this method helps open camera on the device
+     */
     private void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File imageFile = null;
@@ -256,6 +259,9 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         }
     }
 
+    /**
+     * this method helps to open gallery on the device
+     */
     private void openGallery() {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         File imageFile = null;
@@ -271,6 +277,10 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         }
     }
 
+    /**
+     * this method get gallery permission for users
+
+     */
     private void getGalleryPermission() {
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -291,6 +301,9 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
     }
 
+    /**
+     * this method get camera permission for users
+     */
 
     private void getCameraPermission() {
         String[] permissions = {Manifest.permission.CAMERA};
@@ -344,7 +357,11 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
 
 
-    // a method to upload image to firebase storage
+    /**
+     * this method is to upload image to firebase storage
+     * @param fileName a string object that contains file name of image
+     * @param contentUri an uri of image
+     */
     private void uploadImageToFirebase(String fileName, Uri contentUri) {
         //save image in storage
         StorageReference image = storageReference.child("images/" + fileName);
@@ -371,7 +388,11 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
     }
 
 
-    // create a file for image in gallery
+    /**
+     *  this method create a file for image that is saved to storage
+     * @return a File object
+     * @throws IOException
+     */
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
@@ -385,7 +406,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         imageNameStr = split[1];
         return image;
     }
-    
+
     /**
      * A method that sets previous inputs from the user.
      */
@@ -405,7 +426,9 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
     }
 
-    // a method to get image uri and set it in the imageView`
+    /**
+     * this method helps get image uri and set it in the imageView
+     */
     private void setImage(){
         StorageReference imageRef = storageReference.child("images/").child(imageNameStr);
         imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
