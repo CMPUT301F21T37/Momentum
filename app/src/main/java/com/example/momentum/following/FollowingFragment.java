@@ -61,7 +61,6 @@ public class FollowingFragment extends Fragment{
     private ArrayAdapter<Follower> followerAdapter;
     private ListView requestListView;
 
-
     Button follow_user;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -123,7 +122,7 @@ public class FollowingFragment extends Fragment{
                         }
                         else{
                             db.collection("Users")
-                                    .whereEqualTo("Username", entered_username)
+                                    .whereEqualTo("username", entered_username)
                                     .get()
                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
@@ -135,7 +134,7 @@ public class FollowingFragment extends Fragment{
                                                                 Toast.LENGTH_SHORT).show();
                                                     }
                                                     else{
-                                                        Add_follow(document.getId(), document.getData().get("Username").toString());
+                                                        Add_follow(document.getId(), document.getData().get("username").toString());
                                                         Req_follow(document.getId());
                                                         Log.d(TAG, document.getId() + " => " + document.getData());
                                                     }
@@ -158,6 +157,7 @@ public class FollowingFragment extends Fragment{
         return root;
     }
     //function used for live updates of the listview
+
     public void showRequests(){
         requestListView = binding.requestList;
         FollowingViewModel.getRequestList().observe(getViewLifecycleOwner(), new Observer<ArrayList<Follower>>() {
@@ -171,7 +171,7 @@ public class FollowingFragment extends Fragment{
     //helper function that adds the requested followed user to the list of those you are following
     private void Add_follow(String fid, String Fusername){
         HashMap<String, Object> data = new HashMap<>();
-        data.put("Username", Fusername);
+        data.put("username", Fusername);
         db.collection("Users").document(uid).collection("Following")
                 .document(fid)
                 .set(data)
@@ -196,7 +196,7 @@ public class FollowingFragment extends Fragment{
         HashMap<String, Object> data = new HashMap<>();
         data.put("username", Uusername);
         data.put("allow_follow",false);
-        Log.d(TAG, "Data Created")
+        Log.d(TAG, "Data Created");
         db.collection("Users").document(fid).collection("Followers")
                 .document(uid)
                 .set(data)
