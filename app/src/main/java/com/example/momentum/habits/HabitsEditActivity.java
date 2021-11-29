@@ -19,6 +19,7 @@ import com.example.momentum.Habit;
 import com.example.momentum.MainActivity;
 import com.example.momentum.databinding.ActivityEditHabitBinding;
 import com.example.momentum.login.LoginActivity;
+import com.example.momentum.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -87,11 +88,11 @@ public class HabitsEditActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract them
         Intent intent = getIntent();
-        title = intent.getStringExtra(HabitsFragment.HABIT_TITLE);
-        reason = intent.getStringExtra(HabitsFragment.HABIT_REASON);
-        isPrivate = intent.getBooleanExtra(HabitsFragment.HABIT_PRIVACY, true);
-        date = (Date) intent.getSerializableExtra(HabitsFragment.HABIT_DATE);
-        frequency = (ArrayList<?>) intent.getStringArrayListExtra(HabitsFragment.HABIT_FREQUENCY);
+        title = intent.getStringExtra(Constants.HABIT_TITLE);
+        reason = intent.getStringExtra(Constants.HABIT_REASON);
+        isPrivate = intent.getBooleanExtra(Constants.HABIT_PRIVACY, true);
+        date = (Date) intent.getSerializableExtra(Constants.HABIT_DATE);
+        frequency = (ArrayList<?>) intent.getStringArrayListExtra(Constants.HABIT_FREQUENCY);
 
         // initialize previous values
         initializeValues();

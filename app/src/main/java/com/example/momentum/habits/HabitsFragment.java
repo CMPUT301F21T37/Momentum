@@ -50,14 +50,6 @@ import java.util.Date;
  * @author Kaye Ena Crayzhel F. Misay
  */
 public class HabitsFragment extends Fragment {
-    public static final String HABIT_TITLE = "HABIT_TITLE";
-    public static final String HABIT_REASON = "HABIT_REASON";
-    public static final String HABIT_FREQUENCY = "HABIT_FREQUENCY";
-    public static final String HABIT_PRIVACY = "HABIT_PRIVACY";
-    public static final String HABIT_DATE = "HABIT_DATE";
-    public static final String HABIT_ARRAY = "HABIT_ARRAY";
-    public static final String HABIT_DELETE = "HABIT_DELETE";
-    public static final String EVENTS_DELETE = "EVENTS_DELETE";
 
     private FragmentHabitsBinding binding;
     private HabitsAdapter habitsAdapter;

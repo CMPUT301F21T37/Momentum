@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -66,6 +67,9 @@
             android:exported="true" />
         <activity
             android:name=".habitEvents.HabitsEventsEditActivity"
+            android:exported="true" />
+        <activity
+            android:name=".sharing.SharingHabitActivity"
             android:exported="true" />
     </application>
 

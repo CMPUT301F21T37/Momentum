@@ -22,6 +22,7 @@ import com.example.momentum.add.AddFragment;
 import com.example.momentum.databinding.ActivityDayHabitsBinding;
 import com.example.momentum.databinding.ActivityDeleteHabitBinding;
 import com.example.momentum.databinding.ActivityEditHabitBinding;
+import com.example.momentum.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -78,9 +79,9 @@ public class DeleteHabitActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract them
         Intent intent = getIntent();
-        title = intent.getStringExtra(HabitsFragment.HABIT_TITLE);
-        reason = intent.getStringExtra(HabitsFragment.HABIT_REASON);
-        habits = (ArrayList<?>) intent.getStringArrayListExtra(HabitsFragment.HABIT_ARRAY);
+        title = intent.getStringExtra(Constants.HABIT_TITLE);
+        reason = intent.getStringExtra(Constants.HABIT_REASON);
+        habits = (ArrayList<?>) intent.getStringArrayListExtra(Constants.HABIT_ARRAY);
 
         // set the title
         habitTitle = binding.deleteHabitTitle;
@@ -216,14 +217,14 @@ public class DeleteHabitActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(HabitsFragment.HABIT_DELETE, "DocumentSnapshot successfully deleted!");
+                        Log.d(Constants.HABIT_DELETE, "DocumentSnapshot successfully deleted!");
                         deleteHabitEvents();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d(HabitsFragment.HABIT_DELETE, "Error Deleting document", e);
+                        Log.d(Constants.HABIT_DELETE, "Error Deleting document", e);
                     }
                 });
     }
@@ -253,7 +254,7 @@ public class DeleteHabitActivity extends AppCompatActivity {
                             }
                             deleteHabitEventsHelper(eventsTitle);
                         } else {
-                            Log.d(HabitsFragment.EVENTS_DELETE, "Error getting documents: ", task.getException());
+                            Log.d(Constants.EVENTS_DELETE, "Error getting documents: ", task.getException());
                         }
                     }
                 });

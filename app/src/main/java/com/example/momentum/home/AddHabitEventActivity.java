@@ -23,6 +23,7 @@ import com.example.momentum.R;
 import com.example.momentum.databinding.ActivityAddHabitEventBinding;
 import com.example.momentum.habitEvents.Event;
 import com.example.momentum.habitEvents.HabitsEventsEditActivity;
+import com.example.momentum.utils.Constants;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -79,11 +80,13 @@ public class AddHabitEventActivity extends FragmentActivity implements OnMapRead
         binding = ActivityAddHabitEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // getting the map to initialize
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapAddHabit);
 
         mapFragment.getMapAsync(this);
 
+        // Getting the user location permission
         getLocationPermission();
 
         // initializing the database
@@ -93,8 +96,8 @@ public class AddHabitEventActivity extends FragmentActivity implements OnMapRead
 
         // Get the Intent that started this activity and extract the strings
         Intent intent = getIntent();
-        title = intent.getStringExtra(DayHabitsFragment.TITLE_DAY_HABIT);
-        documentTitle = intent.getStringExtra(DayHabitsFragment.TITLE_HABIT_EVENT);
+        title = intent.getStringExtra(Constants.TITLE_DAY_HABIT);
+        documentTitle = intent.getStringExtra(Constants.TITLE_HABIT_EVENT);
 
         // back button to go back to previous dayHabitsFragment
         backButton = binding.addHabitEventBack;
@@ -111,13 +114,20 @@ public class AddHabitEventActivity extends FragmentActivity implements OnMapRead
         checkButton = binding.addHabitEventDone;
         checkButton.setOnClickListener(this::checkButtonOnClick);
 
+        // selects the current location for the user
         selectCurrentLocation = binding.AddHabitEventUserLocationButton;
         selectCurrentLocation.setOnClickListener(this::selectCurrentLocationOnClick);
 
 
     }
 
+    /**
+     * This method selects the current location for the user
+     *
+     * @param view
+     */
     private void selectCurrentLocationOnClick(View view) {
+
         if (mLocationPermissionsGranted) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
@@ -125,13 +135,15 @@ public class AddHabitEventActivity extends FragmentActivity implements OnMapRead
                     != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
+            // getting current location
             Task location = mFusedLocationProviderClient.getLastLocation();
             location.addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
+                        // if location is founded then move the camera there and add a marker
                         userLocation = (Location) task.getResult();
-                        LatLng latLng = new  LatLng(userLocation.getLatitude(), userLocation.getLongitude());
+                        LatLng latLng = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
                         moveCamera(latLng, DEFAULT_ZOOM);
                         mMap.clear();
                         mMap.addMarker(new MarkerOptions().position(latLng));
@@ -186,7 +198,6 @@ public class AddHabitEventActivity extends FragmentActivity implements OnMapRead
      * Adds habit event for the given habit.
      *
      * @param event The data to be put in the Events document fields.
-     *              Currently: optional comment and habit
      */
     public void addHabitEventToDatabase(Event event) {
         String users_collection_name = "Users";
@@ -213,6 +224,9 @@ public class AddHabitEventActivity extends FragmentActivity implements OnMapRead
                 });
     }
 
+    /**
+     * This method gets the users current location
+     */
     private void getDeviceLocation() {
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -236,11 +250,19 @@ public class AddHabitEventActivity extends FragmentActivity implements OnMapRead
         }
     }
 
+    /**
+     * This moves the map camera to a latLing and a zoom
+     *
+     * @param latLng The latLing to go to
+     * @param zoom   The zoom to display at
+     */
     private void moveCamera(LatLng latLng, float zoom) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
-
+    /**
+     * This method gets the location permission from the user.
+     */
     private void getLocationPermission() {
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -263,6 +285,14 @@ public class AddHabitEventActivity extends FragmentActivity implements OnMapRead
 
     }
 
+    /**
+     * This method requests the user to give access to their location
+     *
+     * @param requestCode  The request code
+     * @param permissions  The permissions
+     * @param grantResults The results
+     */
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -283,6 +313,11 @@ public class AddHabitEventActivity extends FragmentActivity implements OnMapRead
         }
     }
 
+    /**
+     * When the map is ready to start this method is called with a google map
+     *
+     * @param googleMap The ready google map
+     */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
@@ -301,6 +336,11 @@ public class AddHabitEventActivity extends FragmentActivity implements OnMapRead
     }
 
 
+    /**
+     * This is called when a user clicks on a map
+     *
+     * @param latLng The latLing the user clicked on
+     */
     @Override
     public void onMapClick(@NonNull LatLng latLng) {
         mMap.clear();

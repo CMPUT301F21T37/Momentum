@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // binds all of the fragments in the navigation bar and all the other fragments
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

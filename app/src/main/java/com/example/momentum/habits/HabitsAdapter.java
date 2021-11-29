@@ -15,6 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.momentum.Habit;
 import com.example.momentum.R;
+import com.example.momentum.add.AddFragment;
+import com.example.momentum.utils.Constants;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -163,11 +169,11 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.MyViewMode
      */
     private void showHabitDetails(Habit habit) {
         Intent intent = new Intent(context, ViewHabitActivity.class);
-        intent.putExtra(HabitsFragment.HABIT_TITLE, habit.getTitle());
-        intent.putExtra(HabitsFragment.HABIT_REASON, habit.getReason());
-        intent.putExtra(HabitsFragment.HABIT_FREQUENCY, habit.getWeekly_frequency());
-        intent.putExtra(HabitsFragment.HABIT_PRIVACY, habit.isPrivate_account());
-        intent.putExtra(HabitsFragment.HABIT_DATE, habit.getDate());
+        intent.putExtra(Constants.HABIT_TITLE, habit.getTitle());
+        intent.putExtra(Constants.HABIT_REASON, habit.getReason());
+        intent.putExtra(Constants.HABIT_FREQUENCY, habit.getWeekly_frequency());
+        intent.putExtra(Constants.HABIT_PRIVACY, habit.isPrivate_account());
+        intent.putExtra(Constants.HABIT_DATE, habit.getDate());
         context.startActivity(intent);
     }
 
@@ -184,9 +190,9 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.MyViewMode
         }
 
         Intent intent = new Intent(context, DeleteHabitActivity.class);
-        intent.putExtra(HabitsFragment.HABIT_TITLE, habit.getTitle());
-        intent.putExtra(HabitsFragment.HABIT_REASON, habit.getReason());
-        intent.putExtra(HabitsFragment.HABIT_ARRAY, habit_titles);
+        intent.putExtra(Constants.HABIT_TITLE, habit.getTitle());
+        intent.putExtra(Constants.HABIT_REASON, habit.getReason());
+        intent.putExtra(Constants.HABIT_ARRAY, habit_titles);
         context.startActivity(intent);
     }
 
@@ -197,11 +203,11 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.MyViewMode
      */
     private void onEditClicked(Habit habit) {
         Intent intent = new Intent(context, HabitsEditActivity.class);
-        intent.putExtra(HabitsFragment.HABIT_TITLE, habit.getTitle());
-        intent.putExtra(HabitsFragment.HABIT_REASON, habit.getReason());
-        intent.putExtra(HabitsFragment.HABIT_FREQUENCY, habit.getWeekly_frequency());
-        intent.putExtra(HabitsFragment.HABIT_PRIVACY, habit.isPrivate_account());
-        intent.putExtra(HabitsFragment.HABIT_DATE, habit.getDate());
+        intent.putExtra(Constants.HABIT_TITLE, habit.getTitle());
+        intent.putExtra(Constants.HABIT_REASON, habit.getReason());
+        intent.putExtra(Constants.HABIT_FREQUENCY, habit.getWeekly_frequency());
+        intent.putExtra(Constants.HABIT_PRIVACY, habit.isPrivate_account());
+        intent.putExtra(Constants.HABIT_DATE, habit.getDate());
         context.startActivity(intent);
     }
 }
