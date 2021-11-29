@@ -137,7 +137,6 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
                     Event event2 = (Event) doc.toObject(Event.class);
                     if (event.getLatitude() == event2.getLatitude() &&
                             event.getLongitude() == event2.getLongitude() &&
-                            event.getImageName().equals(event2.getImageName()) &&
                             event.getTitle().equals(event2.getTitle()) &&
                             event.getComment().equals(event2.getComment())) {
 
@@ -231,7 +230,6 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
                     Event event2 = (Event) doc.toObject(Event.class);
                     if (event.getLatitude() == event2.getLatitude() &&
                             event.getLongitude() == event2.getLongitude() &&
-                            event.getImageName().equals(event2.getImageName()) &&
                             event.getTitle().equals(event2.getTitle()) &&
                             event.getComment().equals(event2.getComment())) {
 
