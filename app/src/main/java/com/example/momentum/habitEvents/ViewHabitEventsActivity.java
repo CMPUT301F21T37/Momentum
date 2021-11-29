@@ -86,7 +86,9 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
 
         //get image and set it
         storageReference = FirebaseStorage.getInstance().getReference();
-        setImage();
+        if (imageName != null){
+            setImage();
+        }
 
         // Check if the user has the location permission
         getLocationPermission();

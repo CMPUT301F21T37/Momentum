@@ -95,6 +95,7 @@ public class AddHabitEventActivityTest {
         assertTrue(solo.waitForText("This is more than 20", 1, 2000));
     }
 
+
     /**
      * Closes all activities after tests are done
      */
