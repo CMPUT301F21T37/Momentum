@@ -3,7 +3,6 @@ package com.example.momentum.following;
 import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,7 +47,7 @@ import java.util.HashMap;
  * @author rittwage
  */
 
-public class FollowingFragment extends Fragment{
+public class FollowingFragment extends Fragment {
     public static final String UPDATE_COUNT = "UPDATE_COUNT";
     private FollowingViewModel FollowingViewModel;
     private FragmentFollowingBinding binding;
@@ -83,21 +82,21 @@ public class FollowingFragment extends Fragment{
         requestReference
                 .whereEqualTo("allow_follow", false)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
-                                @Nullable FirebaseFirestoreException error) {
-                FollowingViewModel.clearRequestList();
-                for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                    String name = (String) doc.getData().get("username");
-                    String id = (String) doc.getId();
-                    // store it to the the view model
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                        @Nullable FirebaseFirestoreException error) {
+                        FollowingViewModel.clearRequestList();
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                            String name = (String) doc.getData().get("username");
+                            String id = (String) doc.getId();
+                            // store it to the the view model
 
-                    FollowingViewModel.addRequest(new Follower(id, name));
-                }
-                // Notifying the adapter to render any new data fetched from the cloud
-                followerAdapter.notifyDataSetChanged();
-            }
-        });
+                            FollowingViewModel.addRequest(new Follower(id, name));
+                        }
+                        // Notifying the adapter to render any new data fetched from the cloud
+                        followerAdapter.notifyDataSetChanged();
+                    }
+                });
         // initiates the display
         showRequests();
 
@@ -116,11 +115,10 @@ public class FollowingFragment extends Fragment{
                 enter.setPositiveButton("Follow", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String entered_username = user_edit.getText().toString();
-                        if(user_edit == null || entered_username.length() < 1){
+                        if (user_edit == null || entered_username.length() < 1) {
                             Toast.makeText(activity, "Proper UID Entry Required",
                                     Toast.LENGTH_SHORT).show();
-                        }
-                        else{
+                        } else {
                             db.collection("Users")
                                     .whereEqualTo("username", entered_username)
                                     .get()
@@ -129,7 +127,7 @@ public class FollowingFragment extends Fragment{
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                                    if (document == null){
+                                                    if (document == null) {
                                                         Toast.makeText(activity, "user not found",
                                                                 Toast.LENGTH_SHORT).show();
                                                     }
@@ -137,6 +135,9 @@ public class FollowingFragment extends Fragment{
                                                         Add_follow(document.getId(), document.getData().get("username").toString());
                                                         Req_follow(document.getId());
                                                         Log.d(TAG, document.getId() + " => " + document.getData());
+                                                        Toast.makeText(activity, "Follow Requested",
+                                                                Toast.LENGTH_LONG).show();
+
                                                     }
 
                                                 }
@@ -147,7 +148,8 @@ public class FollowingFragment extends Fragment{
                                     });
                         }
 
-                    }});
+                    }
+                });
                 AlertDialog alertDialog = enter.create();
                 alertDialog.show();
 
@@ -155,7 +157,9 @@ public class FollowingFragment extends Fragment{
             }
         });
         return root;
+
     }
+
     //function used for live updates of the listview
 
     public void showRequests(){
@@ -168,7 +172,12 @@ public class FollowingFragment extends Fragment{
             }
         });
     }
-    //helper function that adds the requested followed user to the list of those you are following
+
+    /**
+     *
+     * @param fid
+     * @param Fusername
+     */
     private void Add_follow(String fid, String Fusername){
         HashMap<String, Object> data = new HashMap<>();
         data.put("username", Fusername);
@@ -190,7 +199,10 @@ public class FollowingFragment extends Fragment{
 
 
     }
-    //helper function that adds the user to a list of follower requests to another user
+    /**
+     *
+     * @param fid
+     */
     private void Req_follow(String fid){
         String Uusername = user.getDisplayName();
         HashMap<String, Object> data = new HashMap<>();
