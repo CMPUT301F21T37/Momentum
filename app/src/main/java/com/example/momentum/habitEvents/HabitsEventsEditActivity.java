@@ -81,6 +81,14 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
     public static final String EDIT_EVENT = "EDIT EVENT";
 
+    private boolean mCameraPermissionsGranted = false;
+    private boolean mGalleryPermissionsGranted = false;
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 101;
+    private static final int GALLERY_PERMISSION_REQUEST_CODE = 102;
+    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
+    private static final String WRITE_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    private static final String READ_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
+
 
     private GoogleMap mMap;
     private static final float DEFAULT_ZOOM = 5;
@@ -134,7 +142,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
 
     // a launcher for gallery
-    ActivityResultLauncher<Intent>  galleryActivityResultLauncher = registerForActivityResult(
+    ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -142,15 +150,15 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         // set image in ImageView
                         Uri contentUri = result.getData().getData();
-                        String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
-                        String imageFileName = "JPEG_" + timeStamp + getFileExt(contentUri);
-                        Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
-                        String [] split = imageFileName.split("Pictures/");
-                        imageNameStr = split[1];
+                        // String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
+                        // String imageFileName = "JPEG_" + timeStamp + getFileExt(contentUri);
+                        // Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
+                        File f = new File(currentPhotoPath);
                         mImageView.setImageURI(contentUri);
+                        String fileName = f.getName();
 
                         //call method to upload image to firebase storage
-                        uploadImageToFirebase(imageFileName, contentUri);
+                        uploadImageToFirebase(fileName, contentUri);
                     }
                 }
             });
@@ -211,7 +219,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         editCameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openCamera();
+                getCameraPermission();
 
             }
         });
@@ -220,8 +228,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         editGalleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                galleryActivityResultLauncher.launch(gallery);
+                getGalleryPermission();
             }
         });
 
@@ -243,12 +250,100 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File imageFile = null;
         try {
-            imageFile = createImageFile();
-            Uri contentUri = FileProvider.getUriForFile(context, "com.example.android.fileprovider", imageFile);
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
-            cameraActivityResultLauncher.launch(takePictureIntent);
+            if(mCameraPermissionsGranted) {
+                imageFile = createImageFile();
+                Uri contentUri = FileProvider.getUriForFile(context, "com.example.android.fileprovider", imageFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+                cameraActivityResultLauncher.launch(takePictureIntent);
+            }
         } catch (IOException ex) {
 
+        }
+    }
+
+    private void openGallery() {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        File imageFile = null;
+        try{
+            if (mGalleryPermissionsGranted){
+                imageFile = createImageFile();
+                Uri contentUri = FileProvider.getUriForFile(context, "com.example.android.fileprovider", imageFile);
+                gallery.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+                galleryActivityResultLauncher.launch(gallery);
+            }
+        } catch (IOException ex){
+
+        }
+    }
+
+    private void getGalleryPermission() {
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE};
+
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                READ_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                    WRITE_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                mGalleryPermissionsGranted = true;
+                openGallery();
+            } else {
+                ActivityCompat.requestPermissions(this, permissions, GALLERY_PERMISSION_REQUEST_CODE);
+            }
+
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, GALLERY_PERMISSION_REQUEST_CODE);
+        }
+
+    }
+
+
+    private void getCameraPermission() {
+        String[] permissions = {Manifest.permission.CAMERA};
+
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
+            mCameraPermissionsGranted = true;
+            openCamera();
+        } else{
+            ActivityCompat.requestPermissions(this, permissions, CAMERA_PERMISSION_REQUEST_CODE);
+        }
+
+    }
+
+    //check if the permission is given to the app
+    /**
+     * This method requests the user to give access to their location
+     *
+     * @param requestCode  The request code
+     * @param permissions  The permissions
+     * @param grantResults The results
+     */
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mCameraPermissionsGranted = false;
+        mGalleryPermissionsGranted =false;
+
+        switch (requestCode) {
+            case CAMERA_PERMISSION_REQUEST_CODE: {
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        mCameraPermissionsGranted = false;
+                        return;
+                    }
+                }
+                mCameraPermissionsGranted = true;
+            }
+            case GALLERY_PERMISSION_REQUEST_CODE: {
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        mGalleryPermissionsGranted = false;
+                        return;
+                    }
+                }
+                mGalleryPermissionsGranted = true;
+            }
         }
     }
 
@@ -280,11 +375,6 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
     }
 
-    private String getFileExt(Uri contentUri) {
-        ContentResolver c = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(c.getType(contentUri));
-    }
 
     // create a file for image in gallery
     private File createImageFile() throws IOException {

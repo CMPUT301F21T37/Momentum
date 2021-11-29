@@ -28,7 +28,6 @@ public class Event implements Serializable {
 
     }
 
-    public Event (String title, String comment, double latitude, double longitude, String imageName){
     /**
      * This constructor constructs an event object with a title, comment, lat, and long
      *
@@ -105,9 +104,7 @@ public class Event implements Serializable {
      *
      * @return A double longitude.
      */
-    public double getLongitude() {
-        return longitude;
-    }
+    public double getLongitude() { return longitude; }
 
     /**
      * This method sets the longitude of the event
