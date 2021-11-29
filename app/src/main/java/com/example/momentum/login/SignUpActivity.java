@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 /**
  * This is the activity used for sign up
- * @author: alzafara
+ * @author alzafara
  */
 public class SignUpActivity extends AppCompatActivity {
 
@@ -153,7 +153,7 @@ public class SignUpActivity extends AppCompatActivity {
         String users_collection_name = "Users";
         String users_id = user.getUid();
         HashMap<String, String> data = new HashMap<>();
-        data.put("Username",username);
+        data.put("username",username);
 
         db.collection(users_collection_name).document(users_id).set(data);
         addHabitCountToDatabase(users_id);
