@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * @version 3.0
+ * @version 4.0
  * @author rittwage
  */
 
@@ -58,7 +58,7 @@ public class FollowingFragment extends Fragment{
     private String uid;
     private CollectionReference collectionReference;
 
-    private ArrayAdapter<String> requestAdapter;
+    private ArrayAdapter<Follower> followerAdapter;
     private ListView requestListView;
 
 
@@ -72,17 +72,15 @@ public class FollowingFragment extends Fragment{
         follow_user = binding.followUser;
         Activity activity = getActivity();
 
-        /**
-         * Database
-         */
+        //initialize database and relevant variables
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
-
         final CollectionReference requestReference = db.collection("Users").document(uid).collection("Followers");
 
 
         // listener for the Firestore database to accept realtime updates
+        //Listview implementaion was learned from HabitEvent listview creation by hyan3 and misay
         requestReference
                 .whereEqualTo("allow_follow", false)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -92,19 +90,23 @@ public class FollowingFragment extends Fragment{
                 FollowingViewModel.clearRequestList();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                     String name = (String) doc.getData().get("username");
+                    String id = (String) doc.getId();
                     // store it to the the view model
-                    FollowingViewModel.addRequest(name);
+
+                    FollowingViewModel.addRequest(new Follower(id, name));
                 }
                 // Notifying the adapter to render any new data fetched from the cloud
-                requestAdapter.notifyDataSetChanged();
+                followerAdapter.notifyDataSetChanged();
             }
         });
         // initiates the display
         showRequests();
 
+        //sets a click listener on request follow button
         follow_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //dialog is created on click of the follow button
                 AlertDialog.Builder enter = new AlertDialog.Builder(activity);
                 final EditText user_edit = new EditText(activity);
                 user_edit.setHint("Enter Username");
@@ -133,7 +135,6 @@ public class FollowingFragment extends Fragment{
                                                                 Toast.LENGTH_SHORT).show();
                                                     }
                                                     else{
-
                                                         Add_follow(document.getId(), document.getData().get("Username").toString());
                                                         Req_follow(document.getId());
                                                         Log.d(TAG, document.getId() + " => " + document.getData());
@@ -156,17 +157,18 @@ public class FollowingFragment extends Fragment{
         });
         return root;
     }
+    //function used for live updates of the listview
     public void showRequests(){
         requestListView = binding.requestList;
-        FollowingViewModel.getRequestList().observe(getViewLifecycleOwner(), new Observer<ArrayList<String>>() {
+        FollowingViewModel.getRequestList().observe(getViewLifecycleOwner(), new Observer<ArrayList<Follower>>() {
             @Override
-            public void onChanged(ArrayList<String> requestList){
-                requestAdapter = new FollowingListAdapter(getContext(), requestList);
-                requestListView.setAdapter(requestAdapter);
+            public void onChanged(ArrayList<Follower> requestList){
+                followerAdapter = new FollowingListAdapter(getContext(), requestList);
+                requestListView.setAdapter(followerAdapter);
             }
         });
     }
-
+    //helper function that adds the requested followed user to the list of those you are following
     private void Add_follow(String fid, String Fusername){
         HashMap<String, Object> data = new HashMap<>();
         data.put("Username", Fusername);
@@ -186,25 +188,26 @@ public class FollowingFragment extends Fragment{
                     }
                 });
 
+
     }
+    //helper function that adds the user to a list of follower requests to another user
     private void Req_follow(String fid){
         String Uusername = user.getDisplayName();
         HashMap<String, Object> data = new HashMap<>();
-        data.put("Username", Uusername);
-        data.put("allow_follow", false);
+        data.put("username", Uusername);
+        data.put("allow_follow",false);
+        Log.d(TAG, "Data Created")
         db.collection("Users").document(fid).collection("Followers")
                 .document(uid)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
                     }
                 });
     }
