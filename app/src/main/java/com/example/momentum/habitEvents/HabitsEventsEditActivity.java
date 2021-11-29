@@ -1,24 +1,40 @@
 package com.example.momentum.habitEvents;
 
+import static java.io.File.createTempFile;
+
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.bumptech.glide.Glide;
 import com.example.momentum.R;
 import com.example.momentum.databinding.ActivityEditEventsBinding;
 import com.example.momentum.home.AddHabitEventActivity;
@@ -44,6 +60,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * An activity that lets the user edit the details of their habit events.
@@ -73,11 +98,62 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
     private String reason;
     private double latitude;
     private double longitude;
+    private String imageNameStr;
 
     private FloatingActionButton backButton;
     private TextView titleView;
     private EditText reasonEdit;
     private FloatingActionButton editEventButton;
+
+    private ImageView mImageView;
+    private Button editCameraBtn, editGalleryBtn;
+    private String currentPhotoPath;
+    private StorageReference storageReference;
+    private Context context;
+
+    // a launcher for camera
+    ActivityResultLauncher<Intent> cameraActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        // set image in ImageView
+                        // form a filename for images
+                        //Bundle bundle = result.getData().getExtras();
+                        File f = new File(currentPhotoPath);
+                        Uri contentUri = Uri.fromFile(f);
+                        mImageView.setImageURI(contentUri);
+
+                        //call method to upload image to firebase storage
+                        String fileName = f.getName();
+                        uploadImageToFirebase(fileName, contentUri);
+                    }
+                }
+            });
+
+
+    // a launcher for gallery
+    ActivityResultLauncher<Intent>  galleryActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        // set image in ImageView
+                        Uri contentUri = result.getData().getData();
+                        String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
+                        String imageFileName = "JPEG_" + timeStamp + getFileExt(contentUri);
+                        Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
+                        String [] split = imageFileName.split("Pictures/");
+                        imageNameStr = split[1];
+                        mImageView.setImageURI(contentUri);
+
+                        //call method to upload image to firebase storage
+                        uploadImageToFirebase(imageFileName, contentUri);
+                    }
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,10 +167,16 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
 
+        // a storage reference to save images
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+        mImageView = binding.getImageView;
+
         // Get the Intent that started this activity and extract them
         Intent intent = getIntent();
         title = intent.getStringExtra(HabitEventsFragment.EVENT_TITLE);
         reason = intent.getStringExtra(HabitEventsFragment.EVENT_COMMENT);
+        imageNameStr = intent.getStringExtra(HabitEventsFragment.EVENT_IMAGE);
         latitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LATITUDE, 0);
         longitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LONGITUDE, 0);
         event = (Event) intent.getSerializableExtra(HabitEventsFragment.EVENT_OBJECT);
@@ -112,6 +194,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
                     Event event2 = (Event) doc.toObject(Event.class);
                     if (event.getLatitude() == event2.getLatitude() &&
                             event.getLongitude() == event2.getLongitude() &&
+                            event.getImageName().equals(event2.getImageName()) &&
                             event.getTitle().equals(event2.getTitle()) &&
                             event.getComment().equals(event2.getComment())) {
 
@@ -123,6 +206,24 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
         // initialize previous values
         initializeValues();
+
+        editCameraBtn = binding.cameraBtn;
+        editCameraBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openCamera();
+
+            }
+        });
+
+        editGalleryBtn = binding.galleryBtn;
+        editGalleryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                galleryActivityResultLauncher.launch(gallery);
+            }
+        });
 
         // back button to go back to previous fragment
         backButton = binding.editEventBack;
@@ -138,6 +239,71 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         mapFragment.getMapAsync(this);
     }
 
+    private void openCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File imageFile = null;
+        try {
+            imageFile = createImageFile();
+            Uri contentUri = FileProvider.getUriForFile(context, "com.example.android.fileprovider", imageFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+            cameraActivityResultLauncher.launch(takePictureIntent);
+        } catch (IOException ex) {
+
+        }
+    }
+
+
+
+    // a method to upload image to firebase storage
+    private void uploadImageToFirebase(String fileName, Uri contentUri) {
+        //save image in storage
+        StorageReference image = storageReference.child("images/" + fileName);
+        image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(mImageView);
+                    }
+                });
+                Toast.makeText(HabitsEventsEditActivity.this, "Image Is Uploaded", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HabitsEventsEditActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+
+    private String getFileExt(Uri contentUri) {
+        ContentResolver c = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(c.getType(contentUri));
+    }
+
+    // create a file for image in gallery
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        // File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = createTempFile(imageFileName, ".jpg", storageDir);
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        String [] split = currentPhotoPath.split("Pictures/");
+        imageNameStr = split[1];
+        return image;
+    }
+
+
+
     /**
      * A method that sets previous inputs from the user.
      */
@@ -149,6 +315,30 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         // initializes the reason
         reasonEdit = binding.editHabitEventComment;
         reasonEdit.setText(reason);
+
+        // initializes the image
+        setImage();
+
+    }
+
+    // a method to get image uri and set it in the imageView`
+    private void setImage(){
+        StorageReference imageRef = storageReference.child("images/").child(imageNameStr);
+        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(HabitsEventsEditActivity.this)
+                        .load(uri)
+                        .into(mImageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HabitsEventsEditActivity.this, "No image uploaded for this event", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     /**
@@ -177,7 +367,8 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
         // getting the new strings for newComment
         String newComment = reasonEdit.getText().toString();
-        Event event = new Event(title, newComment, latitude, longitude);
+        Event event = new Event(title, newComment, latitude, longitude, imageNameStr);
+
 
         // updates the database then closes the activity
 
