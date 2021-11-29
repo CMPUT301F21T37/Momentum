@@ -75,6 +75,33 @@ public class FollowerFragTest {
         solo.clickOnButton("Follow");
         change_acc(1);
         solo.clickOnView(solo.getView(R.id.navigation_following));
+        solo.waitForText("Sam0");
+    }
+    @Test
+    public void Test_deny_request(){
+        login(0);
+        solo.clickOnView(solo.getView(R.id.navigation_following));
+        solo.clickOnButton("add");
+        solo.enterText(0, "Sam1");
+        solo.clickOnButton("Follow");
+        change_acc(1);
+        solo.clickOnView(solo.getView(R.id.navigation_following));
+        solo.clickOnView(solo.getButton(2));
+    }
+    @Test
+    public void Test_accept_request(){
+        login(0);
+        solo.clickOnView(solo.getView(R.id.navigation_following));
+        solo.clickOnButton("add");
+        solo.enterText(0, "Sam1");
+        solo.clickOnButton("Follow");
+        change_acc(1);
+        solo.clickOnView(solo.getView(R.id.navigation_following));
+        solo.clickOnView(solo.getButton(1));
+        change_acc(0);
+        solo.clickOnView(solo.getView(R.id.navigation_sharing));
+        solo.waitForText("Sam1");
+
     }
     // Testing for following is very sparse as entering text into an alertdialog
     // seems to be impossible so testing is brought to a standstill as the reliability
