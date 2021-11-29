@@ -51,6 +51,11 @@ public class FollowerFragTest {
         GoToFollFrag();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
+    @Test
+    public void Test_request(){
+        GoToFollFrag();
+        solo.clickOnButton();
+    }
 
 
     /**
