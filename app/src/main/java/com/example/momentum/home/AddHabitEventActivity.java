@@ -72,6 +72,7 @@ import java.util.Date;
  * An activity that lets the user add a habit event for when a habit is done for the day.
  * @author Kaye Ena Crayzhel F. Misay
  * @author Mohammed Alzafarani
+ * @author Han Yan
  */
 public class AddHabitEventActivity extends FragmentActivity
         implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
@@ -145,9 +146,6 @@ public class AddHabitEventActivity extends FragmentActivity
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         // set image in ImageView
                         Uri contentUri = result.getData().getData();
-                       // String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
-                       // String imageFileName = "JPEG_" + timeStamp + getFileExt(contentUri);
-                       // Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
                         File f = new File(currentPhotoPath);
                         mImageView.setImageURI(contentUri);
                         String fileName = f.getName();
@@ -320,11 +318,6 @@ public class AddHabitEventActivity extends FragmentActivity
 
     }
 
-    private String getFileExt(Uri contentUri) {
-        ContentResolver c = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(c.getType(contentUri));
-    }
 
     // create a file for image in gallery
     private File createImageFile() throws IOException {
