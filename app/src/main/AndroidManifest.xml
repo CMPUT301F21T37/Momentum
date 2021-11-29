@@ -2,20 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.momentum">
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-
-    <queries>
-        <intent>
-            <action android:name="android.media.action.IMAGE_CAPTURE" />
-        </intent>
-
-    </queries>
-  
 
     <application
         android:name=".MainApplication"
@@ -79,20 +68,9 @@
         <activity
             android:name=".habitEvents.HabitsEventsEditActivity"
             android:exported="true" />
-
         <activity
             android:name=".sharing.SharingHabitActivity"
             android:exported="true" />
-            
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.android.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
-        </provider>
     </application>
 
 </manifest>
