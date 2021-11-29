@@ -13,6 +13,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Custom View Holder for a given recycle view  and the Get followers' habits data with id
+ * @author boxiao
+ *
+ */
+
 public class SharingHabitViewModel extends ViewModel {
     private static final String TAG = SharingViewModel.class.getSimpleName();
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();

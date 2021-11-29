@@ -27,7 +27,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Custom ViewModel for SharingFragment
+ * Custom ViewModel for SharingFragment and get following user info
+ * @author boxiao
  */
 public class SharingViewModel extends ViewModel {
     private static final String TAG = SharingViewModel.class.getSimpleName();

@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotEquals;
 
 import com.example.momentum.home.DayHabits;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
 public class DayHabitsTest {
@@ -36,4 +38,5 @@ public class DayHabitsTest {
         assertNotEquals("Not exercise", habit_exercise.getDayHabitTitle());
         assertNotEquals("I want to be unhealthy!", habit_exercise.getDayHabitReason());
     }
+
 }
