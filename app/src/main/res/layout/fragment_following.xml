@@ -39,8 +39,6 @@
 
     </LinearLayout>
 
-
-
     <ListView
         android:id="@+id/request_list"
         android:layout_margin="10dp"
