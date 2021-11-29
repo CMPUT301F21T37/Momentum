@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,8 +52,27 @@ public class FollowingListAdapter extends ArrayAdapter<String> {
         }
 
         //Handle TextView and display string from your list
-        TextView tvContact= (TextView)view.findViewById(R.id.follower_name);
-        tvContact.setText(follow_requests.get(position));
+        TextView followername= (TextView)view.findViewById(R.id.follower_name);
+        followername.setText(follow_requests.get(position));
+
+        Button allow = (Button)view.findViewById(R.id.allow_follow);
+        Button deny = (Button)view.findViewById(R.id.deny_follow);
+
+        allow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        // sets a listener for the edit button
+        deny.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return view;
     }
 }
