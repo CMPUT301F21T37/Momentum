@@ -59,7 +59,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
 
     private boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
-    private static final float DEFAULT_ZOOM = 15;
+    private static final float DEFAULT_ZOOM = 5;
     private SupportMapFragment mapFragment;
     private StorageReference storageReference;
 
