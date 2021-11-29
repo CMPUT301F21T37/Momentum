@@ -95,14 +95,14 @@
         android:id="@+id/AddHabitEventLocationTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="124dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="56dp"
         android:text="Location"
 
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AddHabitEventComment" />
+        app:layout_constraintTop_toBottomOf="@+id/mapAddHabit" />
 
     <Button
         android:id="@+id/AddHabitEventUserLocationButton"
@@ -112,7 +112,7 @@
         android:text="Select Current Location"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AddHabitEventLocationTxt"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/AddHabitEventComment"></Button>
 
     <fragment
         android:id="@+id/mapAddHabit"
@@ -149,10 +149,10 @@
         app:backgroundTint="@color/darker_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/getImageView"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.008">
 
     </Button>
 
@@ -166,10 +166,10 @@
         app:backgroundTint="@color/darker_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.355"
+        app:layout_constraintHorizontal_bias="0.307"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/getImageView"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.008">
 
     </Button>
 

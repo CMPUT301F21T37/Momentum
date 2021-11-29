@@ -34,6 +34,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.bumptech.glide.Glide;
 import com.example.momentum.R;
 import com.example.momentum.databinding.ActivityEditEventsBinding;
 import com.example.momentum.home.AddHabitEventActivity;
@@ -97,7 +98,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
     private String reason;
     private double latitude;
     private double longitude;
-    private String imageUriStr;
+    private String imageNameStr;
 
     private FloatingActionButton backButton;
     private TextView titleView;
@@ -122,7 +123,6 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
                         //Bundle bundle = result.getData().getExtras();
                         File f = new File(currentPhotoPath);
                         Uri contentUri = Uri.fromFile(f);
-                        imageUriStr = contentUri.toString();
                         mImageView.setImageURI(contentUri);
 
                         //call method to upload image to firebase storage
@@ -145,7 +145,8 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
                         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
                         String imageFileName = "JPEG_" + timeStamp + getFileExt(contentUri);
                         Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
-                        imageUriStr = contentUri.toString();
+                        String [] split = imageFileName.split("Pictures/");
+                        imageNameStr = split[1];
                         mImageView.setImageURI(contentUri);
 
                         //call method to upload image to firebase storage
@@ -175,7 +176,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         Intent intent = getIntent();
         title = intent.getStringExtra(HabitEventsFragment.EVENT_TITLE);
         reason = intent.getStringExtra(HabitEventsFragment.EVENT_COMMENT);
-        imageUriStr = intent.getStringExtra(HabitEventsFragment.EVENT_IMAGE);
+        imageNameStr = intent.getStringExtra(HabitEventsFragment.EVENT_IMAGE);
         latitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LATITUDE, 0);
         longitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LONGITUDE, 0);
         event = (Event) intent.getSerializableExtra(HabitEventsFragment.EVENT_OBJECT);
@@ -193,7 +194,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
                     Event event2 = (Event) doc.toObject(Event.class);
                     if (event.getLatitude() == event2.getLatitude() &&
                             event.getLongitude() == event2.getLongitude() &&
-                            event.getImageUriStr().equals(event2.getImageUriStr()) &&
+                            event.getImageName().equals(event2.getImageName()) &&
                             event.getTitle().equals(event2.getTitle()) &&
                             event.getComment().equals(event2.getComment())) {
 
@@ -296,6 +297,8 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
+        String [] split = currentPhotoPath.split("Pictures/");
+        imageNameStr = split[1];
         return image;
     }
 
@@ -312,6 +315,28 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         // initializes the reason
         reasonEdit = binding.editHabitEventComment;
         reasonEdit.setText(reason);
+
+        // initializes the image
+        setImage();
+
+    }
+
+    // a method to get image uri and set it in the imageView`
+    private void setImage(){
+        StorageReference imageRef = storageReference.child("images/").child(imageNameStr);
+        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(HabitsEventsEditActivity.this)
+                        .load(uri)
+                        .into(mImageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HabitsEventsEditActivity.this, "No image uploaded for this event", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
@@ -342,7 +367,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
 
         // getting the new strings for newComment
         String newComment = reasonEdit.getText().toString();
-        Event event = new Event(title, newComment, latitude, longitude, imageUriStr);
+        Event event = new Event(title, newComment, latitude, longitude, imageNameStr);
 
 
         // updates the database then closes the activity

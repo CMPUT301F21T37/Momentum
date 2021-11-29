@@ -110,7 +110,7 @@ public class AddHabitEventActivity extends FragmentActivity
     private Button openCameraBtn, openGalleryBtn;
     private String currentPhotoPath;
     private StorageReference storageReference;
-    private String imageUriStr;
+    private String imageNameStr;
     private Context context;
 
     // a launcher for camera
@@ -122,10 +122,8 @@ public class AddHabitEventActivity extends FragmentActivity
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         // set image in ImageView
                         // form a filename for images
-                        //Bundle bundle = result.getData().getExtras();
                         File f = new File(currentPhotoPath);
                         Uri contentUri = Uri.fromFile(f);
-                        imageUriStr = contentUri.toString();
                         mImageView.setImageURI(contentUri);
 
                         //call method to upload image to firebase storage
@@ -148,7 +146,8 @@ public class AddHabitEventActivity extends FragmentActivity
                         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
                         String imageFileName = "JPEG_" + timeStamp + getFileExt(contentUri);
                         Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
-                        imageUriStr = contentUri.toString();
+                        String [] split = imageFileName.split("Pictures/");
+                        imageNameStr = split[1];
                         mImageView.setImageURI(contentUri);
 
                         //call method to upload image to firebase storage
@@ -311,6 +310,8 @@ public class AddHabitEventActivity extends FragmentActivity
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
+        String [] split = currentPhotoPath.split("Pictures/");
+        imageNameStr = split[1];
         return image;
     }
 
@@ -341,9 +342,9 @@ public class AddHabitEventActivity extends FragmentActivity
         // create a hashmap to be inputted
         Event event;
         if (userLocation == null) {
-            event = new Event(title, comment, 0, 0, imageUriStr);
+            event = new Event(title, comment, 0, 0, imageNameStr);
         } else {
-            event = new Event(title, comment, userLocation.getLatitude(), userLocation.getLongitude(), imageUriStr);
+            event = new Event(title, comment, userLocation.getLatitude(), userLocation.getLongitude(), imageNameStr);
         }
 
 

@@ -1,7 +1,11 @@
 package com.example.momentum.habitEvents;
 
 
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
+
 import android.Manifest;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -10,14 +14,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.momentum.R;
 import com.example.momentum.databinding.ActivityIndivHabitEventViewBinding;
+import com.example.momentum.home.AddHabitEventActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,8 +33,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * An activity that lets the user see their habit events and corresponding details.
@@ -39,7 +55,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
     private String reason;
     private double latitude;
     private double longitude;
-    private String imageUriStr;
+    private String imageName;
     private FloatingActionButton backButton;
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -51,6 +67,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final float DEFAULT_ZOOM = 15;
     private SupportMapFragment mapFragment;
+    private StorageReference storageReference;
 
 
     @Override
@@ -66,11 +83,14 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
         reason = intent.getStringExtra(HabitEventsFragment.EVENT_COMMENT);
         latitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LATITUDE,0);
         longitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LONGITUDE,0);
-        imageUriStr = intent.getStringExtra(HabitEventsFragment.EVENT_IMAGE);
+        imageName = intent.getStringExtra(HabitEventsFragment.EVENT_IMAGE);
 
         // set the displays
         setTitle();
         setComment();
+
+        //get image and set it
+        storageReference = FirebaseStorage.getInstance().getReference();
         setImage();
 
         getLocationPermission();
@@ -80,6 +100,30 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
         backButton.setOnClickListener(this::backButtonOnClick);
 
     }
+
+    // a method to get image uri and set it in the imageView`
+    private void setImage(){
+        StorageReference imageRef = storageReference.child("images/").child(imageName);
+        ImageView eventImage;
+        eventImage = binding.individualImage;
+        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(ViewHabitEventsActivity.this)
+                        .load(uri)
+                        .into(eventImage);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ViewHabitEventsActivity.this, "No image uploaded for this event", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+
 
 
     /**
@@ -100,13 +144,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
         motivation.setText(reason);
     }
 
-    private void setImage(){
-        ImageView image;
-        image = binding.individualImage;
-        Uri muri = Uri.parse(imageUriStr);
-        Picasso.get().load(muri).into(image);
 
-    }
     /**
      * Callback handler for when the back button is clicked.
      * Goes back to the previous fragment.

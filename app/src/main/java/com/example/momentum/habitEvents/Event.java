@@ -14,18 +14,19 @@ public class Event implements Serializable {
     private String comment;
     private double latitude;
     private double longitude;
-    private String imageUriStr;
+    private String imageName;
 
 
     public Event(){
 
     }
 
-    public Event (String title, String comment, double latitude, double longitude, String imageUriStr){
+    public Event (String title, String comment, double latitude, double longitude, String imageName){
         this.title = title;
         this.comment = comment;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.imageName = imageName;
     }
 
     /**
@@ -70,11 +71,7 @@ public class Event implements Serializable {
         this.longitude = longitude;
     }
 
-    public String getImageUriStr() {
-        return imageUriStr;
-    }
+    public String getImageName() { return imageName; }
 
-    public void setImageUriStr(String imageUriStr) {
-        this.imageUriStr = imageUriStr;
-    }
+    public void setImageName(String imageUriStr) { this.imageName = imageName; }
 }

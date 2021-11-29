@@ -135,7 +135,7 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
                     Event event2 = (Event) doc.toObject(Event.class);
                     if (event.getLatitude() == event2.getLatitude() &&
                             event.getLongitude() == event2.getLongitude() &&
-                            event.getImageUriStr().equals(event2.getImageUriStr()) &&
+                            event.getImageName().equals(event2.getImageName()) &&
                             event.getTitle().equals(event2.getTitle()) &&
                             event.getComment().equals(event2.getComment())) {
 
@@ -158,7 +158,7 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
         intent.putExtra(HabitEventsFragment.EVENT_COMMENT, event.getComment());
         intent.putExtra(HabitEventsFragment.EVENT_LATITUDE, event.getLatitude());
         intent.putExtra(HabitEventsFragment.EVENT_LONGITUDE, event.getLongitude());
-        intent.putExtra(HabitEventsFragment.EVENT_IMAGE, event.getImageUriStr());
+        intent.putExtra(HabitEventsFragment.EVENT_IMAGE, event.getImageName());
         context.startActivity(intent);
     }
 
@@ -229,7 +229,7 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
                     Event event2 = (Event) doc.toObject(Event.class);
                     if (event.getLatitude() == event2.getLatitude() &&
                             event.getLongitude() == event2.getLongitude() &&
-                            event.getImageUriStr().equals(event2.getImageUriStr()) &&
+                            event.getImageName().equals(event2.getImageName()) &&
                             event.getTitle().equals(event2.getTitle()) &&
                             event.getComment().equals(event2.getComment())) {
 
@@ -243,7 +243,7 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
         intent.putExtra(HabitEventsFragment.EVENT_COMMENT, event.getComment());
         intent.putExtra(HabitEventsFragment.EVENT_LATITUDE, event.getLatitude());
         intent.putExtra(HabitEventsFragment.EVENT_LONGITUDE, event.getLongitude());
-        intent.putExtra(HabitEventsFragment.EVENT_IMAGE, event.getImageUriStr());
+        intent.putExtra(HabitEventsFragment.EVENT_IMAGE, event.getImageName());
         intent.putExtra(HabitEventsFragment.EVENT_OBJECT, event);
         context.startActivity(intent);
     }
