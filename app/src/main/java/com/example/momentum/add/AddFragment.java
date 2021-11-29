@@ -183,16 +183,16 @@ public class AddFragment extends Fragment {
         // If statement that checks for an empty title field, and prompts user to retry
         if(title == null || title.getText().toString().equals("")){
             Log.w(TAG, "No Title Error");
-            Toast.makeText(getContext(), "Title Required",
+            Toast.makeText(activity, "Title Required",
                     Toast.LENGTH_SHORT).show();
         }
         else if(reason == null || reason.getText().toString().equals("")){
             Log.w(TAG, "No Reason Error");
-            Toast.makeText(getContext(), "Reason Required",
+            Toast.makeText(activity, "Reason Required",
                     Toast.LENGTH_SHORT).show();
         }
         else if (frequency.isEmpty()) {
-            Toast.makeText(getContext(), "Please choose at least one day to do your habit!",
+            Toast.makeText(activity, "Please choose at least one day to do your habit!",
                     Toast.LENGTH_SHORT).show();
         }
         else{
@@ -220,7 +220,7 @@ public class AddFragment extends Fragment {
                     if (document.exists()) {
                         // if a habit with the same title already exists, generate a prompt
                         Log.d(CHECK_IF_HABIT_EXISTS, "Document exists");
-                        Toast.makeText(getContext(), "You have already added a habit of the same title. Edit or delete your habit on the Habits page.",
+                        Toast.makeText(activity, "You have already added a habit of the same title. Edit or delete your habit on the Habits page.",
                                 Toast.LENGTH_LONG).show();
                     } else {
                         // else, add the habit
@@ -244,7 +244,7 @@ public class AddFragment extends Fragment {
                         }
                         catch (ParseException e){
                             Log.w(TAG, "Date Parse Error");
-                            Toast.makeText(getActivity(), "Invalid Date Format Entered", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "Invalid Date Format Entered", Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else {
