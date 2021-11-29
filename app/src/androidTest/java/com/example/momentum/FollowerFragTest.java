@@ -39,6 +39,7 @@ public class FollowerFragTest {
         solo.clickOnButton("Login");
         solo.clickOnView(solo.getView(R.id.navigation_following));
     }
+
     /**
      * Verification Test that program is working
      */
@@ -46,6 +47,7 @@ public class FollowerFragTest {
     public void Test_start() {
         Activity activity = rule.getActivity();
     }
+
     @Test
     public void Test_follow_nav(){
         GoToFollFrag();

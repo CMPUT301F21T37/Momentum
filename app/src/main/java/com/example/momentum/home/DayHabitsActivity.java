@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.momentum.R;
 import com.example.momentum.databinding.ActivityDayHabitsBinding;
+import com.example.momentum.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -69,13 +70,13 @@ public class DayHabitsActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the strings
         Intent intent = getIntent();
-        title = intent.getStringExtra(DayHabitsFragment.TITLE_DAY_HABIT);
-        reason = intent.getStringExtra(DayHabitsFragment.MOTIVATION);
-        isDateClickedEqualCurrent = intent.getBooleanExtra(HomeFragment.DATE_COMPARE_DAY_HABIT, true);
-        clickedDateStr = intent.getStringExtra(HomeFragment.DATE_CLICKED_DAY_HABIT_STR);
-        clickedMonthStr = intent.getStringExtra(HomeFragment.DATE_MONTH_CLICKED_DAY);
+        title = intent.getStringExtra(Constants.TITLE_DAY_HABIT);
+        reason = intent.getStringExtra(Constants.MOTIVATION);
+        isDateClickedEqualCurrent = intent.getBooleanExtra(Constants.DATE_COMPARE_DAY_HABIT, true);
+        clickedDateStr = intent.getStringExtra(Constants.DATE_CLICKED_DAY_HABIT_STR);
+        clickedMonthStr = intent.getStringExtra(Constants.DATE_MONTH_CLICKED_DAY);
 
-        // back button to go back to previous dayHabitsFragment
+        // back button to go back to previous Constants
         backButton = binding.dayHabitsBack;
         backButton.setOnClickListener(this :: backButtonOnClick);
 

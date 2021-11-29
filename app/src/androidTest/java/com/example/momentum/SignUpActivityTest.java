@@ -60,7 +60,7 @@ public class SignUpActivityTest {
         solo.enterText((EditText) solo.getView(R.id.passwordSignUpScreen), "password1234");
         solo.enterText((EditText) solo.getView(R.id.confirmPasswordSignUpScreen), "password1234");
         solo.clickOnButton("SIGN UP");
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.waitForText("Signing up!", 1, 2000);
     }
 
     /**
