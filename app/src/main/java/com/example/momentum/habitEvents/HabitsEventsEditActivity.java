@@ -128,7 +128,6 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         // set image in ImageView
                         // form a filename for images
-                        //Bundle bundle = result.getData().getExtras();
                         File f = new File(currentPhotoPath);
                         Uri contentUri = Uri.fromFile(f);
                         mImageView.setImageURI(contentUri);
@@ -150,9 +149,6 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         // set image in ImageView
                         Uri contentUri = result.getData().getData();
-                        // String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
-                        // String imageFileName = "JPEG_" + timeStamp + getFileExt(contentUri);
-                        // Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
                         File f = new File(currentPhotoPath);
                         mImageView.setImageURI(contentUri);
                         String fileName = f.getName();
@@ -381,7 +377,6 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        // File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = createTempFile(imageFileName, ".jpg", storageDir);
 
