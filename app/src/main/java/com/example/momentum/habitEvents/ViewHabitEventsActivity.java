@@ -198,11 +198,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
             LatLng latLng = new LatLng(latitude, longitude);
             moveCamera(latLng, DEFAULT_ZOOM);
             mMap.addMarker(new MarkerOptions().position(latLng));
-
         }
-
-
     }
-
 
 }

@@ -2,6 +2,7 @@ package com.example.momentum.habits;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -14,9 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.momentum.databinding.ActivityVisualIndicatorBinding;
 import com.example.momentum.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -31,8 +36,13 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
+/**
+ * A class that shows the visual indicator of a given user, a habit, and corresponding year
+ * @author Kaye Ena Crayzhel F. Misay
+ */
 public class VisualIndicatorActivity extends AppCompatActivity {
     private ActivityVisualIndicatorBinding binding;
 
@@ -68,15 +78,14 @@ public class VisualIndicatorActivity extends AppCompatActivity {
         // show the title
         setTitle();
 
-        // initialize needed variables then set visual indicator
+        // initialize needed variables
         yearInt = Integer.valueOf(yearStr);
-        setVisualIndicator(title, uid);
+        getStartingDate();
 
         // back button to go back to previous fragment
         backButton = binding.visualIndicatorBack;
         backButton.setOnClickListener(this::backButtonOnClick);
     }
-
 
     /**
      * Helper method to set the title habit title
@@ -88,72 +97,105 @@ public class VisualIndicatorActivity extends AppCompatActivity {
     }
 
     /**
-     * Sets the visual indicator of a given habit title and a given user
-     * @param habit_title
-     * Habit title to be checked
-     * @param user_check
-     * Current user to be checked
+     * Get the starting day/month of the current habit
+     * On Success, set the visual indicator
      */
-    public void setVisualIndicator(String habit_title, String user_check) {
-        months = Arrays.asList("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+    private void getStartingDate() {
+        DocumentReference documentReference = db.collection("Users").document(uid).
+                collection("Habits").document(title);
 
+        documentReference
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Timestamp start_timestamp = (Timestamp) documentSnapshot.getData().get("date");
+                        Date start_date = start_timestamp.toDate();
+                        String day_str = (String) DateFormat.format("dd", start_date);
+                        String month_str = (String) DateFormat.format("M", start_date);
+                        String year_str = (String) DateFormat.format("yyyy", start_date);
+                        Integer day_int = (Integer) Integer.valueOf(day_str);
+                        Integer month_int = (Integer) Integer.valueOf(month_str);
+                        setVisualIndicator(day_int, month_int, year_str);
+                    }
+                });
+    }
+
+    /**
+     * Sets the visual indicator of a given habit title and a given user
+     * @param startingDay
+     * starting day of the current habit in int
+     * @param startingMonth
+     * starting month of the current habit in int
+     * @param startingYear
+     * starting year of the current habit in string
+     */
+    public void setVisualIndicator(int startingDay, int startingMonth, String startingYear) {
+        months = Arrays.asList("January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December");
         Integer possibleDates;
+
         // setting the progress bar for every month
         for (int index = 0; index < months.size(); index++) {
+            // set the starting date
+            // if in the starting month and starting year, set actual starting day
+            // if not, set starting day to 1
+            if ((startingMonth == (index + 1)) && (startingYear.equals(yearStr))) {
+                possibleDates = getPossibleDates(index + 1, startingDay);
+            } else {
+                possibleDates = getPossibleDates(index + 1, 1);
+            }
             switch(months.get(index)) {
-                case "Jan":
-                    possibleDates = getPossibleDates(1);
+                case "January":
                     getDoneDates("January", possibleDates);
                     break;
-                case "Feb":
-                    possibleDates = getPossibleDates(2);
+                case "February":
                     getDoneDates("February", possibleDates);
                     break;
-                case "Mar":
-                    possibleDates = getPossibleDates(3);
+                case "March":
                     getDoneDates("March", possibleDates);
                     break;
-                case "Apr":
-                    possibleDates = getPossibleDates(4);
+                case "April":
                     getDoneDates("April", possibleDates);
                     break;
                 case "May":
-                    possibleDates = getPossibleDates(5);
                     getDoneDates("May", possibleDates);
                     break;
-                case "Jun":
-                    possibleDates = getPossibleDates(6);
+                case "June":
                     getDoneDates("June", possibleDates);
                     break;
-                case "Jul":
-                    possibleDates = getPossibleDates(7);
+                case "July":
                     getDoneDates("July", possibleDates);
                     break;
-                case "Aug":
-                    possibleDates = getPossibleDates(8);
+                case "August":
                     getDoneDates("August", possibleDates);
                     break;
-                case "Sep":
-                    possibleDates = getPossibleDates(9);
+                case "September":
                     getDoneDates("September", possibleDates);
                     break;
-                case "Oct":
-                    possibleDates = getPossibleDates(10);
+                case "October":
                     getDoneDates("October", possibleDates);
                     break;
-                case "Nov":
-                    possibleDates = getPossibleDates(11);
+                case "November":
                     getDoneDates("November", possibleDates);
                     break;
-                case "Dec":
-                    possibleDates = getPossibleDates(12);
+                case "December":
                     getDoneDates("December", possibleDates);
                     break;
             }
         }
     }
 
-    private Integer getPossibleDates(int monthCheck) {
+    /**
+     * A method that computes the possible dates given a month
+     * @param monthCheck
+     * An int version of a month (1 is January - 12 is December)
+     * @param startingDay
+     * starting day for the current month (either 1 or the actual starting day)
+     * @return
+     * an Integer that shows the possible dates for each month
+     */
+    private Integer getPossibleDates(int monthCheck, int startingDay) {
         /*
         How to calculate how many week days in a month
         Reference: https://stackoverflow.com/questions/41456941/how-can-i-calculate-many-week-days-in-a-month
@@ -163,23 +205,24 @@ public class VisualIndicatorActivity extends AppCompatActivity {
         YearMonth month = YearMonth.of(yearInt, monthCheck);
         int possible_dates = 0;
 
+        // for every given frequency of the habit, get how many times does this day occur
+        // then add to the count (possible_dates)
         for (int index = 0; index < frequency.size(); index++) {
             if ("Monday".equals(frequency.get(index))) {
-                start = month.atDay(1).with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
+                start = month.atDay(startingDay).with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
             } else if ("Tuesday".equals(frequency.get(index))) {
-                start = month.atDay(1).with(TemporalAdjusters.nextOrSame(DayOfWeek.TUESDAY));
+                start = month.atDay(startingDay).with(TemporalAdjusters.nextOrSame(DayOfWeek.TUESDAY));
             } else if ("Wednesday".equals(frequency.get(index))) {
-                start = month.atDay(1).with(TemporalAdjusters.nextOrSame(DayOfWeek.WEDNESDAY));
+                start = month.atDay(startingDay).with(TemporalAdjusters.nextOrSame(DayOfWeek.WEDNESDAY));
             } else if ("Thursday".equals(frequency.get(index))) {
-                start = month.atDay(1).with(TemporalAdjusters.nextOrSame(DayOfWeek.THURSDAY));
+                start = month.atDay(startingDay).with(TemporalAdjusters.nextOrSame(DayOfWeek.THURSDAY));
             } else if ("Friday".equals(frequency.get(index))) {
-                start = month.atDay(1).with(TemporalAdjusters.nextOrSame(DayOfWeek.FRIDAY));
+                start = month.atDay(startingDay).with(TemporalAdjusters.nextOrSame(DayOfWeek.FRIDAY));
             } else if ("Saturday".equals(frequency.get(index))) {
-                start = month.atDay(1).with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+                start = month.atDay(startingDay).with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
             } else if ("Sunday".equals(frequency.get(index))) {
-                start = month.atDay(1).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+                start = month.atDay(startingDay).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
             }
-
             int count = (int) ChronoUnit.WEEKS.between(start, month.atEndOfMonth()) + 1;
             possible_dates += count;
         }
@@ -187,6 +230,14 @@ public class VisualIndicatorActivity extends AppCompatActivity {
         return (Integer) possible_dates;
     }
 
+    /**
+     * Accessing how many times the user has done the given habit for the current month being checked
+     * On Complete, it will update the progress bar by calling updateProgressBar
+     * @param curr_month
+     * Current month to be checked
+     * @param possible_dates
+     * possible dates for the current month
+     */
     private void getDoneDates(String curr_month, Integer possible_dates) {
         /*
         doing simple and compound queries
@@ -215,6 +266,15 @@ public class VisualIndicatorActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Updating the progress bar of every month
+     * @param curr_month
+     * Current month being checked
+     * @param done_dates
+     * Number of times the user has done a habit for the current month
+     * @param possible_dates
+     * Number of possible dates for that current month
+     */
     private void updateProgressBar(String curr_month, Integer done_dates, Integer possible_dates) {
         // acquiring the percentage needed for the current progress bar
         double percentage = (done_dates / (double) possible_dates) * 100;
@@ -317,5 +377,3 @@ public class VisualIndicatorActivity extends AppCompatActivity {
         return true;
     }
 }
-
-

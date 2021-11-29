@@ -3,6 +3,7 @@ package com.example.momentum.following;
 import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,10 +20,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentFollowingBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -145,8 +148,10 @@ public class FollowingFragment extends Fragment{
                         }
 
                     }});
-                enter.show();
+                AlertDialog alertDialog = enter.create();
+                alertDialog.show();
 
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(getContext(), R.color.red_main));
             }
         });
         return root;

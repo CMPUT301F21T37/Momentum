@@ -45,8 +45,8 @@ public class AddHabitFragTest {
      * the test account and then navigates to the Add Habit Frag
      * that is being tested.
      */
-    private void GoToAddFrag() {
-        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "test@gmail.com");
+    private void goToAddFrag() {
+        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "testUI@gmail.com");
         solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test12345");
         solo.clickOnButton("Login");
         solo.clickOnView(solo.getView(R.id.navigation_add_habit));
@@ -59,7 +59,7 @@ public class AddHabitFragTest {
      * @param reason
      * @param date
      */
-    private void fill_habit(String title, String reason, String date){
+    private void fillHabit(String title, String reason, String date){
         solo.enterText((EditText) solo.getView((R.id.edit_title)), title);
         solo.enterText((EditText) solo.getView((R.id.edit_reason)), reason);
         solo.enterText((EditText) solo.getView((R.id.edit_date)), date);
@@ -70,7 +70,7 @@ public class AddHabitFragTest {
      * Verification Test that program is working
      */
     @Test
-    public void Test_start() {
+    public void start() {
         Activity activity = rule.getActivity();
     }
 
@@ -78,8 +78,8 @@ public class AddHabitFragTest {
      * Tests that the fragment is being navigated to correctly
      */
     @Test
-    public void Test_gotoAddHabit(){
-        GoToAddFrag();
+    public void testGotoAddHabit(){
+        goToAddFrag();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
@@ -87,9 +87,9 @@ public class AddHabitFragTest {
      * tests that a habit is created when given valid parameters
      */
     @Test
-    public void habit_creation(){
-        GoToAddFrag();
-        fill_habit(Valid_title, Valid_reason, Valid_date);
+    public void habitCreation(){
+        goToAddFrag();
+        fillHabit(Valid_title, Valid_reason, Valid_date);
         solo.waitForText("Habit Created",
                 1, 2000);
     }
@@ -98,9 +98,9 @@ public class AddHabitFragTest {
      * tests that no habit is created when an empty title is given
      */
     @Test
-    public void empty_title(){
-        GoToAddFrag();
-        fill_habit("", Valid_reason, Valid_date);
+    public void emptyTitle(){
+        goToAddFrag();
+        fillHabit("", Valid_reason, Valid_date);
         solo.clickOnButton("Create Habit");
         solo.waitForText("Title Required",
                 1, 2000);
@@ -110,9 +110,9 @@ public class AddHabitFragTest {
      * tests that no habit is created when an invalid date is given
      */
     @Test
-    public void bad_date(){
-        GoToAddFrag();
-        fill_habit(Valid_title, Valid_reason, Invalid_date);
+    public void badDate(){
+        goToAddFrag();
+        fillHabit(Valid_title, Valid_reason, Invalid_date);
         solo.clickOnButton("Create Habit");
         solo.waitForText("Invalid Date Format Entered",
                 1, 2000);
@@ -122,8 +122,8 @@ public class AddHabitFragTest {
      * tests functionality of the toggle buttons and switch
      */
     @Test
-    public void toggle_buttons() {
-        GoToAddFrag();
+    public void toggleButtons() {
+        goToAddFrag();
         solo.clickOnButton("Mon");
         solo.clickOnButton("Tue");
         solo.clickOnButton("Wed");
@@ -147,8 +147,8 @@ public class AddHabitFragTest {
      */
     @Test
     public void calendar(){
-        GoToAddFrag();
-        fill_habit(Valid_title, Valid_reason, "");
+        goToAddFrag();
+        fillHabit(Valid_title, Valid_reason, "");
         solo.enterText((EditText) solo.getView((R.id.edit_date)), Invalid_date);
         solo.clickOnButton("Mon");
         solo.clickOnButton("OK");
