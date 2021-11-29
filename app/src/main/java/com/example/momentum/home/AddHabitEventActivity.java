@@ -64,6 +64,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -101,7 +102,9 @@ public class AddHabitEventActivity extends FragmentActivity
     private Location userLocation;
 
     private boolean mCameraPermissionsGranted = false;
+    private boolean mGalleryPermissionsGranted = false;
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 101;
+    private static final int GALLERY_PERMISSION_REQUEST_CODE = 102;
     private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
     private static final String WRITE_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private static final String READ_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -110,7 +113,7 @@ public class AddHabitEventActivity extends FragmentActivity
     private Button openCameraBtn, openGalleryBtn;
     private String currentPhotoPath;
     private StorageReference storageReference;
-    private String imageNameStr;
+    private String imageName;
     private Context context;
 
     // a launcher for camera
@@ -143,15 +146,15 @@ public class AddHabitEventActivity extends FragmentActivity
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         // set image in ImageView
                         Uri contentUri = result.getData().getData();
-                        String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
-                        String imageFileName = "JPEG_" + timeStamp + getFileExt(contentUri);
-                        Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
-                        String [] split = imageFileName.split("Pictures/");
-                        imageNameStr = split[1];
+                       // String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
+                       // String imageFileName = "JPEG_" + timeStamp + getFileExt(contentUri);
+                       // Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
+                        File f = new File(currentPhotoPath);
                         mImageView.setImageURI(contentUri);
+                        String fileName = f.getName();
 
                         //call method to upload image to firebase storage
-                        uploadImageToFirebase(imageFileName, contentUri);
+                        uploadImageToFirebase(fileName, contentUri);
                     }
                 }
             });
@@ -216,8 +219,7 @@ public class AddHabitEventActivity extends FragmentActivity
         openGalleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                galleryActivityResultLauncher.launch(gallery);
+                getGalleryPermission();
             }
         });
 
@@ -267,6 +269,20 @@ public class AddHabitEventActivity extends FragmentActivity
         }
     }
 
+    private void openGallery() {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        File imageFile = null;
+        try{
+            if (mGalleryPermissionsGranted){
+                imageFile = createImageFile();
+                Uri contentUri = FileProvider.getUriForFile(context, "com.example.android.fileprovider", imageFile);
+                gallery.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+                galleryActivityResultLauncher.launch(gallery);
+            }
+        } catch (IOException ex){
+
+        }
+    }
 
     // a method to upload image to firebase storage
     private void uploadImageToFirebase(String fileName, Uri contentUri) {
@@ -311,7 +327,7 @@ public class AddHabitEventActivity extends FragmentActivity
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         String [] split = currentPhotoPath.split("Pictures/");
-        imageNameStr = split[1];
+        imageName = split[1];
         return image;
     }
 
@@ -342,9 +358,9 @@ public class AddHabitEventActivity extends FragmentActivity
         // create a hashmap to be inputted
         Event event;
         if (userLocation == null) {
-            event = new Event(title, comment, 0, 0, imageNameStr);
+            event = new Event(title, comment, 0, 0, imageName);
         } else {
-            event = new Event(title, comment, userLocation.getLatitude(), userLocation.getLongitude(), imageNameStr);
+            event = new Event(title, comment, userLocation.getLatitude(), userLocation.getLongitude(), imageName);
         }
 
 
@@ -436,27 +452,35 @@ public class AddHabitEventActivity extends FragmentActivity
 
     }
 
-    private void getCameraPermission() {
-        String[] permissions = {Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    private void getGalleryPermission() {
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE};
 
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
+                READ_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                     WRITE_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                        READ_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    mCameraPermissionsGranted = true;
-                    openCamera();
-                } else {
-                    ActivityCompat.requestPermissions(this, permissions, CAMERA_PERMISSION_REQUEST_CODE);
-                }
-
+                mGalleryPermissionsGranted = true;
+                openGallery();
             } else {
-                ActivityCompat.requestPermissions(this, permissions, CAMERA_PERMISSION_REQUEST_CODE);
+                ActivityCompat.requestPermissions(this, permissions, GALLERY_PERMISSION_REQUEST_CODE);
             }
+
         } else {
+            ActivityCompat.requestPermissions(this, permissions, GALLERY_PERMISSION_REQUEST_CODE);
+        }
+
+    }
+
+
+    private void getCameraPermission() {
+        String[] permissions = {Manifest.permission.CAMERA};
+
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
+            mCameraPermissionsGranted = true;
+            openCamera();
+        } else{
             ActivityCompat.requestPermissions(this, permissions, CAMERA_PERMISSION_REQUEST_CODE);
         }
 
@@ -469,6 +493,7 @@ public class AddHabitEventActivity extends FragmentActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         mLocationPermissionsGranted = false;
         mCameraPermissionsGranted = false;
+        mGalleryPermissionsGranted =false;
 
         switch (requestCode) {
             case LOCATION_PERMISSION_REQUEST_CODE: {
@@ -490,6 +515,15 @@ public class AddHabitEventActivity extends FragmentActivity
                     }
                 }
                 mCameraPermissionsGranted = true;
+            }
+            case GALLERY_PERMISSION_REQUEST_CODE: {
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        mGalleryPermissionsGranted = false;
+                        return;
+                    }
+                }
+                mGalleryPermissionsGranted = true;
             }
         }
     }

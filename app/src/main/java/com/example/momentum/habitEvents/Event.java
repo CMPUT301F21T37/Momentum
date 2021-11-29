@@ -73,5 +73,5 @@ public class Event implements Serializable {
 
     public String getImageName() { return imageName; }
 
-    public void setImageName(String imageUriStr) { this.imageName = imageName; }
+    public void setImageName(String imageName) { this.imageName = imageName; }
 }
