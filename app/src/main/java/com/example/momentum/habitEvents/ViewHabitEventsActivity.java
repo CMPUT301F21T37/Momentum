@@ -39,8 +39,10 @@ import com.squareup.picasso.Picasso;
 
 /**
  * An activity that lets the user see their habit events and corresponding details.
+ *
  * @author Kaye Ena Crayzhel F. Misay
  * @author Han Yan
+ * @author Mohammed Alzafarani
  */
 public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapReadyCallback {
     private ActivityIndivHabitEventViewBinding binding;
@@ -57,7 +59,6 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
 
     private boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final float DEFAULT_ZOOM = 15;
     private SupportMapFragment mapFragment;
     private StorageReference storageReference;
@@ -77,6 +78,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
         latitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LATITUDE,0);
         longitude = intent.getDoubleExtra(HabitEventsFragment.EVENT_LONGITUDE,0);
         imageName = intent.getStringExtra(HabitEventsFragment.EVENT_IMAGE);
+       
 
         // set the displays
         setTitle();
@@ -86,6 +88,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
         storageReference = FirebaseStorage.getInstance().getReference();
         setImage();
 
+        // Check if the user has the location permission
         getLocationPermission();
 
         // back button to go back to previous fragment
@@ -141,10 +144,9 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
     /**
      * Callback handler for when the back button is clicked.
      * Goes back to the previous fragment.
-     * @param view
-     * Current view associated with the listener.
-     * @return
-     * 'true' to confirm with the listener
+     *
+     * @param view Current view associated with the listener.
+     * @return 'true' to confirm with the listener
      */
     private boolean backButtonOnClick(View view) {
         finish();
@@ -152,17 +154,28 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
     }
 
 
-
+    /**
+     * This moves the map camera to a latLing and a zoom
+     *
+     * @param latLng The latLing to go to
+     * @param zoom   The zoom to display at
+     */
     private void moveCamera(LatLng latLng, float zoom) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
+    /**
+     * This method initializes the map by calling support map fragment
+     */
     private void initMap() {
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.individualMap);
         mapFragment.getMapAsync(ViewHabitEventsActivity.this);
     }
 
+    /**
+     * This method gets the location permission from the user.
+     */
     private void getLocationPermission() {
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -185,6 +198,13 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
 
     }
 
+    /**
+     * This method requests the user to give access to their location
+     *
+     * @param requestCode  The request code
+     * @param permissions  The permissions
+     * @param grantResults The results
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -206,6 +226,12 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
         }
     }
 
+    /**
+     * When the map is ready to start this method is called with a google map
+     *
+     * @param googleMap The ready google map
+     */
+
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
@@ -217,11 +243,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity implements OnMapR
             LatLng latLng = new LatLng(latitude, longitude);
             moveCamera(latLng, DEFAULT_ZOOM);
             mMap.addMarker(new MarkerOptions().position(latLng));
-
         }
-
-
     }
-
 
 }

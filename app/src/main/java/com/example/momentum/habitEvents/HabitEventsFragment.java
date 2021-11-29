@@ -31,6 +31,7 @@ import java.util.HashMap;
  * A fragment that shows all habit events of a given user.
  * @author Han Yan
  * @author Kaye Ena Crayzhel F. Misay
+ * @author Mohammed Alzafarani
  */
 public class HabitEventsFragment extends Fragment {
     public static final String EVENT_TITLE = "EVENT_TITLE";

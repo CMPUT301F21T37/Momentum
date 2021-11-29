@@ -39,18 +39,9 @@ public class AddHabitEventActivityTest {
      * Helper so to log in with correct entries to be able to test
      */
     private void login() {
-        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "test@gmail.com");
+        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "testUI@gmail.com");
         solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test12345");
         solo.clickOnButton("Login");
-    }
-
-    /**
-     * Helper to go to the activity
-     */
-    private void goToActivity() {
-        solo.clickOnView(solo.getView(R.id.calendarView));
-        solo.waitForText("Habits", 1, 2000);
-        solo.clickOnText("Coding");
     }
 
     /**
@@ -66,9 +57,12 @@ public class AddHabitEventActivityTest {
      */
     @Test
     public void backButton() {
-        // goes to AddHabitEventActivity
+        // log in with correct inputs
         login();
-        goToActivity();
+
+        // clicks on the habit that is completed but with no event
+        solo.clickOnView(solo.getView(R.id.calendarView));
+        solo.clickOnText("Testing");
 
         // checks if it is in the AddHabitEventActivity
         solo.assertCurrentActivity("Wrong Activity!", AddHabitEventActivity.class);
@@ -85,7 +79,10 @@ public class AddHabitEventActivityTest {
     public void checkCommentLimit() {
         // goes to AddHabitEventActivity
         login();
-        goToActivity();
+
+        // clicks on the habit that is completed but with no event
+        solo.clickOnView(solo.getView(R.id.calendarView));
+        solo.clickOnText("Testing");
 
         // checks if it is in the AddHabitEventActivity
         solo.assertCurrentActivity("Wrong Activity!", AddHabitEventActivity.class);

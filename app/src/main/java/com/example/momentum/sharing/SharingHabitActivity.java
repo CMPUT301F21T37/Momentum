@@ -16,6 +16,11 @@ import com.example.momentum.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is the Activity for showing the sharing habits
+ * @author boxiao
+ */
+
 public class SharingHabitActivity extends AppCompatActivity {
 
     private ActivitySharingHabitBinding binding;
@@ -34,6 +39,9 @@ public class SharingHabitActivity extends AppCompatActivity {
         startObserve();
     }
 
+    /**
+     * initilze the basic View of following's habits
+     */
     @SuppressLint("SetTextI18n")
     private void initView() {
         Intent intent = getIntent();

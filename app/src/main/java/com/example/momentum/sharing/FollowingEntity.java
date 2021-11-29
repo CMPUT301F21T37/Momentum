@@ -2,6 +2,10 @@ package com.example.momentum.sharing;
 
 import java.io.Serializable;
 
+/**
+ * This is the FollowingEntity
+ * @author boxiao
+ */
 public class FollowingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     //following username

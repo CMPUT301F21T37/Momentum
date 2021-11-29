@@ -15,6 +15,15 @@ import com.example.momentum.habits.ViewHabitActivity;
 import com.example.momentum.utils.Constants;
 
 import java.util.List;
+/**
+ *
+ * A class extending to a RecyclerView adapter that keeps a list of following habits for sharingFragment up-to-date.
+ *
+ * It carries listeners to view details of a sharing habit.
+
+ *
+ * @author Boxiao Li
+ */
 
 public class SharingListAdapter extends RecyclerView.Adapter<SharingListAdapter.ViewHolder> {
 
@@ -36,7 +45,12 @@ public class SharingListAdapter extends RecyclerView.Adapter<SharingListAdapter.
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.following_item, parent, false);
         return new ViewHolder(view);
     }
-
+    /**
+     * Method to show a sharing habits list by going to another activity
+     * @param holder
+     * @param position
+     * An frequency of habit to be shown
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FollowingEntity following = mData.get(position);
@@ -50,7 +64,10 @@ public class SharingListAdapter extends RecyclerView.Adapter<SharingListAdapter.
             });
         }
     }
-
+    /**
+     * get the size of data
+     * @return the size of data
+     */
     @Override
     public int getItemCount() {
         return mData.size();

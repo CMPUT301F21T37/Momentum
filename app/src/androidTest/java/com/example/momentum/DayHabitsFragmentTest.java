@@ -32,20 +32,13 @@ public class DayHabitsFragmentTest {
 
     /**
      * Helper method to log in with correct entries to be able to test
+     * Since the code is set up to only set a habit as done when it is the current day,
+     * All habits are pre-added to the testUI account
      */
     private void login() {
-        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "test@gmail.com");
+        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "testUI@gmail.com");
         solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test12345");
         solo.clickOnButton("Login");
-    }
-
-    /**
-     * Helper to go to the activity
-     */
-    private void goToActivity() {
-        solo.clickOnView(solo.getView(R.id.calendarView));
-        solo.waitForText("Habits", 1, 2000);
-        solo.clickOnText("Study");
     }
 
     /**
@@ -68,7 +61,7 @@ public class DayHabitsFragmentTest {
         // clicks on the habit that is not completed
         solo.clickOnView(solo.getView(R.id.calendarView));
         solo.waitForText("Habits", 1, 2000);
-        solo.clickOnText("Study");
+        solo.clickOnText("Testing2");
 
         // checks if it is in the DayHabitsActivity to set if a habit is completed
         solo.assertCurrentActivity("Wrong Activity!", DayHabitsActivity.class);
@@ -83,12 +76,12 @@ public class DayHabitsFragmentTest {
         // logs in with correct test inputs
         login();
 
-        // clicks on the habit that is not completed
+        // clicks on the habit that is completed but with no event
         solo.clickOnView(solo.getView(R.id.calendarView));
         solo.waitForText("Habits", 1, 2000);
-        solo.clickOnText("Coding");
+        solo.clickOnText("Testing");
 
-        // checks if it is in the AddHabitEventActivity to add a habit event
+        // checks if it is in the AddHabitEventActivity
         solo.assertCurrentActivity("Wrong Activity!", AddHabitEventActivity.class);
     }
 
@@ -101,10 +94,10 @@ public class DayHabitsFragmentTest {
         // logs in with correct test inputs
         login();
 
-        // clicks on the habit that is not completed
+        // clicks on the habit that is completed with an event
         solo.clickOnView(solo.getView(R.id.calendarView));
         solo.waitForText("Habits", 1, 2000);
-        solo.clickOnText("Exercise");
+        solo.clickOnText("Testing3");
 
         // checks if a toast exists
         solo.waitForText("You have already added a habit event for today. Edit or delete your event on the Habit Events page.",

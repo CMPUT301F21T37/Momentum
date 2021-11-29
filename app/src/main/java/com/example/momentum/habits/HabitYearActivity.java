@@ -28,6 +28,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * A class that lets the user pick a year to see a habit's visual indicator.
+ * @author Kaye Ena Crayzhel F. Misay
+ */
 public class HabitYearActivity extends AppCompatActivity {
 
     private ActivityYearHabitBinding binding;
@@ -63,7 +67,6 @@ public class HabitYearActivity extends AppCompatActivity {
 
         // listener for the Firestore database to accept realtime updates
         yearsList = new ArrayList<>();
-
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,

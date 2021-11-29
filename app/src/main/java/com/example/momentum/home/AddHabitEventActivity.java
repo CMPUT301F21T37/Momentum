@@ -70,7 +70,6 @@ import java.util.Date;
 
 /**
  * An activity that lets the user add a habit event for when a habit is done for the day.
- *
  * @author Kaye Ena Crayzhel F. Misay
  * @author Mohammed Alzafarani
  */
@@ -166,10 +165,13 @@ public class AddHabitEventActivity extends FragmentActivity
         binding = ActivityAddHabitEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAddHabit);
+        // getting the map to initialize
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapAddHabit);
 
         mapFragment.getMapAsync((OnMapReadyCallback) this);
 
+        // Getting the user location permission
         getLocationPermission();
 
         // initializing the database
@@ -197,6 +199,7 @@ public class AddHabitEventActivity extends FragmentActivity
         checkButton = binding.addHabitEventDone;
         checkButton.setOnClickListener(this::checkButtonOnClick);
 
+        // selects the current location for the user
         selectCurrentLocation = binding.AddHabitEventUserLocationButton;
         selectCurrentLocation.setOnClickListener(this::selectCurrentLocationOnClick);
 
@@ -226,7 +229,13 @@ public class AddHabitEventActivity extends FragmentActivity
 
     }
 
+    /**
+     * This method selects the current location for the user
+     *
+     * @param view
+     */
     private void selectCurrentLocationOnClick(View view) {
+
         if (mLocationPermissionsGranted) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
@@ -234,11 +243,13 @@ public class AddHabitEventActivity extends FragmentActivity
                     != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
+            // getting current location
             Task location = mFusedLocationProviderClient.getLastLocation();
             location.addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
+                        // if location is founded then move the camera there and add a marker
                         userLocation = (Location) task.getResult();
                         LatLng latLng = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
                         moveCamera(latLng, DEFAULT_ZOOM);
@@ -375,7 +386,6 @@ public class AddHabitEventActivity extends FragmentActivity
      * Adds habit event for the given habit.
      *
      * @param event The data to be put in the Events document fields.
-     *              Currently: optional comment and habit
      */
     public void addHabitEventToDatabase(Event event) {
         String users_collection_name = "Users";
@@ -402,6 +412,9 @@ public class AddHabitEventActivity extends FragmentActivity
                 });
     }
 
+    /**
+     * This method gets the users current location
+     */
     private void getDeviceLocation() {
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -425,11 +438,19 @@ public class AddHabitEventActivity extends FragmentActivity
         }
     }
 
+    /**
+     * This moves the map camera to a latLing and a zoom
+     *
+     * @param latLng The latLing to go to
+     * @param zoom   The zoom to display at
+     */
     private void moveCamera(LatLng latLng, float zoom) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
-
+    /**
+     * This method gets the location permission from the user.
+     */
     private void getLocationPermission() {
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -488,6 +509,14 @@ public class AddHabitEventActivity extends FragmentActivity
 
 
     //check if the permission is given to the app
+    /**
+     * This method requests the user to give access to their location
+     *
+     * @param requestCode  The request code
+     * @param permissions  The permissions
+     * @param grantResults The results
+     */
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -528,6 +557,12 @@ public class AddHabitEventActivity extends FragmentActivity
         }
     }
 
+    /**
+     * When the map is ready to start this method is called with a google map
+     *
+     * @param googleMap The ready google map
+     */
+    @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -545,6 +580,12 @@ public class AddHabitEventActivity extends FragmentActivity
     }
 
 
+    /**
+     * This is called when a user clicks on a map
+     *
+     * @param latLng The latLing the user clicked on
+     */
+    @Override
     public void onMapClick(@NonNull LatLng latLng) {
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(latLng));

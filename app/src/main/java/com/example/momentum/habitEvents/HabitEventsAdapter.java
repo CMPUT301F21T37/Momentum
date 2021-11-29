@@ -35,6 +35,7 @@ import java.util.ArrayList;
  *
  * @author Han Yan
  * @author Kaye Ena Crayzhel F. Misay
+ * @author Mohammed Alzafarani
  */
 public class HabitEventsAdapter extends ArrayAdapter<Event> {
     public static final String DELETE_EVENT = "DELETE_EVENT";
@@ -127,6 +128,7 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
         uid = user.getUid();
         eventsReference = db.collection("Users").document(uid).collection("Events");
 
+        // gets the doc id of the current event
         eventsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
@@ -238,6 +240,7 @@ public class HabitEventsAdapter extends ArrayAdapter<Event> {
                 }
             }
         });
+
         Intent intent = new Intent(getContext(), HabitsEventsEditActivity.class);
         intent.putExtra(HabitEventsFragment.EVENT_TITLE, event.getTitle());
         intent.putExtra(HabitEventsFragment.EVENT_COMMENT, event.getComment());

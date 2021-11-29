@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * @author Samtarkras
- * @version 1.4
+ * @author Samtarkras, misay
+ * @version 2.0
  */
 public class Habit {
    /**
@@ -63,7 +63,6 @@ public class Habit {
    public Boolean isPrivate_account() {
       return habit_private;
    }
-
    public void setTitle(String title) {
       this.title = title;
    }
@@ -79,7 +78,6 @@ public class Habit {
    public void setWeekly_frequency(ArrayList<?> weekly_frequency) {
       this.weekly_frequency = weekly_frequency;
    }
-
    public Integer getOrder() {
       return order;
    }

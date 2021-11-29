@@ -137,6 +137,14 @@ public class ViewHabitActivity extends AppCompatActivity {
         frequencyView.setText(frequency_str);
     }
 
+    /**
+     * Callback handler for when the visual indicator button is clicked.
+     * Goes to the visual identicator activity
+     * @param view
+     * Current view associated with the listener
+     * @return
+     * 'true' to confirm with the listener
+     */
     private boolean visualIndicatorButtonOnClick(View view) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
