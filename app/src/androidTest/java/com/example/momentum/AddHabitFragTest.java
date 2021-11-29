@@ -45,7 +45,7 @@ public class AddHabitFragTest {
      * the test account and then navigates to the Add Habit Frag
      * that is being tested.
      */
-    private void GoToAddFrag() {
+    private void goToAddFrag() {
         solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "s@gmail.com");
         solo.enterText((EditText) solo.getView(R.id.passwordEditText), "12345678");
         solo.clickOnButton("Login");

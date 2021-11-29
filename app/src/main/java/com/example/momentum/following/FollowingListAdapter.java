@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -67,6 +68,8 @@ public class FollowingListAdapter extends ArrayAdapter<Follower> {
             public void onClick(View v) {
                 Log.d(TAG, "Allowed " + follower.getId());
                 accept_follow(follower);
+                Toast.makeText(context, "Accepted Follow",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -76,6 +79,8 @@ public class FollowingListAdapter extends ArrayAdapter<Follower> {
             public void onClick(View v) {
                 Log.d(TAG, "Denied " + follower.getId());
                 deny_follow(follower);
+                Toast.makeText(context, "Denied Follow",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 

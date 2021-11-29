@@ -3,7 +3,6 @@ package com.example.momentum.following;
 import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -133,9 +132,12 @@ public class FollowingFragment extends Fragment {
                                                         Toast.makeText(activity, "user not found",
                                                                 Toast.LENGTH_SHORT).show();
                                                     } else {
-                                                        Add_follow(document.getId(), document.getData().get("Username").toString());
+                                                        Add_follow(document.getId(), document.getData().get("username").toString());
                                                         Req_follow(document.getId());
                                                         Log.d(TAG, document.getId() + " => " + document.getData());
+                                                        Toast.makeText(activity, "Follow Requested",
+                                                                Toast.LENGTH_LONG).show();
+
                                                     }
 
                                                 }
@@ -148,7 +150,6 @@ public class FollowingFragment extends Fragment {
 
                     }
                 });
-                    }});
                 AlertDialog alertDialog = enter.create();
                 alertDialog.show();
 
@@ -156,8 +157,12 @@ public class FollowingFragment extends Fragment {
             }
         });
         return root;
+
     }
-    //function used for live updates of the listview
+
+    /**
+     *
+     */
     public void showRequests(){
         requestListView = binding.requestList;
         FollowingViewModel.getRequestList().observe(getViewLifecycleOwner(), new Observer<ArrayList<Follower>>() {
@@ -168,10 +173,15 @@ public class FollowingFragment extends Fragment {
             }
         });
     }
-    //helper function that adds the requested followed user to the list of those you are following
+
+    /**
+     *
+     * @param fid
+     * @param Fusername
+     */
     private void Add_follow(String fid, String Fusername){
         HashMap<String, Object> data = new HashMap<>();
-        data.put("Username", Fusername);
+        data.put("username", Fusername);
         db.collection("Users").document(uid).collection("Following")
                 .document(fid)
                 .set(data)
@@ -190,13 +200,16 @@ public class FollowingFragment extends Fragment {
 
 
     }
-    //helper function that adds the user to a list of follower requests to another user
+    /**
+     *
+     * @param fid
+     */
     private void Req_follow(String fid){
         String Uusername = user.getDisplayName();
         HashMap<String, Object> data = new HashMap<>();
         data.put("username", Uusername);
         data.put("allow_follow",false);
-        Log.d(TAG, "Data Created")
+        Log.d(TAG, "Data Created");
         db.collection("Users").document(fid).collection("Followers")
                 .document(uid)
                 .set(data)
