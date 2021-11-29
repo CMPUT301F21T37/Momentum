@@ -375,9 +375,9 @@ public class AddHabitEventActivity extends FragmentActivity
         // create a hashmap to be inputted
         Event event;
         if (userLocation == null) {
-            event = new Event(title, comment, 0, 0, imageName);
+            event = new Event(documentTitle, comment, 0, 0, imageName);
         } else {
-            event = new Event(title, comment, userLocation.getLatitude(), userLocation.getLongitude(), imageName);
+            event = new Event(documentTitle, comment, userLocation.getLatitude(), userLocation.getLongitude(), imageName);
         }
 
 

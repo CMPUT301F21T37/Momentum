@@ -35,8 +35,8 @@ public class ViewHabitActivityTest {
      * Helper method to log in with correct entries
      */
     private void login() {
-        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "testUI1@gmail.com");
-        solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test12345");
+        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "testUI5@gmail.com");
+        solo.enterText((EditText) solo.getView(R.id.passwordEditText), "kaynzhell19");
         solo.clickOnButton("Login");
     }
 

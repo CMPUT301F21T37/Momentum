@@ -44,7 +44,6 @@
         android:maxLines="1"
         tools:text="uid:124567"/>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/habits_list"
         android:layout_width="0dp"

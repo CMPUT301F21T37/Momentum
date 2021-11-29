@@ -44,7 +44,7 @@ import java.util.HashMap;
 
 /**
  * @version 4.0
- * @author rittwage
+ * @author rittwage, misay
  */
 
 public class FollowingFragment extends Fragment {
@@ -132,7 +132,6 @@ public class FollowingFragment extends Fragment {
                                                                 Toast.LENGTH_SHORT).show();
                                                     }
                                                     else{
-                                                        Add_follow(document.getId(), document.getData().get("username").toString());
                                                         Req_follow(document.getId());
                                                         Log.d(TAG, document.getId() + " => " + document.getData());
                                                         Toast.makeText(activity, "Follow Requested",
@@ -160,8 +159,9 @@ public class FollowingFragment extends Fragment {
 
     }
 
-    //function used for live updates of the listview
-
+    /**
+     *     function used for live updates of the listview
+     */
     public void showRequests(){
         requestListView = binding.requestList;
         FollowingViewModel.getRequestList().observe(getViewLifecycleOwner(), new Observer<ArrayList<Follower>>() {
@@ -174,33 +174,7 @@ public class FollowingFragment extends Fragment {
     }
 
     /**
-     *
-     * @param fid
-     * @param Fusername
-     */
-    private void Add_follow(String fid, String Fusername){
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("username", Fusername);
-        db.collection("Users").document(uid).collection("Following")
-                .document(fid)
-                .set(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-
-
-    }
-    /**
-     *
+     * Add request to follow user
      * @param fid
      */
     private void Req_follow(String fid){

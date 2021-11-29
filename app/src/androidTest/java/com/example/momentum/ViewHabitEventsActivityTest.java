@@ -55,7 +55,7 @@ public class ViewHabitEventsActivityTest {
         // goes to the Activity
         login();
         solo.clickOnButton("Events");
-        solo.clickOnText("Coding: November 24, 2021");
+        solo.clickOnText("Coding: November 28, 2021");
 
         // checks if it is in the activity
         solo.assertCurrentActivity("Wrong Activity!", ViewHabitEventsActivity.class);
@@ -73,15 +73,15 @@ public class ViewHabitEventsActivityTest {
         // goes to the Activity
         login();
         solo.clickOnButton("Events");
-        solo.clickOnText("Study: November 24, 2021");
+        solo.clickOnText("Coding: November 28, 2021");
 
         // checks if it is in the ViewHabitActivity
         solo.assertCurrentActivity("Wrong Activity!", ViewHabitEventsActivity.class);
 
         // waits for texts to appear (comment)
-        solo.waitForText("Study: November 24, 2021", 1, 2000);
+        solo.waitForText("Coding: November 28, 2021", 1, 2000);
         solo.waitForText("Comment", 1, 2000);
-        solo.waitForText("I have done it");
+        solo.waitForText("Learning to code");
 
         solo.waitForText("Image");
         solo.waitForText("Location");
