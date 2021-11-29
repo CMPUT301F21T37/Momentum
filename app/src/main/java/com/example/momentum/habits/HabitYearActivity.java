@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.momentum.databinding.ActivityVisualIndicatorBinding;
 import com.example.momentum.databinding.ActivityYearHabitBinding;
 import com.example.momentum.home.DayHabits;
+import com.example.momentum.utils.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,8 +28,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * A class that lets the user pick a year to see a habit's visual indicator.
+ * @author Kaye Ena Crayzhel F. Misay
+ */
 public class HabitYearActivity extends AppCompatActivity {
-    public static final String HABIT_YEAR = "HABIT_YEAR";
 
     private ActivityYearHabitBinding binding;
 
@@ -52,9 +56,9 @@ public class HabitYearActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract them
         Intent intent = getIntent();
-        title = intent.getStringExtra(HabitsFragment.HABIT_TITLE);
-        uid = intent.getStringExtra(ViewHabitActivity.VISUAL_INDICATOR_USER);
-        frequency = (ArrayList<?>) intent.getStringArrayListExtra(HabitsFragment.HABIT_FREQUENCY);
+        title = intent.getStringExtra(Constants.HABIT_TITLE);
+        uid = intent.getStringExtra(Constants.VISUAL_INDICATOR_USER);
+        frequency = (ArrayList<?>) intent.getStringArrayListExtra(Constants.HABIT_FREQUENCY);
 
         // initializing the database
         db = FirebaseFirestore.getInstance();
@@ -63,7 +67,6 @@ public class HabitYearActivity extends AppCompatActivity {
 
         // listener for the Firestore database to accept realtime updates
         yearsList = new ArrayList<>();
-
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
@@ -104,10 +107,10 @@ public class HabitYearActivity extends AppCompatActivity {
         String year = (String) adapterView.getAdapter().getItem(position);
 
         Intent intent = new Intent(HabitYearActivity.this, VisualIndicatorActivity.class);
-        intent.putExtra(HabitsFragment.HABIT_TITLE, title);
-        intent.putExtra(HABIT_YEAR, year);
-        intent.putExtra(ViewHabitActivity.VISUAL_INDICATOR_USER, uid);
-        intent.putExtra(HabitsFragment.HABIT_FREQUENCY, frequency);
+        intent.putExtra(Constants.HABIT_TITLE, title);
+        intent.putExtra(Constants.HABIT_YEAR, year);
+        intent.putExtra(Constants.VISUAL_INDICATOR_USER, uid);
+        intent.putExtra(Constants.HABIT_FREQUENCY, frequency);
         startActivity(intent);
         return true;
     }

@@ -42,7 +42,7 @@ public class HabitEventsFragmentTest {
      * Helper method to log in with correct entries to be able to test
      */
     private void login() {
-        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "test@gmail.com");
+        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "testUI@gmail.com");
         solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test12345");
         solo.clickOnButton("Login");
     }
@@ -58,7 +58,7 @@ public class HabitEventsFragmentTest {
 
     /**
      * Checks to see that all events are there
-     * It is logged in into the group's test account which will have Exercise, Coding, and Study in its events
+     * It is logged in into the group's test account which will have Testing3 in its events
      */
     @Test
     public void testEventsView() {
@@ -72,9 +72,8 @@ public class HabitEventsFragmentTest {
         solo.waitForText("Events", 1, 2000);
 
         // checks to see if the three habits are there
-        solo.waitForText("Exercise", 1, 2000);
-        solo.waitForText("Coding", 1, 2000);
-        solo.waitForText("Study", 1, 2000);
+        solo.waitForText("Testing3: November 10, 2021", 1, 2000);
+        solo.waitForText("Testing3: December 8, 2021", 1, 2000);
     }
 
 
@@ -121,7 +120,7 @@ public class HabitEventsFragmentTest {
     }
 
     /**
-     * Checks to see if clicking the event will go to the ViewEventsctivity
+     * Checks to see if clicking the event will go to the ViewEventsActivity
      */
     @Test
     public void testEventView() {

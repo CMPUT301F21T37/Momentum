@@ -1,6 +1,5 @@
 package com.example.momentum;
 
-import static com.example.momentum.R.id.motivationText;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -11,7 +10,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.momentum.habits.HabitsEditActivity;
-import com.example.momentum.habits.ViewHabitActivity;
 import com.example.momentum.login.LoginActivity;
 import com.robotium.solo.Solo;
 
@@ -35,16 +33,44 @@ public class HabitsEditActivityTest {
     }
 
     /**
+     * Helper method to add a habit
+     * title:Testing
+     * reason: 4/4, please?
+     * Date: November 1, 2021
+     * Frequency: Saturday, Sunday
+     * Privacy: Default (Public)
+     */
+    private void addHabit() {
+        solo.clickOnView(solo.getView(R.id.navigation_add_habit));
+        solo.enterText((EditText) solo.getView(R.id.edit_title), "Testing");
+        solo.enterText((EditText) solo.getView(R.id.edit_reason), "4/4, please?");
+        solo.clickOnView(solo.getView(R.id.edit_date));
+        solo.setDatePicker(0, 2021, 10, 1);
+        solo.clickOnText("OK");
+        solo.clickOnView(solo.getView(R.id.satButton));
+        solo.clickOnView(solo.getView(R.id.sunButton));
+        solo.clickOnView(solo.getView(R.id.create_habit_button));
+    }
+
+    /**
+     * Helper method to delete a habit
+     */
+    private void deleteHabit() {
+        solo.clickOnView(solo.getView(R.id.card_view_delete));
+        solo.clickOnView(solo.getView(R.id.deleteHabitButton));
+    }
+
+    /**
      * Helper method to log in with correct entries to be able to test
      */
     private void login() {
-        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "test@gmail.com");
+        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "testUI1@gmail.com");
         solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test12345");
         solo.clickOnButton("Login");
     }
 
     /**
-     * Simple test cast to verify if everything is okay.
+     * Simple test case to verify if everything is okay.
      */
     @Test
     public void start() {
@@ -55,29 +81,38 @@ public class HabitsEditActivityTest {
      * Checks if the custom back button works correctly.
      */
     @Test
-    public void checkbackButton() {
+    public void testBackButton() {
         // goes to the Activity
         login();
+        addHabit();
+
+        // goes to home, clicks on habits button and then click the newly added habit
+        solo.clickOnView(solo.getView(R.id.navigation_home));
         solo.clickOnButton("Habits");
         solo.clickOnView(solo.getView(R.id.card_view_edit));
 
-        // checks if it is in the ViewHabitActivity
+        // checks if it is in the HabitsEditActivity
         solo.assertCurrentActivity("Wrong Activity!", HabitsEditActivity.class);
 
         // clicks on the back button and checks if it went to previous activity
         solo.clickOnView(solo.getView(R.id.editHabitBack));
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
+
+        // delete habit
+        deleteHabit();
     }
 
     /**
      * Checks changes
      */
     @Test
-    public void checkAllowableChanges() {
+    public void testAllowableChanges() {
         // goes to the Activity
         login();
+        addHabit();
 
-        // clicks an edit button and confirm switch
+        // goes to home, clicks on habits button and then click the newly added habit
+        solo.clickOnView(solo.getView(R.id.navigation_home));
         solo.clickOnButton("Habits");
         solo.clickOnView(solo.getView(R.id.card_view_edit));
         solo.assertCurrentActivity("Wrong Activity!", HabitsEditActivity.class);
@@ -105,6 +140,10 @@ public class HabitsEditActivityTest {
         // checks if buttons can be clicked
         solo.clickOnView(solo.getView(R.id.satButton));
         solo.clickOnView(solo.getView(R.id.sunButton));
+
+        // delete habit
+        solo.clickOnView(solo.getView(R.id.editHabitBack));
+        deleteHabit();
     }
 
     /**

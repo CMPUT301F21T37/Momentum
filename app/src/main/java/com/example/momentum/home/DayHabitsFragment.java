@@ -29,6 +29,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.momentum.R;
 import com.example.momentum.databinding.FragmentDayHabitsBinding;
 import com.example.momentum.habits.HabitsFragment;
+import com.example.momentum.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -51,10 +52,6 @@ import java.util.Date;
  * @author Kaye Ena Crayzhel F. Misay
  */
 public class DayHabitsFragment extends Fragment {
-    public static final String TITLE_DAY_HABIT = "HABIT_TITLE";
-    public static final String MOTIVATION = "MOTIVATION";
-    public static final String TITLE_HABIT_EVENT = "HABIT_EVENT_TITLE";
-    public static final String CHECK_IF_HABIT_EVENT_EXISTS = "CHECK_HABIT_EVENT_EXISTENCE";
 
     private DayHabitsViewModel DayHabitsViewModel;
     private FragmentDayHabitsBinding binding;
@@ -98,7 +95,6 @@ public class DayHabitsFragment extends Fragment {
         uid = user.getUid();
         final CollectionReference habitsReference = db.collection("Users").
                 document(uid).collection("Habits");
-
         // listener for the Firestore database to accept realtime updates
         habitsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -133,12 +129,12 @@ public class DayHabitsFragment extends Fragment {
          */
         Bundle bundle = getArguments();
         if (bundle != null){
-            dayTitle = bundle.getString(HomeFragment.DATE_TITLE_DAY_HABIT);
-            dayofWeek = bundle.getString(HomeFragment.DAY_OF_WEEK);
-            isDateClickedEqualCurrent = bundle.getBoolean(HomeFragment.DATE_COMPARE_DAY_HABIT);
-            clickedDate = (Date) bundle.getSerializable(HomeFragment.DATE_CLICKED_DAY_HABIT);
-            clickedDateStr = bundle.getString(HomeFragment.DATE_CLICKED_DAY_HABIT_STR);
-            clickedMonthStr = bundle.getString(HomeFragment.DATE_MONTH_CLICKED_DAY);
+            dayTitle = bundle.getString(Constants.DATE_TITLE_DAY_HABIT);
+            dayofWeek = bundle.getString(Constants.DAY_OF_WEEK);
+            isDateClickedEqualCurrent = bundle.getBoolean(Constants.DATE_COMPARE_DAY_HABIT);
+            clickedDate = (Date) bundle.getSerializable(Constants.DATE_CLICKED_DAY_HABIT);
+            clickedDateStr = bundle.getString(Constants.DATE_CLICKED_DAY_HABIT_STR);
+            clickedMonthStr = bundle.getString(Constants.DATE_MONTH_CLICKED_DAY);
             changeDayTitle();
             showDayHabits();
         }
@@ -185,19 +181,19 @@ public class DayHabitsFragment extends Fragment {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             // if a habit event already exists, generate a prompt for the user
-                            Log.d(CHECK_IF_HABIT_EVENT_EXISTS, "Document exists");
+                            Log.d(Constants.CHECK_IF_HABIT_EVENT_EXISTS, "Document exists");
                             Toast.makeText(getContext(), "You have already added a habit event for today. Edit or delete your event on the Habit Events page.",
                                     Toast.LENGTH_LONG).show();
                         } else {
                             // else, prompt the user to add a habit event by going to another activity
-                            Log.d(CHECK_IF_HABIT_EVENT_EXISTS, "No such document");
+                            Log.d(Constants.CHECK_IF_HABIT_EVENT_EXISTS, "No such document");
                             Intent intent = new Intent(getContext(), AddHabitEventActivity.class);
-                            intent.putExtra(TITLE_DAY_HABIT, habit.getDayHabitTitle());
-                            intent.putExtra(TITLE_HABIT_EVENT, habitEventTitle);
+                            intent.putExtra(Constants.TITLE_DAY_HABIT, habit.getDayHabitTitle());
+                            intent.putExtra(Constants.TITLE_HABIT_EVENT, habitEventTitle);
                             startActivity(intent);
                         }
                     } else {
-                        Log.d(CHECK_IF_HABIT_EVENT_EXISTS, "get failed with ", task.getException());
+                        Log.d(Constants.CHECK_IF_HABIT_EVENT_EXISTS, "get failed with ", task.getException());
                     }
                 }
             });
@@ -205,11 +201,11 @@ public class DayHabitsFragment extends Fragment {
         // else, the user can assign completion to the habit given clicked day == current day
         else {
             Intent intent = new Intent(getContext(), DayHabitsActivity.class);
-            intent.putExtra(TITLE_DAY_HABIT, habit.getDayHabitTitle());
-            intent.putExtra(MOTIVATION, habit.getDayHabitReason());
-            intent.putExtra(HomeFragment.DATE_COMPARE_DAY_HABIT, isDateClickedEqualCurrent);
-            intent.putExtra(HomeFragment.DATE_CLICKED_DAY_HABIT_STR, clickedDateStr);
-            intent.putExtra(HomeFragment.DATE_MONTH_CLICKED_DAY, clickedMonthStr);
+            intent.putExtra(Constants.TITLE_DAY_HABIT, habit.getDayHabitTitle());
+            intent.putExtra(Constants.MOTIVATION, habit.getDayHabitReason());
+            intent.putExtra(Constants.DATE_COMPARE_DAY_HABIT, isDateClickedEqualCurrent);
+            intent.putExtra(Constants.DATE_CLICKED_DAY_HABIT_STR, clickedDateStr);
+            intent.putExtra(Constants.DATE_MONTH_CLICKED_DAY, clickedMonthStr);
             DayHabitsActivityResultLauncher.launch(intent);
         }
         return true;

@@ -17,7 +17,7 @@ public class EventTest {
      */
 
     private Event mockEvents(){
-        return new Event("Event Title","Event comment");
+        return new Event("Event Title","Event comment",0,0);
     }
 
     /**

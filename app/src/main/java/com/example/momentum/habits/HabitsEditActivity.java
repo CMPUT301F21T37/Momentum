@@ -19,6 +19,7 @@ import com.example.momentum.Habit;
 import com.example.momentum.MainActivity;
 import com.example.momentum.databinding.ActivityEditHabitBinding;
 import com.example.momentum.login.LoginActivity;
+import com.example.momentum.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -87,11 +88,11 @@ public class HabitsEditActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract them
         Intent intent = getIntent();
-        title = intent.getStringExtra(HabitsFragment.HABIT_TITLE);
-        reason = intent.getStringExtra(HabitsFragment.HABIT_REASON);
-        isPrivate = intent.getBooleanExtra(HabitsFragment.HABIT_PRIVACY, true);
-        date = (Date) intent.getSerializableExtra(HabitsFragment.HABIT_DATE);
-        frequency = (ArrayList<?>) intent.getStringArrayListExtra(HabitsFragment.HABIT_FREQUENCY);
+        title = intent.getStringExtra(Constants.HABIT_TITLE);
+        reason = intent.getStringExtra(Constants.HABIT_REASON);
+        isPrivate = intent.getBooleanExtra(Constants.HABIT_PRIVACY, true);
+        date = (Date) intent.getSerializableExtra(Constants.HABIT_DATE);
+        frequency = (ArrayList<?>) intent.getStringArrayListExtra(Constants.HABIT_FREQUENCY);
 
         // initialize previous values
         initializeValues();
@@ -283,6 +284,7 @@ public class HabitsEditActivity extends AppCompatActivity {
             DocumentReference documentReference = db.collection("Users").document(uid).
                     collection("Habits").document(title);
 
+            // on success, edit the database based on if the title is changed or not
             documentReference
                     .get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -306,7 +308,7 @@ public class HabitsEditActivity extends AppCompatActivity {
     }
 
     /**
-     * Edits a given habit.
+     * Edits a given habit. When title is not changed, do not delete the current habit.
      * @param data
      * The data to be put in Habit fields.
      */
@@ -318,7 +320,7 @@ public class HabitsEditActivity extends AppCompatActivity {
         final CollectionReference collectionReference = db.collection(users_collection_name).document(uid).
                 collection(habits_collection_name);
 
-        // this will overwrite the document since it is unknown what the user will change to use .update()
+        // this will overwrite the document since it is unknown what the user is updating (rather than doing checks)
         collectionReference
                 .document(newTitle)
                 .set(data)
@@ -338,7 +340,9 @@ public class HabitsEditActivity extends AppCompatActivity {
     }
 
     /**
-     * Edits a given habit.
+     * Edits a given habit. When the title is changed, create a new document.
+     * On Success, delete the previous document with the old title.
+     * On Success, finish the activity and go back to the previous fragment.
      * @param data
      * The data to be put in Habit fields.
      */

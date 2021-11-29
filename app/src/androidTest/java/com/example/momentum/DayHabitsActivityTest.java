@@ -37,24 +37,17 @@ public class DayHabitsActivityTest {
 
     /**
      * Helper method to log in with correct entries to be able to test
+     * Since the code is set up to only set a habit as done when it is the current day,
+     * All habits are pre-added to the testUI account
      */
     private void login() {
-        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "test@gmail.com");
+        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "testUI@gmail.com");
         solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test12345");
         solo.clickOnButton("Login");
     }
 
     /**
-     * Helper to go to the activity
-     */
-    private void goToActivity() {
-        solo.clickOnView(solo.getView(R.id.calendarView));
-        solo.waitForText("Habits", 1, 2000);
-        solo.clickOnText("Study");
-    }
-
-    /**
-     * Simple test cast to verify if everything is okay.
+     * Simple test case to verify if everything is okay.
      */
     @Test
     public void start() {
@@ -65,10 +58,13 @@ public class DayHabitsActivityTest {
      * Checks if the custom back button works correctly.
      */
     @Test
-    public void checkbackButton() {
+    public void testBackButton() {
         // goes to DayHabitsActivity
         login();
-        goToActivity();
+
+        // clicking on the habit
+        solo.clickOnView(solo.getView(R.id.calendarView));
+        solo.clickOnText("Testing2");
 
         // checks if it is in the DayHabitsActivity
         solo.assertCurrentActivity("Wrong Activity!", DayHabitsActivity.class);
@@ -82,17 +78,21 @@ public class DayHabitsActivityTest {
      * Checks if it shows correct title and motivation
      */
     @Test
-    public void checkCorrectTitleMotivation() {
+    public void testCorrectEntries() {
         // goes to DayHabitsActivity
         login();
-        goToActivity();
+
+        // clicking on the habit not completed
+        solo.clickOnView(solo.getView(R.id.calendarView));
+        solo.clickOnText("Testing2");
 
         // checks if it is in the DayHabitsActivity
         solo.assertCurrentActivity("Wrong Activity!", DayHabitsActivity.class);
 
         // checks for the correct title and motivation
-        solo.waitForText("Study", 1, 2000);
-        solo.waitForText("I want to be smarter", 1, 2000);
+        solo.waitForText("Testing2", 1, 2000);
+        solo.waitForText("for more testing!!!", 1, 2000);
+        solo.waitForText("DONE", 1, 2000);
     }
 
     /**
