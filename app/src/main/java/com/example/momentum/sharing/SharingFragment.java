@@ -22,7 +22,8 @@ import java.util.List;
 
 /**
  * This is a base code for SharingFragment
- * This will be for project part 4
+ *
+ * @author boxiao
  */
 public class SharingFragment extends Fragment {
     private SharingViewModel mViewModel;
@@ -42,6 +43,9 @@ public class SharingFragment extends Fragment {
         startObserve();
     }
 
+    /**
+     * initilze the basic View
+     */
     private void initView() {
         mFollowingList = new ArrayList<>();
         mAdapter = new SharingListAdapter(getContext(), mFollowingList);
@@ -75,7 +79,9 @@ public class SharingFragment extends Fragment {
             mAdapter.notifyDataSetChanged();
         });
     }
-
+    /**
+     * On resume of the fragment, get the following data
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -88,7 +94,9 @@ public class SharingFragment extends Fragment {
         }
         return getActivity();
     }
-
+    /**
+     * On stop of the fragment, edit the order
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

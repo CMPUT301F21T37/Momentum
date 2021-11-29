@@ -60,7 +60,6 @@ public class FollowingFragment extends Fragment {
     private ArrayAdapter<Follower> followerAdapter;
     private ListView requestListView;
 
-
     Button follow_user;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -121,7 +120,7 @@ public class FollowingFragment extends Fragment {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             db.collection("Users")
-                                    .whereEqualTo("Username", entered_username)
+                                    .whereEqualTo("username", entered_username)
                                     .get()
                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
@@ -131,7 +130,8 @@ public class FollowingFragment extends Fragment {
                                                     if (document == null) {
                                                         Toast.makeText(activity, "user not found",
                                                                 Toast.LENGTH_SHORT).show();
-                                                    } else {
+                                                    }
+                                                    else{
                                                         Add_follow(document.getId(), document.getData().get("username").toString());
                                                         Req_follow(document.getId());
                                                         Log.d(TAG, document.getId() + " => " + document.getData());
@@ -160,9 +160,8 @@ public class FollowingFragment extends Fragment {
 
     }
 
-    /**
-     *
-     */
+    //function used for live updates of the listview
+
     public void showRequests(){
         requestListView = binding.requestList;
         FollowingViewModel.getRequestList().observe(getViewLifecycleOwner(), new Observer<ArrayList<Follower>>() {
