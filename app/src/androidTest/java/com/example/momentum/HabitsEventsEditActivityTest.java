@@ -35,7 +35,7 @@ public class HabitsEventsEditActivityTest {
      * Helper method to log in with correct entries to be able to test
      */
     private void login() {
-        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "test@gmail.com");
+        solo.enterText((EditText) solo.getView(R.id.emailAddressEditText), "testUI@gmail.com");
         solo.enterText((EditText) solo.getView(R.id.passwordEditText), "test12345");
         solo.clickOnButton("Login");
     }
@@ -52,7 +52,7 @@ public class HabitsEventsEditActivityTest {
      * Checks if the custom back button works correctly.
      */
     @Test
-    public void checkbackButton() {
+    public void testBackButton() {
         // goes to the Activity
         login();
         solo.clickOnButton("Events");
@@ -70,7 +70,7 @@ public class HabitsEventsEditActivityTest {
      * Checks changes
      */
     @Test
-    public void checkEdit() {
+    public void testEditButton() {
         // goes to the Activity
         login();
 

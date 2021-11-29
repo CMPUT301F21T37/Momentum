@@ -15,8 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.momentum.databinding.FragmentHabitEventsBinding;
-import com.example.momentum.habitEvents.Event;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -27,15 +25,21 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A fragment that shows all habit events of a given user.
  * @author Han Yan
  * @author Kaye Ena Crayzhel F. Misay
+ * @author Mohammed Alzafarani
  */
 public class HabitEventsFragment extends Fragment {
     public static final String EVENT_TITLE = "EVENT_TITLE";
     public static final String EVENT_COMMENT = "EVENT_COMMENT";
+    public static final String EVENT_LATITUDE = "EVENT_LATITUDE";
+    public static final String EVENT_LONGITUDE = "EVENT_LONGITUDE";
+    public static final String EVENT_IMAGE = "EVENT_IMAGE";
+    public static final String EVENT_OBJECT = "EVENT_OBJECT";
 
     private HabitEventsViewModel HabitEventsViewModel;
     private FragmentHabitEventsBinding binding;
@@ -65,11 +69,9 @@ public class HabitEventsFragment extends Fragment {
                                 @Nullable FirebaseFirestoreException error) {
                 HabitEventsViewModel.clearEventsList();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                    String comment = (String) doc.getData().get("comment");
-                    String habit_title = doc.getId();
-
+                    Event event = (Event) doc.toObject(Event.class);
                     // store it to the the view model
-                    HabitEventsViewModel.addEvent(new Event(habit_title, comment));
+                    HabitEventsViewModel.addEvent(event);
                 }
                 // Notifying the adapter to render any new data fetched from the cloud
                 eventsAdapter.notifyDataSetChanged();

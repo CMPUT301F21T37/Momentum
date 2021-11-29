@@ -40,7 +40,7 @@ public class ViewHabitEventsActivityTest {
     }
 
     /**
-     * Simple test cast to verify if everything is okay.
+     * Simple test case to verify if everything is okay.
      */
     @Test
     public void start() {
@@ -51,11 +51,11 @@ public class ViewHabitEventsActivityTest {
      * Checks if the custom back button works correctly.
      */
     @Test
-    public void backButton() {
+    public void testBackButton() {
         // goes to the Activity
         login();
         solo.clickOnButton("Events");
-        solo.clickOnText("Coding: November 4, 2021");
+        solo.clickOnText("Coding: November 28, 2021");
 
         // checks if it is in the activity
         solo.assertCurrentActivity("Wrong Activity!", ViewHabitEventsActivity.class);
@@ -69,18 +69,22 @@ public class ViewHabitEventsActivityTest {
      * Checks if it shows correct info given previous data
      */
     @Test
-    public void checkCorrectInfo() {
+    public void testCorrectInfo() {
         // goes to the Activity
         login();
         solo.clickOnButton("Events");
-        solo.clickOnText("Coding: November 4, 2021");
+        solo.clickOnText("Coding: November 28, 2021");
 
         // checks if it is in the ViewHabitActivity
         solo.assertCurrentActivity("Wrong Activity!", ViewHabitEventsActivity.class);
 
-        // waits for texts to appear
-        solo.waitForText("Coding: November 4, 2021", 1, 2000);
-        solo.waitForText("hacker", 1, 2000);
+        // waits for texts to appear (comment)
+        solo.waitForText("Coding: November 28, 2021", 1, 2000);
+        solo.waitForText("Comment", 1, 2000);
+        solo.waitForText("Learning to code");
+
+        solo.waitForText("Image");
+        solo.waitForText("Location");
     }
 
     /**

@@ -1,96 +1,79 @@
 package com.example.momentum.habits;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.momentum.Habit;
 import com.example.momentum.R;
+import com.example.momentum.add.AddFragment;
+import com.example.momentum.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 /**
- * A class extending to an Array Adapter that keeps a list of habits for HabitsFraagment up-to-date.
+ * Version 2.0:
+ * A class extending to a RecyclerView adapter that keeps a list of habits for HabitsFragment up-to-date.
+ * It also implements HabitsMoveCallback for when a row in the RecyclerView is dragged/moved.
  * It carries listeners to view details of a habit, edit a habit, and delete a habit.
+ * @author Kaye Ena Crayzhel F. Misay
+ *
+ * Note:
+ * This was updated from extending to an ArrayAdapter for ListView to a RecyclerView Adapter for drag and drop reordering.
+ * First Version authors:
  * @author Kaye Ena Crayzhel F. Misay
  * @author Boxiao Li
  */
-public class HabitsAdapter extends ArrayAdapter<Habit>{
+public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.MyViewModel>
+        implements HabitsMoveCallback.RecyclerViewRowTouchHelperContract {
     public static final String DELETE_HABIT = "DELETE_HABIT";
-    public static final String DELETE_EVENT = "DELETE_EVENT";
 
     private ArrayList<Habit> habits;
     private Context context;
-    private FirebaseFirestore db;
-    private FirebaseUser user;
-    private String uid;
-    private CollectionReference habitsReference;
-    private CollectionReference eventsReference;
 
     public HabitsAdapter(Context context, ArrayList<Habit> habits){
-        super(context, 0, habits);
         this.habits = habits;
         this.context = context;
     }
 
-    /* Override the getView() method, which will be called when each child item is clicked to the screen */
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
-        View view = convertView;
-        ViewHolder viewHolder;
-        Habit habit = getItem(position); // Get the Habit instance of the current item
+    public MyViewModel onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.content_card_view_edit_delete, parent,false);
+        return new MyViewModel(view);
+    }
 
-        /*
-        On How to create a functional layout for listview with buttons
-        https://stackoverflow.com/questions/17525886/listview-with-add-and-delete-buttons-in-each-row-in-android
-         */
-        if(view == null){
-            // if view is null, inflate the layout
-            view = LayoutInflater.from(context).inflate(R.layout.content_card_view_edit_delete, parent,false);
-            viewHolder = new ViewHolder();
-            viewHolder.cardView = view.findViewById(R.id.card_view_edit_delete);
-            viewHolder.deleteButton = view.findViewById(R.id.card_view_delete);
-            viewHolder.editButton = view.findViewById(R.id.card_view_edit);
-            view.setTag(viewHolder);
-        }
-        else {
-            // else, use the previous one
-            viewHolder = (ViewHolder) view.getTag();
-        }
+    @Override
+    public void onBindViewHolder(@NonNull MyViewModel holder, int position) {
+        Log.d("order", "habitsList adapter:" + habits.toString());
+        Habit habit = habits.get(position); // Get the Habit instance of the current item
 
         // sets the habit list name
-        TextView habitTitle = view.findViewById(R.id.card_view_edit_delete_text);
-        habitTitle.setText(habit.getTitle());
+        holder.habitTitle.setText(habit.getTitle());
 
         // event monitoring response part
         // sets a listener for the card view to show habit details
-        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showHabitDetails(habit);
@@ -98,7 +81,7 @@ public class HabitsAdapter extends ArrayAdapter<Habit>{
         });
 
         // sets a listener for the delete button
-        viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onDeleteClicked(habit);
@@ -106,33 +89,82 @@ public class HabitsAdapter extends ArrayAdapter<Habit>{
         });
 
         // sets a listener for the edit button
-        viewHolder.editButton.setOnClickListener(new View.OnClickListener() {
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onEditClicked(habit);
             }
         });
-        return view;
     }
 
     /**
-     * Internal class to use to save instances of the given variables
+     * Gets the current count of the habits list
+     * @return
+     * size of the habit
      */
-    class ViewHolder {
+    @Override
+    public int getItemCount() {
+        return habits.size();
+    }
+
+    /**
+     * When an item in recycle view is being moved, swap the two items via Collections.
+     * @param from
+     * @param to
+     */
+    @Override
+    public void onRowMoved(int from, int to) {
+
+        if (from < to) {
+            for (int index = from; index < to; index++) {
+                Collections.swap(habits, index, index+1);
+            }
+        }
+        else {
+            for (int index = from; index > to; index--) {
+                Collections.swap(habits, index, index-1);
+            }
+        }
+        this.notifyItemMoved(from, to);
+    }
+
+    /**
+     * When the user is currently selecting/holding the habit, set the background color to dark grey.
+     * @param viewHolder
+     * view holder for all the contents of card view
+     */
+    @Override
+    public void onRowSelected(MyViewModel viewHolder) {
+        viewHolder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.super_dark_grey));
+    }
+
+    /**
+     * When the user is done selecting the habit, set the background color of the clicked item as white.
+     * @param viewHolder
+     * view holder for all the contents of card view
+     */
+    @Override
+    public void onRowClear(MyViewModel viewHolder) {
+        viewHolder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+    }
+
+    /**
+     * Custom View Holder for the contents of the card view given recycle view
+     */
+    public class MyViewModel extends RecyclerView.ViewHolder {
+
         private FloatingActionButton editButton;
         private FloatingActionButton deleteButton;
         private CardView cardView;
+        private TextView habitTitle;
 
-    }
-    /**
-     * Helper method to set the database
-     */
-    private void setDatabase() {
-        db = FirebaseFirestore.getInstance();
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        uid = user.getUid();
-        eventsReference = db.collection("Users").document(uid).collection("Events");
-        habitsReference = db.collection("Users").document(uid).collection("Habits");
+        public MyViewModel (View view) {
+            super(view);
+            habitTitle = view.findViewById(R.id.card_view_edit_delete_text);
+            cardView = view.findViewById(R.id.card_view_edit_delete);
+            deleteButton = view.findViewById(R.id.card_view_delete);
+            editButton = view.findViewById(R.id.card_view_edit);
+        }
     }
 
     /**
@@ -141,12 +173,12 @@ public class HabitsAdapter extends ArrayAdapter<Habit>{
      * An instance of habit to be shown
      */
     private void showHabitDetails(Habit habit) {
-        Intent intent = new Intent(getContext(), ViewHabitActivity.class);
-        intent.putExtra(HabitsFragment.HABIT_TITLE, habit.getTitle());
-        intent.putExtra(HabitsFragment.HABIT_REASON, habit.getReason());
-        intent.putExtra(HabitsFragment.HABIT_FREQUENCY, habit.getWeekly_frequency());
-        intent.putExtra(HabitsFragment.HABIT_PRIVACY, habit.isPrivate_account());
-        intent.putExtra(HabitsFragment.HABIT_DATE, habit.getDate());
+        Intent intent = new Intent(context, ViewHabitActivity.class);
+        intent.putExtra(Constants.HABIT_TITLE, habit.getTitle());
+        intent.putExtra(Constants.HABIT_REASON, habit.getReason());
+        intent.putExtra(Constants.HABIT_FREQUENCY, habit.getWeekly_frequency());
+        intent.putExtra(Constants.HABIT_PRIVACY, habit.isPrivate_account());
+        intent.putExtra(Constants.HABIT_DATE, habit.getDate());
         context.startActivity(intent);
     }
 
@@ -156,102 +188,17 @@ public class HabitsAdapter extends ArrayAdapter<Habit>{
      * An instance of Habit habit to be deleted
      */
     private void onDeleteClicked(Habit habit) {
-        setDatabase(); // set an instance of the database
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-        alertDialog.setMessage("Are you sure you want to delete " + habit.getTitle() + "?");
-        alertDialog.setPositiveButton("Delete", (dialog, id) -> {
-            deleteHabit(habit);
-            deleteHabitEvents(habit);
-            dialog.cancel();
-        });
-        alertDialog.setNegativeButton("Cancel", (dialog,id) -> dialog.cancel());
-
-        AlertDialog dialogBuilder = alertDialog.create();
-        dialogBuilder.show();
-        dialogBuilder.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(getContext(), R.color.red_main));
-        dialogBuilder.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(getContext(), R.color.red_main));
-    }
-
-    /**
-     * method to delete a habit
-     * @param habit
-     * an instance of habit to be deleted
-     */
-    private void deleteHabit(Habit habit) {
-        habitsReference
-                .document(habit.getTitle())
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(DELETE_HABIT, "DocumentSnapshot successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(DELETE_HABIT, "Error Deleting document", e);
-                    }
-                });
-        this.notifyDataSetChanged();
-    }
-
-    /**
-     * Helper method to delete all habit events of a given habit.
-     * @param habit
-     * An instance of habit to be deleted
-     */
-    private void deleteHabitEvents (Habit habit) {
-        List<String> eventsTitle = new ArrayList<>();
-        /*
-        gather all the events given the query whereEqualTo
-        https://firebase.google.com/docs/firestore/query-data/get-data
-         */
-        eventsReference
-                .whereEqualTo("habit", habit.getTitle())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                // adding the events to be deleted
-                                eventsTitle.add(document.getId());
-                            }
-                            deleteHabitEventsHelper(eventsTitle);
-                        } else {
-                            Log.d(DELETE_EVENT, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
-
-    /**
-     * A helper method for the asynchronous get() method of the collection reference
-     * @param eventsTitle
-     * a list of the habit events to be deleted
-     */
-    private void deleteHabitEventsHelper(List<String> eventsTitle) {
-        // delete all events with habit fields = deleted habit
-        for (String eventTitle : eventsTitle) {
-            eventsReference
-                    .document(eventTitle)
-                    .delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d(DELETE_EVENT, "DocumentSnapshot successfully deleted!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(DELETE_EVENT, "Error Deleting document", e);
-                        }
-                    });
+        // create a list of the habit names
+        ArrayList<String> habit_titles = new ArrayList<>();
+        for (int index = 0; index < habits.size(); index++) {
+            habit_titles.add(habits.get(index).getTitle());
         }
-        this.notifyDataSetChanged();
 
+        Intent intent = new Intent(context, DeleteHabitActivity.class);
+        intent.putExtra(Constants.HABIT_TITLE, habit.getTitle());
+        intent.putExtra(Constants.HABIT_REASON, habit.getReason());
+        intent.putExtra(Constants.HABIT_ARRAY, habit_titles);
+        context.startActivity(intent);
     }
 
     /**
@@ -260,12 +207,12 @@ public class HabitsAdapter extends ArrayAdapter<Habit>{
      * An instance of Habit to be edited
      */
     private void onEditClicked(Habit habit) {
-        Intent intent = new Intent(getContext(), HabitsEditActivity.class);
-        intent.putExtra(HabitsFragment.HABIT_TITLE, habit.getTitle());
-        intent.putExtra(HabitsFragment.HABIT_REASON, habit.getReason());
-        intent.putExtra(HabitsFragment.HABIT_FREQUENCY, habit.getWeekly_frequency());
-        intent.putExtra(HabitsFragment.HABIT_PRIVACY, habit.isPrivate_account());
-        intent.putExtra(HabitsFragment.HABIT_DATE, habit.getDate());
+        Intent intent = new Intent(context, HabitsEditActivity.class);
+        intent.putExtra(Constants.HABIT_TITLE, habit.getTitle());
+        intent.putExtra(Constants.HABIT_REASON, habit.getReason());
+        intent.putExtra(Constants.HABIT_FREQUENCY, habit.getWeekly_frequency());
+        intent.putExtra(Constants.HABIT_PRIVACY, habit.isPrivate_account());
+        intent.putExtra(Constants.HABIT_DATE, habit.getDate());
         context.startActivity(intent);
     }
 }

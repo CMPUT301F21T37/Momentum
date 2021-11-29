@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/follower_name"
+        android:layout_width="120dp"
+        android:textSize="20dp"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/allow_follow"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:backgroundTint="@color/darker_grey"
+        android:textColor="@color/cardview_light_background"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/follower_name"
+        android:text="allow" />
+
+    <Button
+        android:id="@+id/deny_follow"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:backgroundTint="@color/red_main"
+        android:textColor="@color/cardview_light_background"
+        android:layout_alignRight="@+id/allow_follow"
+        android:text="deny" />
+
+</LinearLayout>

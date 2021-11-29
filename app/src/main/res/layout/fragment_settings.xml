@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="100dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".settings.SettingsFragment">
 
@@ -109,45 +118,12 @@
 
     </TextView>
 
-    <TextView
-        android:id="@+id/socialText_settings"
+    <Button
+        android:id="@+id/logOutButton"
         android:layout_width="match_parent"
-        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:textAlignment="center"
-        android:textSize="18dp"
-        android:text="Stats"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_height="wrap_content">
-    </TextView>
-
-    <TextView
-        android:id="@+id/followingSettings"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:padding="7dp"
-        android:textSize="16dp"
-        android:background="@color/darker_grey"
-        android:text="Following: 0"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_height="wrap_content">
-    </TextView>
-
-    <TextView
-        android:id="@+id/followersSettings"
-        android:layout_width="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
-        android:padding="7dp"
-        android:textSize="16dp"
-        android:background="@color/darker_grey"
-        android:text="Followers: 0"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_height="wrap_content">
-    </TextView>
+        android:text="Log out"></Button>
 </LinearLayout>
+</ScrollView>

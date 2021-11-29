@@ -2,13 +2,41 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.momentum">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+
+    </queries>
+  
+
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Momentum">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <activity
             android:name=".login.LoginActivity"
             android:exported="true">
@@ -34,6 +62,15 @@
             android:name=".habits.HabitsEditActivity"
             android:exported="true"/>
         <activity
+            android:name=".habits.HabitYearActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".habits.DeleteHabitActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".habits.VisualIndicatorActivity"
+            android:exported="true"/>
+        <activity
             android:name=".login.SignUpActivity"
             android:exported="true" />
         <activity
@@ -42,6 +79,21 @@
         <activity
             android:name=".habitEvents.HabitsEventsEditActivity"
             android:exported="true" />
+
+        <activity
+            android:name=".sharing.SharingHabitActivity"
+            android:exported="true" />
+            
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
     </application>
 
 </manifest>
+
