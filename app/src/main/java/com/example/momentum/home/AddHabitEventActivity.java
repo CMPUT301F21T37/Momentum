@@ -116,7 +116,7 @@ public class AddHabitEventActivity extends FragmentActivity
     private String imageName;
     private Context context;
 
-    // a launcher for camera
+    // global result launcher for when camera is called
     ActivityResultLauncher<Intent> cameraActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -137,7 +137,7 @@ public class AddHabitEventActivity extends FragmentActivity
             });
 
 
-    // a launcher for gallery
+    // global result launcher for when gallery is called
     ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -263,6 +263,9 @@ public class AddHabitEventActivity extends FragmentActivity
     }
 
 
+    /**
+     * this method helps open camera on the device
+     */
     private void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File imageFile = null;
@@ -278,6 +281,9 @@ public class AddHabitEventActivity extends FragmentActivity
         }
     }
 
+    /**
+     * this method helps to open gallery on the device
+     */
     private void openGallery() {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         File imageFile = null;
@@ -293,7 +299,11 @@ public class AddHabitEventActivity extends FragmentActivity
         }
     }
 
-    // a method to upload image to firebase storage
+    /**
+     * this method is to upload image to firebase storage
+     * @param fileName a string object that contains file name of image
+     * @param contentUri an uri of image
+     */
     private void uploadImageToFirebase(String fileName, Uri contentUri) {
         //save image in storage
         StorageReference image = storageReference.child("images/" + fileName);
@@ -318,13 +328,16 @@ public class AddHabitEventActivity extends FragmentActivity
 
     }
 
+    /**
+     *  this method create a file for image that is saved to storage
+     * @return a File object
+     * @throws IOException
+     */
 
-    // create a file for image in gallery
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        // File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = createTempFile(imageFileName, ".jpg", storageDir);
 
@@ -466,6 +479,10 @@ public class AddHabitEventActivity extends FragmentActivity
 
     }
 
+    /**
+     * this method get gallery permission for users
+
+     */
     private void getGalleryPermission() {
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -486,6 +503,9 @@ public class AddHabitEventActivity extends FragmentActivity
 
     }
 
+    /**
+     * this method get camera permission for users
+     */
 
     private void getCameraPermission() {
         String[] permissions = {Manifest.permission.CAMERA};
