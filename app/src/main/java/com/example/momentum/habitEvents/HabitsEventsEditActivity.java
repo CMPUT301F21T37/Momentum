@@ -386,9 +386,7 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         imageNameStr = split[1];
         return image;
     }
-
-
-
+    
     /**
      * A method that sets previous inputs from the user.
      */
