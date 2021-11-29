@@ -402,7 +402,9 @@ public class HabitsEventsEditActivity extends FragmentActivity implements OnMapR
         reasonEdit.setText(reason);
 
         // initializes the image
-        setImage();
+        if (imageNameStr != null) {
+            setImage();
+        }
 
     }
 
