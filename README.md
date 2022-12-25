@@ -19,7 +19,7 @@ For more information and visual representation, please visit our [Wiki Page](htt
 <table style="height:500px;">
   <tr>
     <td><a href="https://github.com/kaynzhel"/><img src="https://github.com/kaynzhel.png" width="200"></td>
-    <td><a href="https://github.com/thestungyer"/><img src="https://github.com/thestungyer.png" width="200"></td>
+    <td><a href="https://github.com/mozafarani"/><img src="https://github.com/thestungyer.png" width="200"></td>
     <td><a href="https://github.com/Hyan320"/><img src="https://github.com/Hyan320.png" width="200"></td>
     <td><a href="https://github.com/Samtarkras"/><img src="https://github.com/Samtarkras.png" width="200"></td>
     <td><a href="https://github.com/Hasagiiiiiii"/><img src="https://github.com/Hasagiiiiiii.png" width="200"></td>
